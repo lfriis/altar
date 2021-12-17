@@ -1,9 +1,10 @@
 import React from 'react';
+import { Index as LoginPage } from './pages/Login';
 
 function App(): JSX.Element {
 	return (
 		<div className="App">
-			<header className="App-header">It is the new one</header>
+			<LoginPage />
 		</div>
 	);
 }

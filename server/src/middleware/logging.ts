@@ -4,11 +4,11 @@ interface LogData {
 	object?: {};
 }
 
-export function getTimeStamp(): string {
+export const getTimeStamp = (): string => {
 	return new Date().toISOString();
-}
+};
 
-export function info({ namespace, message, object }: LogData): void {
+export const info = ({ namespace, message, object }: LogData): void => {
 	if (object) {
 		console.info(
 			`[${getTimeStamp()}] [INFO] [${namespace}] ${message}, ${object}`
@@ -16,9 +16,9 @@ export function info({ namespace, message, object }: LogData): void {
 	} else {
 		console.info(`[${getTimeStamp()}] [INFO] [${namespace}] ${message}`);
 	}
-}
+};
 
-export function warn({ namespace, message, object }: LogData): void {
+export const warn = ({ namespace, message, object }: LogData): void => {
 	if (object) {
 		console.warn(
 			`[${getTimeStamp()}] [WARN] [${namespace}] ${message}, ${object}`
@@ -26,9 +26,9 @@ export function warn({ namespace, message, object }: LogData): void {
 	} else {
 		console.warn(`[${getTimeStamp()}] [WARN] [${namespace}] ${message}`);
 	}
-}
+};
 
-export function error({ namespace, message, object }: LogData): void {
+export const error = ({ namespace, message, object }: LogData): void => {
 	if (object) {
 		console.error(
 			`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}, ${object}`
@@ -36,9 +36,9 @@ export function error({ namespace, message, object }: LogData): void {
 	} else {
 		console.error(`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}`);
 	}
-}
+};
 
-export function debug({ namespace, message, object }: LogData): void {
+export const debug = ({ namespace, message, object }: LogData): void => {
 	if (object) {
 		console.debug(
 			`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`,
@@ -47,4 +47,4 @@ export function debug({ namespace, message, object }: LogData): void {
 	} else {
 		console.debug(`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`);
 	}
-}
+};
