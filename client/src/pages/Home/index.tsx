@@ -20,7 +20,7 @@ const Index = (): JSX.Element => {
 			});
 	};
 
-	return <div>Login Page {serverResponse}</div>;
+	return <div>Home page: {serverResponse}</div>;
 };
 
 export default Index;
