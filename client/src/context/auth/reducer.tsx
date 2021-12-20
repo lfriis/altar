@@ -1,8 +1,9 @@
-interface IUser {
+import { Reducer } from 'react';
+
+export interface IUser {
 	email: string | null;
 	accountId: number | null;
-	loggedIn: boolean | null;
-	authenticated?: boolean | null;
+	authenticated: boolean | null;
 	loading?: boolean | null;
 	error: {
 		state: boolean;
@@ -10,18 +11,18 @@ interface IUser {
 	} | null;
 }
 
-interface IUserAction {
+export interface IUserAction {
 	type: string;
 	payload: IUser;
 }
 
-const userJson: string | null = localStorage.getItem('currentUser');
-const userData: IUser = userJson !== null ? JSON.parse(userJson) : {};
+// const localUser: string | null = localStorage.getItem('currentUser');
+// const userData: IUser = localUser !== null ? JSON.parse(localUser) : {};
 
 export const initialState: IUser = {
-	email: userData.email,
-	accountId: userData.accountId,
-	loggedIn: false,
+	email: null,
+	accountId: null,
+	authenticated: false,
 	loading: false,
 	error: null,
 };
@@ -35,20 +36,23 @@ export const USER_ACTIONS: { [key: string]: string } = {
 	RETURN_STATUS: 'RETURN_STATUS',
 };
 
-export const AuthReducer = (initialState: IUser, action: IUserAction) => {
+export const AuthReducer: Reducer<IUser, IUserAction> = (
+	initialState,
+	action
+) => {
 	switch (action.type) {
 		case USER_ACTIONS.REQUEST_LOGIN:
 			return {
 				...initialState,
 				loading: true,
-				errorMessage: null,
+				error: null,
 			};
 		case USER_ACTIONS.LOGIN_SUCCESS:
 			return {
 				...initialState,
 				email: action.payload.email,
 				accountId: action.payload.accountId,
-				loggedIn: action.payload.authenticated,
+				authenticated: action.payload.authenticated,
 				loading: false,
 				error: null,
 			};
@@ -57,16 +61,16 @@ export const AuthReducer = (initialState: IUser, action: IUserAction) => {
 				...initialState,
 				email: action.payload.email,
 				accountId: action.payload.accountId,
-				loggedIn: action.payload.authenticated,
+				authenticated: action.payload.authenticated,
 				loading: false,
-				error: action.payload.error?.message,
+				error: action.payload.error,
 			};
 		case USER_ACTIONS.LOGOUT:
 			return {
 				...initialState,
 				email: null,
 				accountId: null,
-				loggedIn: action.payload.authenticated,
+				authenticated: action.payload.authenticated,
 				loading: false,
 				error: null,
 			};
@@ -79,7 +83,7 @@ export const AuthReducer = (initialState: IUser, action: IUserAction) => {
 		case USER_ACTIONS.RETURN_STATUS:
 			return {
 				...initialState,
-				loggedIn: action.payload.authenticated,
+				authenticated: action.payload.authenticated,
 				loading: false,
 				error: null,
 			};
