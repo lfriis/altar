@@ -1,24 +1,37 @@
-import { Navigate } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 
 interface Props {
-	children: React.ReactElement;
+	path: string;
+	component: React.FunctionComponent | any;
+	isPrivate: boolean;
 }
 
-function AppRoutes({ children }: Props): React.ReactElement {
+function AppRoutes({
+	path,
+	component: Component,
+	isPrivate,
+	...rest
+}: Props): React.ReactElement {
 	const user = {
 		loggedIn: true,
 	};
 
-	console.log(children);
-
-	return user.loggedIn ? (
-		children
-	) : (
-		<Navigate
-			to={{
-				pathname: '/login',
-				// state: { referrer: window.location.url }
-			}}
+	return (
+		<Route
+			path={path}
+			render={(props) =>
+				isPrivate && !Boolean(user.loggedIn) ? (
+					<Redirect
+						to={{
+							pathname: '/login',
+							state: { from: props.location },
+						}}
+					/>
+				) : (
+					<Component {...props} />
+				)
+			}
+			{...rest}
 		/>
 	);
 }

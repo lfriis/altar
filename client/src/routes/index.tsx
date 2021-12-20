@@ -5,7 +5,7 @@ import PageNotFound from '../pages/PageNotFound';
 interface RouteProps {
 	path: string;
 	isPrivate: boolean;
-	element: React.FunctionComponent;
+	component: React.FunctionComponent;
 	children?: React.ReactChild;
 }
 
@@ -13,17 +13,17 @@ const routes: RouteProps[] = [
 	{
 		path: '/',
 		isPrivate: true,
-		element: HomePage,
+		component: HomePage,
 	},
 	{
 		path: '/login',
 		isPrivate: false,
-		element: LoginPage,
+		component: LoginPage,
 	},
 	{
 		path: '/*',
 		isPrivate: false,
-		element: PageNotFound,
+		component: PageNotFound,
 	},
 ];
 

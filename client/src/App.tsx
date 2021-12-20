@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import routes from './routes';
 import AppRoute from './routes/appRoutes';
 
@@ -7,25 +7,22 @@ function App(): JSX.Element {
 	return (
 		<div className="App">
 			<BrowserRouter>
-				<Routes>
+				<Switch>
 					{routes.map(
 						({
 							path,
-							element: RouteComponent,
+							component,
 							isPrivate,
 						}): React.ReactElement => (
-							<Route
+							<AppRoute
 								key={path}
 								path={path}
-								element={
-									<AppRoute>
-										<RouteComponent />
-									</AppRoute>
-								}
+								component={component}
+								isPrivate={isPrivate}
 							/>
 						)
 					)}
-				</Routes>
+				</Switch>
 			</BrowserRouter>
 		</div>
 	);
