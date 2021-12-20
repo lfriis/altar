@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAxiosGet } from '../../hooks';
+import { useAxiosGet } from '../../hooks/useAxios';
 // import { FormControl, InputLabel, Input } from '@material-ui/core';
 
 const Index = (): JSX.Element => {

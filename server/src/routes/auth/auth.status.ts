@@ -1,10 +1,12 @@
 import { Request, Response, Router } from 'express';
 const router = Router();
 
-router.get('/create', (req: Request, res: Response) => {
-	console.log('hit');
+router.post('/status', (req: Request, res: Response) => {
+	console.log(req.body);
+
 	return res.status(200).json({
-		message: 'Created User Hit!',
+		authenticated: true,
+		message: 'Status check hit!',
 	});
 });
 

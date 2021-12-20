@@ -1,14 +1,6 @@
-import express, {
-	Application,
-	Request,
-	Response,
-	NextFunction,
-	urlencoded,
-	json,
-} from 'express';
+import express, { Application, Request, Response, NextFunction } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import path from 'path';
 import routes from './routes/routes';
 import { server as config } from './config/serverConfig';
 import { info, error } from './middleware/logging';
@@ -18,9 +10,9 @@ const server: Application = express();
 /**
  * ? Middleware
  */
-server.use(json());
+server.use(express.json());
 server.use(cookieParser());
-server.use(urlencoded({ extended: true }));
+server.use(express.urlencoded({ extended: true }));
 server.use(cors({ credentials: true, origin: config.front_end_url }));
 server.use((req: Request, res: Response, next: NextFunction) => {
 	res.header('Access-Control-Allow-Origin', '*');
@@ -39,7 +31,6 @@ server.use((req: Request, res: Response, next: NextFunction) => {
 	next();
 });
 server.use(express.json({ limit: '50mb' }));
-server.use(express.static(path.resolve('../client/build')));
 server.use(routes);
 
 /**
@@ -71,27 +62,13 @@ server
 			message: `${config.environment} server listening @ http://${config.hostname}:${config.port}`,
 		});
 	})
-	.on('error', (err): void => {
+	.on('error', (err: Error): void => {
 		error({
 			namespace: config.namespace,
 			message: `Error deploying server`,
 			object: err,
 		});
 	});
-
-// /**
-//  * ? Handling refreshes
-//  */
-// server.get('/*', (res: Response): void => {
-// 	res.sendFile(
-// 		path.join(__dirname, '../client/build/index.html'),
-// 		async function (e) {
-// 			if (e) {
-// 				res.status(500).send(e);
-// 			}
-// 		}
-// 	);
-// });
 
 /**
  * ? Error handling to help with unhandled rejection

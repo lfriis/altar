@@ -8,7 +8,6 @@ export const server = {
 	hostname: process.env.SERVER_HOSTNAME,
 	port: process.env.SERVER_PORT,
 	front_end_url: process.env.FRONT_END_URL,
-	// jwt_token: process.env.JWT_TOKEN + version,
-	// autoauth_jwt_token: process.env.AUTOAUTH_JWT_TOKEN,
+	jwt_token: process.env.JWT_TOKEN,
 	version: version,
 };

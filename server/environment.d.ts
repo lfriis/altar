@@ -6,8 +6,7 @@ declare global {
 			readonly SERVER_HOSTNAME: string;
 			readonly SERVER_PORT: number;
 			readonly FRONT_END_URL: string;
-			readonly JWT_TOKEN?: string;
-			readonly AUTOAUTH_JWT_TOKEN?: string;
+			readonly JWT_TOKEN: string;
 		}
 	}
 }
