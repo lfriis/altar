@@ -1,6 +1,6 @@
 declare global {
 	namespace NodeJS {
-		interface ProcessEnv {
+		interface IProcessEnv {
 			readonly ENVIRONMENT: 'DEVELOPMENT' | 'PRODUCTION';
 			readonly NAMESPACE: 'SERVER';
 			readonly SERVER_HOSTNAME: string;

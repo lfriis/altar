@@ -1,4 +1,4 @@
-interface LogData {
+interface ILogData {
 	namespace: string;
 	message: string;
 	object?: {};
@@ -8,7 +8,7 @@ export const getTimeStamp = (): string => {
 	return new Date().toISOString();
 };
 
-export const info = ({ namespace, message, object }: LogData): void => {
+export const info = ({ namespace, message, object }: ILogData): void => {
 	if (object) {
 		console.info(
 			`[${getTimeStamp()}] [INFO] [${namespace}] ${message}, ${object}`
@@ -18,7 +18,7 @@ export const info = ({ namespace, message, object }: LogData): void => {
 	}
 };
 
-export const warn = ({ namespace, message, object }: LogData): void => {
+export const warn = ({ namespace, message, object }: ILogData): void => {
 	if (object) {
 		console.warn(
 			`[${getTimeStamp()}] [WARN] [${namespace}] ${message}, ${object}`
@@ -28,7 +28,7 @@ export const warn = ({ namespace, message, object }: LogData): void => {
 	}
 };
 
-export const error = ({ namespace, message, object }: LogData): void => {
+export const error = ({ namespace, message, object }: ILogData): void => {
 	if (object) {
 		console.error(
 			`[${getTimeStamp()}] [ERROR] [${namespace}] ${message}, ${object}`
@@ -38,7 +38,7 @@ export const error = ({ namespace, message, object }: LogData): void => {
 	}
 };
 
-export const debug = ({ namespace, message, object }: LogData): void => {
+export const debug = ({ namespace, message, object }: ILogData): void => {
 	if (object) {
 		console.debug(
 			`[${getTimeStamp()}] [DEBUG] [${namespace}] ${message}`,

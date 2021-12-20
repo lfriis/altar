@@ -1,6 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
 
-interface Props {
+interface IRouteProps {
 	path: string;
 	component: React.FunctionComponent | any;
 	isPrivate: boolean;
@@ -11,7 +11,7 @@ function AppRoutes({
 	component: Component,
 	isPrivate,
 	...rest
-}: Props): React.ReactElement {
+}: IRouteProps): React.ReactElement {
 	const user = {
 		loggedIn: true,
 	};

@@ -2,14 +2,14 @@ import HomePage from '../pages/Home';
 import LoginPage from '../pages/Login';
 import PageNotFound from '../pages/PageNotFound';
 
-interface RouteProps {
+interface IRouteProps {
 	path: string;
 	isPrivate: boolean;
 	component: React.FunctionComponent;
 	children?: React.ReactChild;
 }
 
-const routes: RouteProps[] = [
+const routes: IRouteProps[] = [
 	{
 		path: '/',
 		isPrivate: true,
