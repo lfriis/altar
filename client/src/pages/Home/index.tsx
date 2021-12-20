@@ -1,26 +1,20 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
+import { useAxiosGet } from '../../hooks';
 
 const Index = (): JSX.Element => {
-	const [serverResponse, setServerResponse] = useState<string | null>(null);
+	const [data] = useAxiosGet('user/create');
 
-	useEffect((): void => {
-		loginUser();
-	}, []);
+	useEffect(() => {
+		console.log(data);
+	}, [data]);
 
-	const loginUser = (): void => {
-		axios
-			.get(`user/create`)
-			.then((res) => {
-				console.log(res);
-				setServerResponse(res.data.message);
-			})
-			.catch((e) => {
-				console.debug(e);
-			});
-	};
+	return (
+		<>
+			<h2>Home Page</h2>
 
-	return <div>Home page: {serverResponse}</div>;
+			<a href={'/login'}>Nav to login</a>
+		</>
+	);
 };
 
 export default Index;

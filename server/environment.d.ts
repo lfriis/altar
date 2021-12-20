@@ -1,5 +1,5 @@
 declare global {
-	namespace NodeJS {
+	namespace Express {
 		interface IProcessEnv {
 			readonly ENVIRONMENT: 'DEVELOPMENT' | 'PRODUCTION';
 			readonly NAMESPACE: 'SERVER';

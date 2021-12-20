@@ -1,27 +1,26 @@
 import { Reducer } from 'react';
-
-export interface IUser {
+interface IUser {
 	email: string | null;
 	accountId: number | null;
 	authenticated: boolean | null;
 	loading?: boolean | null;
 	error: {
-		state: boolean;
+		type: boolean;
 		message: string;
 	} | null;
 }
 
-export interface IUserAction {
+interface IUserAction {
 	type: string;
 	payload: IUser;
 }
 
-// const localUser: string | null = localStorage.getItem('currentUser');
-// const userData: IUser = localUser !== null ? JSON.parse(localUser) : {};
+const localUser: string | null = localStorage.getItem('currentUser');
+const userData: IUser = localUser !== null ? JSON.parse(localUser) : {};
 
 export const initialState: IUser = {
-	email: null,
-	accountId: null,
+	email: userData.email,
+	accountId: userData.accountId,
 	authenticated: false,
 	loading: false,
 	error: null,
@@ -40,6 +39,8 @@ export const AuthReducer: Reducer<IUser, IUserAction> = (
 	initialState,
 	action
 ) => {
+	console.log(initialState);
+
 	switch (action.type) {
 		case USER_ACTIONS.REQUEST_LOGIN:
 			return {

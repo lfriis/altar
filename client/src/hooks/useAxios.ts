@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
-const useAxios = (url: string) => {
+const useAxiosGet = (url: string) => {
 	const [data, setData] = useState<object | null>(null);
 
 	useEffect(() => {
 		axios
 			.get(url)
 			.then((res) => {
-				console.log(res);
+				console.log({ res });
 				setData(res.data);
 			})
 			.catch((e) => {
@@ -19,4 +20,4 @@ const useAxios = (url: string) => {
 	return [data];
 };
 
-export default useAxios;
+export { useAxiosGet };

@@ -1,3 +1,3 @@
-import useAxios from './useAxios';
+import { useAxiosGet } from './useAxios';
 
-export { useAxios };
+export { useAxiosGet };

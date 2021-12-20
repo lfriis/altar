@@ -1,14 +1,21 @@
 import { useEffect } from 'react';
-import { useAxios } from '../../hooks';
+import { useAxiosGet } from '../../hooks';
+// import { FormControl, InputLabel, Input } from '@material-ui/core';
 
 const Index = (): JSX.Element => {
-	const [data] = useAxios('user/create');
+	const [data] = useAxiosGet('user/create');
 
 	useEffect(() => {
 		console.log({ data });
 	}, [data]);
 
-	return <div>Login Page</div>;
+	return (
+		<>
+			<h2>Login Page</h2>
+
+			<a href={'/'}>Nav to Home</a>
+		</>
+	);
 };
 
 export default Index;

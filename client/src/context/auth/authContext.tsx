@@ -1,5 +1,21 @@
 import React, { Dispatch, useReducer, createContext, useContext } from 'react';
-import { AuthReducer, initialState, IUser, IUserAction } from './index';
+import { AuthReducer, initialState } from './reducer';
+
+interface IUser {
+	email: string | null;
+	accountId: number | null;
+	authenticated: boolean | null;
+	loading?: boolean | null;
+	error: {
+		type: boolean;
+		message: string;
+	} | null;
+}
+
+interface IUserAction {
+	type: string;
+	payload: IUser;
+}
 
 const AuthStateContext = createContext<IUser>(initialState);
 const AuthDispatchContext = createContext<Dispatch<IUserAction>>(() => {});
