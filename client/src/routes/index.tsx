@@ -1,30 +1,20 @@
-import HomePage from '../pages/Home';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import PrivateOutlet from './PrivateOutlet';
 import LoginPage from '../pages/Login';
-import PageNotFound from '../pages/PageNotFound';
+import HomePage from '../pages/Home';
+import PrivatePage from '../pages/Private';
+import Friises from '../pages/Couples';
 
-interface IRouteProps {
-	path: string;
-	isPrivate: boolean;
-	component: React.FunctionComponent;
-	children?: React.ReactChild;
+export default function AppRouter() {
+	return (
+		<Routes>
+			<Route path="/" element={<HomePage />} />
+			<Route path="/login" element={<LoginPage />} />
+			<Route path="/jillian-and-larsen" element={<Friises />} />
+			<Route path="/private" element={<PrivateOutlet />}>
+				<Route path="" element={<PrivatePage />} />
+			</Route>
+		</Routes>
+	);
 }
-
-const routes: IRouteProps[] = [
-	{
-		path: '/',
-		isPrivate: true,
-		component: HomePage,
-	},
-	{
-		path: '/login',
-		isPrivate: false,
-		component: LoginPage,
-	},
-	{
-		path: '/*',
-		isPrivate: false,
-		component: PageNotFound,
-	},
-];
-
-export default routes;

@@ -1,43 +1,28 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+
 axios.defaults.withCredentials = true;
 
-const useAxiosGet = (url: string) => {
-	const [data, setData] = useState<object | null>(null);
+export default function useAxios(config: AxiosRequestConfig) {
+	const [data, setData] = useState<any>(null);
+	const [error, setError] = useState<AxiosError | null>(null);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		axios
-			.get(url)
+			.request(config)
 			.then((res) => {
-				console.log(`Axios Get -`, res);
 				setData(res.data);
 			})
 			.catch((e) => {
-				console.log(`Axios Get -`, e);
 				console.log(e);
-			});
-	}, [url]);
-
-	return [data];
-};
-
-const useAxiosPost = (url: string, body: object) => {
-	const [data, setData] = useState<object | null>(null);
-
-	useEffect(() => {
-		axios
-			.post(url, body)
-			.then((res) => {
-				console.log(`Axios Post -`, res);
-				setData(res.data);
+				if (axios.isAxiosError(e)) setError(e);
+				else setError(e);
 			})
-			.catch((e) => {
-				console.log(`Axios Post -`, e);
-				console.debug(e);
+			.finally(() => {
+				setLoading(false);
 			});
-	}, [url, body]);
+	}, []);
 
-	return [data];
-};
-
-export { useAxiosGet, useAxiosPost };
+	return [data, error, loading];
+}

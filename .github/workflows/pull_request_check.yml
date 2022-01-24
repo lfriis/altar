@@ -1,0 +1,35 @@
+# This workflow checks a branches pull request title for a semver operator
+name: semver check
+
+# Controls when the workflow will run
+on:
+    # Triggers the workflow on all pull request events that are configured to merge into master
+    pull_request:
+        branches:
+            - 'master1'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    semver-check:
+        runs-on: ubuntu-latest
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Defining action version
+            - uses: actions/checkout@v2
+            # Scanning PR title for semver operator test
+            - name: semver check
+              uses: actions/github-script@v3.1.0
+              with:
+                  script: |
+                      const pr = '${{ github.event.pull_request.title }}';
+                      let re = new RegExp(/\+\+(patch|minor|major|ignore|\d+.\d+.\d+)/);
+
+                      console.log(`Validating PR '${pr}'...`);
+
+                      if (re.test(pr)) {
+                          pr.match(re)[1];
+                          console.log(`Operator detected: ${pr.match(re)[1]}`)
+                      } else {
+                          console.log(`No semver operator detected!`);
+                          throw new Error(`Cancelled workflow...Please include an semver operator in your Pull Request title.\nExample: ++<level>… See README for more details`);
+                      }

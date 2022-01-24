@@ -1,11 +1,4 @@
-// import { loginUser, logoutUser, validateUser } from './actions';
-import { AuthProvider, useAuthDispatch, useAuthState } from './authContext';
-import { AuthReducer, USER_ACTIONS } from './reducer';
-
-export {
-	USER_ACTIONS,
-	useAuthState,
-	useAuthDispatch,
-	AuthReducer,
-	AuthProvider,
-};
+export { default as AuthReducer } from './auth.reducer';
+export * from './auth.context';
+export * from './auth.declarations';
+export * from './auth.actions';

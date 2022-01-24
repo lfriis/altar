@@ -1,0 +1,344 @@
+# This workflow is used for deploying branches to the production environment and will manage the release with semantic versioning
+name: production build release
+#test
+on:
+    # Triggers the workflow on push request events for the master branch
+    push:
+        branches:
+            - 'master1'
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+    production-build-release:
+        runs-on: ubuntu-latest
+
+        # CONFIGURE CI/CD PIPELINE BELOW
+        env:
+            NODE_VERSION: 14.18.0
+            AWS_ELB_APPLICATION_NAME: SE-Project-Template
+            AWS_ELB_ENVIRONMENT_NAME: Seprojecttemplate-env
+            AWS_REGION: us-east-2
+            BUILD_ASSET_NAME: prod-build-release
+
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
+            # Defining action version
+            - uses: actions/checkout@v2
+
+            # Defining nodejs
+            - name: nodejs v${{ env.NODE_VERSION }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ env.NODE_VERSION }}
+
+            # get current branch
+            - name: get current branch
+              id: extract_branch
+              run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+
+            # checkout to current branch
+            - name: checkout to current branch
+              run: |
+                  git fetch
+                  git checkout ${{ steps.extract_branch.outputs.branch }}
+
+            # Defining latest release
+            - name: get latest release
+              id: lastest_release
+              uses: InsonusK/get-latest-release@v1.0.1
+              with:
+                  myToken: ${{ github.token }}
+                  view_top: 1
+
+            # Scanning PR title for semver operator test
+            - name: checking semver operator
+              id: semver_operator
+              uses: actions/github-script@v3.1.0
+              with:
+                  script: |
+                      const pr = ${{ toJSON(github.event.head_commit.message) }}.split('\n')[0];
+                      let re = new RegExp(/\+\+(patch|minor|major|ignore|\d+.\d+.\d+)/);
+                      console.log(`Validating PR '${pr}'...`);
+
+                      if (re.test(pr)) {
+                          semverOperator = pr.match(re)[1];
+                          console.log(`Operator detected: ${semverOperator}`)
+                          core.setOutput('title', pr);
+                      } else {
+                          console.log(`No semver operator detected in head message. Checking associated PR's...`);
+                          core.setOutput('title', 'null');
+                      }
+
+              # Scanning associated pull requests
+            - name: get associated pull request title
+              id: pull_request
+              if: steps.semver_operator.outputs.title == 'null'
+              uses: actions/github-script@v5
+              with:
+                  script: |
+                      console.log(`Checking associated PR's...`);
+                      await github.rest.repos.listPullRequestsAssociatedWithCommit({
+                        owner: context.repo.owner,
+                        repo: context.repo.repo,
+                        commit_sha: context.sha,
+                      }).then((res) => {
+
+                        const prRes = res.data.reduce((acc, pr) => {
+                          if (!pr.merged_at) return acc;
+                          else if (new Date(acc.merged_at) > new Date(pr.merged_at)) return acc;
+                          else return pr;
+                        }, {merged_at: null});
+
+                        if (!prRes) {
+                          core.setOutput('title', prRes);
+                          console.log('No semver found.')
+                        } else if (prRes) {
+                            core.setOutput('title', prRes.title);
+                            console.log(`Found latest PR title ${prRes.title}...`);
+                        }
+
+                      }).catch( (e) => {
+                        console.log(`An error occurred fetching closed PR's: ${e}`)
+                        throw new Error(`An error occurred fetching closed PR's: ${e}`)
+                      })
+
+            # Scanning PR title for semver operator test
+            - name: creating version and label
+              id: version_ref
+              uses: actions/github-script@v3.1.0
+              with:
+                  script: |
+                      let semverOperator = null;
+                      let pr = ${{ toJSON(steps.semver_operator.outputs.title) }} !== 'null' ? ${{ toJSON(steps.semver_operator.outputs.title) }} : ${{ toJSON(steps.pull_request.outputs.title) }}
+                      let re = new RegExp(/\+\+(patch|minor|major|ignore|\d+.\d+.\d+)/);
+                      let v = ${{ toJSON(steps.lastest_release.outputs.tag_name) }};
+                      console.log(`\nLatest release: ${v}.`);
+                      v = v.split('.');
+
+                      console.log(`Validating PR '${pr}'...`);
+
+                      if (re.test(pr)) {
+                          semverOperator = pr.match(re)[1];
+                          console.log(`\nOperator detected: ${semverOperator}`)
+                      } else {
+                          console.log(`\nNo semver operator detected!`);
+                          throw new Error(`Cancelled workflow...Please include an semver operator in your Pull Request title.\n\nExample: ++<level>… See README for more details\n`);
+                      }
+
+                      switch (semverOperator) {
+                          case 'major': // increment major, reset minor and patch
+                              v[0] = incrementVersion(v[0]);
+                              v[1] = 0
+                              v[2] = 0
+                              console.log('Incrementing MAJOR.');
+                              break;
+                          case 'minor': // increment minor, reset patch
+                              v[1] = incrementVersion(v[1]);
+                              v[2] = 0
+                              console.log('Incrementing MINOR.');
+                              break;
+                          case 'patch': // increment patch
+                              v[2] = incrementVersion(v[2]);
+                              console.log('Incrementing PATCH.');
+                              break;
+                          default:
+                              v = semverOperator;
+                              if (v === 'ignore') console.log(`Maintaining current version`);
+                              else console.log(`Version Override: ${v}`);
+                              break;
+                      }
+
+                      if (v && typeof v === 'object') {
+                          v = v.join('.')
+                      } else if (!v) {
+                          console.log('Terminating SEMVER process.');
+                          v = null
+                      }
+
+                      let d = new Date()
+                      let date = d.toISOString().split('T')[0];
+                      let time = d.toTimeString().split(' ')[0];
+                      const label = `${v} ${date} ${time}`;
+
+                      console.log(`\nVersion: ${v}`)
+                      core.setOutput('version', v);
+                      console.log(`Label: ${label}`)
+                      core.setOutput('label', label);
+
+                      function incrementVersion(version) {
+                          let temp = parseInt(version);
+                          temp++;
+                          return temp;
+                      }
+
+            # checking releases
+            - name: checking release
+              if: steps.version_ref.outputs.version != 'ignore'
+              uses: mukunku/tag-exists-action@v1.0.0
+              id: check-tag
+              with:
+                  tag: '${{ steps.version_ref.outputs.version }}'
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            # checking if release exists
+            - name: validate release
+              if: steps.version_ref.outputs.version != 'ignore'
+              uses: actions/github-script@v3.1.0
+              with:
+                  script: |
+                      if ( ${{ steps.check-tag.outputs.exists }} ) throw new Error(`Cancelled workflow...Github release ${{ steps.version_ref.outputs.version }} already exists.`);
+                      else console.log('New release ${{ steps.version_ref.outputs.version }}, proceeding workflow...')
+
+            # extracting client version
+            - name: get client version
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: client-package-version
+              uses: martinbeentjes/npm-get-version-action@master
+              with:
+                  path: client
+
+            # extracting server version
+            - name: get server version
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: server-package-version
+              uses: martinbeentjes/npm-get-version-action@master
+              with:
+                  path: server
+
+            # update client and server packages
+            - name: update packages version
+              if: steps.version_ref.outputs.version != 'ignore'
+              run: |
+                  git config user.name ${{ github.actor }}
+
+                  if [ ${{ steps.version_ref.outputs.version }} != ${{ steps.client-package-version.outputs.current-version }} ]
+                  then
+                    cd ./client
+                    npm version ${{ steps.version_ref.outputs.version }} --allow-same-version
+                    git commit -am "Updated client version."
+                    cd ..
+                  else echo Client version is up to date!
+                  fi
+
+                  if [ ${{ steps.version_ref.outputs.version }} != ${{ steps.server-package-version.outputs.current-version }} ]
+                  then
+                    cd ./server
+                    npm version ${{ steps.version_ref.outputs.version }} --allow-same-version
+                    git commit -am "Updated server version."
+                    cd ..
+                  else
+                    echo Server version is up to date!
+                  fi
+
+            # caching client dependencies
+            - name: cache client dependencies
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: client-npm-cache
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: npm-client-production-${{ hashFiles('./client/package-lock.json') }}
+                  restore-keys: npm-client-production-
+
+            # caching server dependencies
+            - name: cache server dependencies
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: server-npm-cache
+              uses: actions/cache@v2
+              with:
+                  path: ~/.npm
+                  key: npm-server-production-${{ hashFiles('./server/package-lock.json') }}
+                  restore-keys: npm-server-production-
+
+            # install client dependencies
+            - name: install client dependencies
+              if: steps.version_ref.outputs.version != 'ignore'
+              working-directory: ./client
+              run: npm ci
+
+            # install server dependencies
+            - name: install server dependencies
+              if: steps.version_ref.outputs.version != 'ignore'
+              working-directory: ./server
+              run: npm ci
+
+            # building react into static files
+            - name: npm build
+              if: steps.version_ref.outputs.version != 'ignore'
+              working-directory: ./client
+              run: npm run build
+
+            # moving server contents to root directory
+            - name: restructure directory
+              if: steps.version_ref.outputs.version != 'ignore'
+              run: mv ./server/* ./
+
+            # generating deployment package
+            - name: zipping ${{ env.BUILD_ASSET_NAME }} package
+              if: steps.version_ref.outputs.version != 'ignore'
+              run: zip -r ${{ env.BUILD_ASSET_NAME }}.zip . -x '*.git*'
+
+            # deploying to EB
+            - name: deploy to AWS ${{ env.AWS_ELB_ENVIRONMENT_NAME }}
+              if: steps.version_ref.outputs.version != 'ignore'
+              uses: einaregilsson/beanstalk-deploy@v18
+              with:
+                  application_name: ${{ env.AWS_ELB_APPLICATION_NAME }}
+                  environment_name: ${{ env.AWS_ELB_ENVIRONMENT_NAME }}
+                  region: ${{ env.AWS_REGION }}
+                  deployment_package: ${{ env.BUILD_ASSET_NAME }}.zip
+                  aws_access_key: ${{ secrets.AWS_PIPELINE_ACCESS_KEY }}
+                  aws_secret_key: ${{ secrets.AWS_PIPELINE_SECRET_KEY }}
+                  version_label: ${{ steps.version_ref.outputs.label }}
+
+            # creating release tag
+            - name: create release tag ${{ steps.version_ref.outputs.version }}
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: create_tag_ref
+              uses: actions/github-script@v3.1.0
+              with:
+                  github-token: ${{ github.token }}
+                  script: |
+                      const semverResult = ${{ toJSON(steps.version_ref) }}
+
+                      if (semverResult.outcome === 'success') {
+                        console.log(`Creating release tag for ${semverResult.outputs.version}`);
+                        const { data: tagRef } = await github.git.createRef({
+                            owner: context.repo.owner,
+                            repo: context.repo.repo,
+                            ref: `refs/tags/${semverResult.outputs.version}`,
+                            sha: context.sha
+                        });
+
+                        core.setOutput('tagRef', tagRef);
+                      }
+
+            # Creating release of new version
+            - name: create release ${{ steps.version_ref.outputs.version }}
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: create_release_ref
+              uses: actions/create-release@v1
+              env:
+                  GITHUB_TOKEN: ${{ github.token }}
+              with:
+                  tag_name: ${{ steps.version_ref.outputs.version }}
+                  release_name: ${{ steps.version_ref.outputs.version }}
+                  body: |
+                      Changes in this Release
+                      - ${{ github.event.head_commit.message }}
+                  draft: false
+                  prerelease: false
+
+            # Upload build release to new release
+            - name: upload ${{ env.BUILD_ASSET_NAME }} asset
+              if: steps.version_ref.outputs.version != 'ignore'
+              id: upload-release-asset
+              uses: actions/upload-release-asset@v1
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  upload_url: ${{ steps.create_release_ref.outputs.upload_url }}
+                  asset_path: ./${{ env.BUILD_ASSET_NAME }}.zip
+                  asset_name: ${{ env.BUILD_ASSET_NAME }}.zip
+                  asset_content_type: application/zip

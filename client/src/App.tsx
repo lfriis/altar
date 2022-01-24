@@ -1,32 +1,30 @@
 import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
-import routes from './routes';
-import AppRoute from './routes/appRoutes';
+import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/auth';
+import ThemeProvider from './styles/ThemeProvider';
+import AppRouter from './routes';
+import DevLocal from './components/Development/DevLocal';
+import Navbar from './pages/Navbar';
+/**
+ * CSS
+ */
+import './styles/app.css';
+import './styles/mui.overrides.css';
 
-function App(): JSX.Element {
+function App() {
 	return (
 		<div className="App">
-			<AuthProvider>
-				<BrowserRouter>
-					<Switch>
-						{routes.map(
-							({
-								path,
-								component,
-								isPrivate,
-							}): React.ReactElement => (
-								<AppRoute
-									key={path}
-									path={path}
-									component={component}
-									isPrivate={isPrivate}
-								/>
-							)
-						)}
-					</Switch>
-				</BrowserRouter>
-			</AuthProvider>
+			<ThemeProvider>
+				<AuthProvider>
+					{process.env.REACT_APP_ENVIRONMENT === 'DEVELOPMENT' && (
+						<DevLocal />
+					)}
+					<BrowserRouter>
+						<Navbar />
+						<AppRouter />
+					</BrowserRouter>
+				</AuthProvider>
+			</ThemeProvider>
 		</div>
 	);
 }

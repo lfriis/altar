@@ -1,0 +1,16 @@
+# Set update schedule for each package manager
+
+version: 2
+updates:
+    # client
+    - package-ecosystem: npm
+      directory: '/client'
+      schedule:
+          interval: daily
+      open-pull-requests-limit: 0
+    # server
+    - package-ecosystem: npm
+      directory: '/server'
+      schedule:
+          interval: daily
+      open-pull-requests-limit: 0

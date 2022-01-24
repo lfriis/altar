@@ -1,11 +1,14 @@
-import express, { Application, Request, Response, NextFunction } from 'express';
+import express from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import routes from './routes/routes';
-import { server as config } from './config/serverConfig';
-import { info, error } from './middleware/logging';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import routes from './routes';
+import config from './config';
+import logging from './middleware/logging.middleware';
+import { logger } from './utils';
 
-const server: Application = express();
+const server = express();
 
 /**
  * ? Middleware
@@ -14,58 +17,62 @@ server.use(express.json());
 server.use(cookieParser());
 server.use(express.urlencoded({ extended: true }));
 server.use(cors({ credentials: true, origin: config.front_end_url }));
-server.use((req: Request, res: Response, next: NextFunction) => {
-	res.header('Access-Control-Allow-Origin', '*');
-	res.header(
-		'Access-Control-Allow-Headers',
-		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-	);
+server.use(helmet());
+server.use(morgan('dev'));
+// morgan.token(
+// 	'newtest',
+// 	(req: Request, res: Response) => req.headers['content-type'],
+// );
+// server.use(
+// 	morgan(function (tokens, req, res) {
+// 		return [
+// 			tokens.method(req, res),
+// 			tokens.url(req, res),
+// 			tokens.status(req, res),
+// 			tokens.res(req, res, 'content-length'),
+// 			'-',
+// 			tokens['response-time'](req, res),
+// 			'ms',
+// 			tokens.newtest(req, res),
+// 			'test',
+// 		].join(' ');
+// 	}),
+// );
 
-	if (req.method === 'OPTIONS') {
-		res.header(
-			'Access-Control-Allow-Methods',
-			'PUT, POST, PATCH, DELETE, GET'
-		);
-		return res.status(200).json({});
-	}
-	next();
-});
-server.use(express.json({ limit: '50mb' }));
-server.use(routes);
+// eslint-disable-next-line consistent-return
+// server.use((req: Request, res: Response, next: NextFunction) => {
+// 	res.header('Access-Control-Allow-Origin', '*');
+// 	res.header(
+// 		'Access-Control-Allow-Headers',
+// 		'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+// 	);
 
-/**
- * ? Logging requests
- */
-server.use((req: Request, res: Response, next: NextFunction): void => {
-	info({
-		namespace: config.namespace,
-		message: `METHOD: [${req.method}] - URL: [${req.url}] - IP: [${req.socket.remoteAddress}]`,
-	});
-
-	res.on('finish', (): void => {
-		info({
-			namespace: config.namespace,
-			message: `METHOD: [${req.method}] - URL: [${req.url}] - STATUS: [${res.statusCode}] - IP: [${req.socket.remoteAddress}]`,
-		});
-	});
-
-	next();
-});
+// 	if (req.method === 'OPTIONS') {
+// 		res.header(
+// 			'Access-Control-Allow-Methods',
+// 			'PUT, POST, PATCH, DELETE, GET',
+// 		);
+// 		return res.status(200).json({});
+// 	}
+// 	next();
+// });
+server.use('/api', routes);
+server.use(logging);
 
 /**
  * ? Server deployment
  */
 server
 	.listen(config.port, (): void => {
-		info({
+		logger.info({
 			namespace: config.namespace,
 			message: `${config.environment} server listening @ http://${config.hostname}:${config.port}`,
 		});
 	})
 	.on('error', (err: Error): void => {
-		error({
+		logger.error({
 			namespace: config.namespace,
-			message: `Error deploying server`,
+			message: 'Error deploying server',
 			object: err,
 		});
 	});
@@ -78,9 +85,9 @@ process
 		process.exit();
 	})
 	.on('unhandledRejection', (reason: string, p: object): void => {
-		console.error(reason, 'Unhandled Rejection at Promise', p);
+		console.log(reason, 'Unhandled Rejection at Promise', p);
 	})
 	.on('uncaughtException', (err: Error): void => {
-		console.error(err, 'Uncaught Exception thrown');
+		console.log(err, 'Uncaught Exception thrown');
 		process.exit(1);
 	});

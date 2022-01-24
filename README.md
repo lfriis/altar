@@ -1,6 +1,4 @@
-# altar
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# the altar
 
 ## Available Scripts
 
@@ -48,11 +46,16 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 ## Edit environment variables
 
-Navigate to config folder to edit `config.env`
+Navigate to `client` directory to edit `.env`
+
+```terminal
+├── 📁 client
+│   ├── .env
+```
+
+Navigate to `server` directory to edit `.env`
 
 ```terminal
 ├── 📁 server
-│   ├── 📁 src
-│   │   ├── 📁 config
-│   │   │   ├── config.env
+│   ├── .env
 ```
