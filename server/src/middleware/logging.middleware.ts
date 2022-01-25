@@ -1,11 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import config from '../config';
+import config from '../config/server';
 import { logger } from '../utils';
 
 export default function logging(
 	req: Request,
 	res: Response,
-	next: NextFunction,
+	next: NextFunction
 ): void {
 	logger.info({
 		namespace: config.namespace,

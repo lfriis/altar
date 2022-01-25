@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import routes from './routes';
-import config from './config';
+import config from './config/server';
 import logging from './middleware/logging.middleware';
 import { logger } from './utils';
 
