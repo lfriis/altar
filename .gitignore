@@ -2,11 +2,12 @@
 
 # client dependencies
 /client/node_modules
-/client/src/.env
+/client/.env
 
 # server dependencies
 /server/node_modules
-/server/src/config/config.env
+/server/.env
+/server/src/config/googleAPI/googleConfig.json
 
 # testing
 /coverage

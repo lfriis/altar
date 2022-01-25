@@ -11,7 +11,7 @@ export default function AppRouter() {
 		<Routes>
 			<Route path="/" element={<HomePage />} />
 			<Route path="/login" element={<LoginPage />} />
-			<Route path="/jillian-and-larsen" element={<Friises />} />
+			<Route path="/couples/friises" element={<Friises />} />
 			<Route path="/private" element={<PrivateOutlet />}>
 				<Route path="" element={<PrivatePage />} />
 			</Route>

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import axios from 'axios';
 import {
 	Avatar,
 	Typography,
@@ -45,31 +46,20 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-const {
-	REACT_APP_FIRST_NAME = '',
-	REACT_APP_LAST_NAME = '',
-	REACT_APP_EMAIL = '',
-} = process.env;
-
 export default function Friises() {
 	const styles = useStyles();
 	const navigate = useNavigate();
 	// const dispatch = useAuthDispatch();
 
-	const [firstName, setFirstName] = useState(REACT_APP_FIRST_NAME);
-	const [lastName, setLastName] = useState(REACT_APP_LAST_NAME);
-	const [email, setEmail] = useState(REACT_APP_EMAIL);
-
 	const loading = false;
 
 	const handleSubmitRSVP = async () => {
-		const payload = {
-			firstName,
-			lastName,
-			email,
-		};
-
-		console.log({ payload });
+		axios
+			.get('/api/guests/:123456')
+			.then((res) => {
+				console.log(res);
+			})
+			.catch((e) => console.log(e));
 	};
 
 	return (
@@ -86,44 +76,14 @@ export default function Friises() {
 			<Paper className={styles.form}>
 				<FormControl variant="standard">
 					<InputLabel color="secondary" htmlFor="input-field-email">
-						Email
+						Please enter your address
 					</InputLabel>
 					<Input
 						color="secondary"
 						id="input-field-email"
-						onChange={(e) => setEmail(e.target.value)}
+						// onChange={(e) => setEmail(e.target.value)}
 						autoComplete="email"
 						type="email"
-					/>
-				</FormControl>
-				<FormControl variant="standard">
-					<InputLabel
-						color="secondary"
-						htmlFor="input-field-firstName"
-					>
-						First Name
-					</InputLabel>
-					<Input
-						color="secondary"
-						id="input-field-firstName"
-						onChange={(e) => setFirstName(e.target.value)}
-						autoComplete="firstName"
-						type="text"
-					/>
-				</FormControl>
-				<FormControl variant="standard">
-					<InputLabel
-						color="secondary"
-						htmlFor="input-field-lastName"
-					>
-						Last Name
-					</InputLabel>
-					<Input
-						color="secondary"
-						id="input-field-lastName"
-						onChange={(e) => setLastName(e.target.value)}
-						autoComplete="lastName"
-						type="text"
 					/>
 				</FormControl>
 				<LoadingButton loading={loading} onClick={handleSubmitRSVP}>
