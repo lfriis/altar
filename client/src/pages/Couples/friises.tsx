@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
 	Avatar,
@@ -11,6 +11,8 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '../../components';
+import { IGuests } from './couples.declarations';
+import GuestsComp from './GuestsComp';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -50,16 +52,24 @@ export default function Friises() {
 	const styles = useStyles();
 	const navigate = useNavigate();
 	// const dispatch = useAuthDispatch();
-
-	const loading = false;
+	const [loading, setLoading] = useState(false);
+	const [address, setAddress] = useState('1294 Heritage Road');
+	const [guests, setGuests] = useState<IGuests>();
 
 	const handleSubmitRSVP = async () => {
+		setLoading(true);
+
 		axios
-			.get('/api/guests/:123456')
+			.get(`/api/guests/${address}`)
 			.then((res) => {
-				console.log(res);
+				console.log(res.data);
+				setGuests(res.data.guestInfo);
+				setLoading(false);
 			})
-			.catch((e) => console.log(e));
+			.catch((e) => {
+				console.log(e);
+				setLoading(false);
+			});
 	};
 
 	return (
@@ -75,21 +85,31 @@ export default function Friises() {
 			<Typography className={styles.title}>Jillian and Larsen</Typography>
 			<Paper className={styles.form}>
 				<FormControl variant="standard">
-					<InputLabel color="secondary" htmlFor="input-field-email">
+					<InputLabel color="secondary" htmlFor="input-field-address">
 						Please enter your address
 					</InputLabel>
 					<Input
 						color="secondary"
-						id="input-field-email"
-						// onChange={(e) => setEmail(e.target.value)}
-						autoComplete="email"
-						type="email"
+						id="input-field-address"
+						disabled={loading}
+						value={address}
+						onChange={(e) => setAddress(e.target.value)}
+						autoComplete="address"
+						type="text"
 					/>
 				</FormControl>
 				<LoadingButton loading={loading} onClick={handleSubmitRSVP}>
-					{loading ? 'Submitting...' : 'Submit RSVP'}
+					{loading ? 'Searching...' : 'Search Guests'}
 				</LoadingButton>
 			</Paper>
+			{guests?.names && (
+				<Paper className={styles.form}>
+					<h4>Select a food option per guest</h4>
+					{guests.names.map((name) => (
+						<GuestsComp key={name} name={name} />
+					))}
+				</Paper>
+			)}
 		</form>
 	);
 }
