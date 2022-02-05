@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from './context/auth';
 import ThemeProvider from './styles/ThemeProvider';
 import AppRouter from './routes';
 import DevLocal from './components/Development/DevLocal';
@@ -15,15 +14,13 @@ function App() {
 	return (
 		<div className="App">
 			<ThemeProvider>
-				<AuthProvider>
-					{process.env.REACT_APP_ENVIRONMENT === 'DEVELOPMENT' && (
-						<DevLocal />
-					)}
-					<BrowserRouter>
-						<Navbar />
-						<AppRouter />
-					</BrowserRouter>
-				</AuthProvider>
+				{process.env.REACT_APP_ENVIRONMENT === 'DEVELOPMENT' && (
+					<DevLocal />
+				)}
+				<BrowserRouter>
+					<Navbar />
+					<AppRouter />
+				</BrowserRouter>
 			</ThemeProvider>
 		</div>
 	);
