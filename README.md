@@ -1,50 +1,86 @@
-# the altar
+<h1 align="center" style="border-bottom: none;">the altar</h1>
 
-## Available Scripts
+<br/>
 
-### Install node modules in 📁 client & 📁 server
+Before developing locally, ensure your machines `node` and `npm` versions matches the CI/CD requirements.
 
-`npm i` installs all defined node modules that are required in `/client/package.json` and `/server/package.json`.
+CI/CD Workflow:
 
-Example for 📁 **client**:
+-   npm - `v6.14.15`
+
+AWS Elastic Beanstalk requires:
+
+-   node - `v14.18.2`
+
+<br/>
+
+## Start Development Environment
+
+> The following commands can be run in either 📁 **client** or 📁 **server**:
+
+### 1. Install Dependencies
+
+`npm run dependencies` installs all dependencies from `/client/package.json` and `/server/package.json`.
 
 ```terminal
-$  cd client
-$  npm i
+$  npm run dependencies
 ```
 
-Example for 📁 **server**:
+### 2. Run Dev Command
+
+This will deploy a local instance of the application
 
 ```terminal
-$  cd server
-$  npm i
-```
-
-### Run Dev Environment
-
-```terminal
-$  cd client
 $  npm run dev
 ```
 
-This runs the app in the development mode.
-You can open [http://localhost:3000](http://localhost:3000) to view it in the browser.\
-An Express Server will be deployed at [http://localhost:8080](http://localhost:8080)
+The command above will run the app in the development mode.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+-   Client deployed to: [http://localhost:3000](http://localhost:3000)
+-   Server deployed to: [http://localhost:8080](http://localhost:8080)
 
-### `npm run build`
+<br/>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Semantic Versioning (SEMVER) Structure:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+All Marketplace applications follow a versioning scheme for using meaningful version numbers. Each pull request must have a semver operator within the **title**. Any direct commits to the `master` branch must have a semver operator in their **commit message**.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+Ex. v1.0.2:
 
-## Edit environment variables
+1   ->   major
+2   ->   minor
+2   ->   patch
+```
+
+### Operators:
+
+| Operator                    | Description                                                                |
+| --------------------------- | -------------------------------------------------------------------------- |
+| `++major`                   | substantial changes that may break the existing code (UI/UX elements/API). |
+| `++minor`                   | non-breaking changes (new feature)                                         |
+| `++patch`                   | no interface changes (bug fixes)                                           |
+| `++ignore`                  | bypasses the semantic versioning                                           |
+| `++[major].[minor].[patch]` | overrides project release version                                          |
+
+### Logic Example
+
+```
+Version  -           commit message       ->   SEMVER result
+
+0.0.1    -   "{Commit message} ++patch"   ->   increment PATCH
+0.0.2    -   "{Commit message} ++patch"   ->   increment PATCH
+0.1.0    -   "{Commit message} ++minor"   ->   increment MINOR, reset PATCH, keep MAJOR
+0.1.1    -   "{Commit message} ++patch"   ->   increment PATCH
+1.0.0    -   "{Commit message} ++major"   ->   increment MAJOR, reset MINOR and PATCH
+1.0.1    -   "{Commit message} ++patch"   ->   increment PATCH
+1.0.1    -   "{Commit message} ++ignore"  ->   does not change version, but commits to codebase
+3.0.0    -   "{Commit message} ++3.0.0"   ->   override MAJOR, MINOR, AND PATCH
+```
+
+<br/>
+
+## Configure application environment variables
 
 Navigate to `client` directory to edit `.env`
 

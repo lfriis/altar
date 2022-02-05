@@ -8,8 +8,11 @@
 	},
 	"scripts": {
 		"start": "node dist/server.js",
+		"client": "cd ../client && npm run client",
 		"server": "ts-node-dev --respawn --pretty --transpile-only ./src/server.ts --delay 500ms src/server.ts",
-		"build": "tsc -p ."
+		"build": "tsc -p .",
+		"dev": "concurrently \"npm run client\" \"npm run server\"",
+		"dependencies": "npm i && cd ../client && npm i"
 	},
 	"keywords": [],
 	"author": "",
@@ -40,6 +43,7 @@
 		"@types/tiny-async-pool": "^1.0.0",
 		"@typescript-eslint/eslint-plugin": "^5.9.0",
 		"@typescript-eslint/parser": "^5.9.0",
+		"concurrently": "^7.0.0",
 		"eslint": "^8.6.0",
 		"eslint-config-airbnb-base": "^15.0.0",
 		"eslint-config-prettier": "^8.3.0",

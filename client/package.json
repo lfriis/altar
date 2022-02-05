@@ -31,7 +31,8 @@
 		"eject": "react-scripts eject",
 		"client": "react-scripts start",
 		"server": "cd ../server && ts-node-dev --respawn --pretty --transpile-only ./src/server.ts",
-		"dev": "concurrently \"npm run server\" \"npm run client\""
+		"dev": "concurrently \"npm run server\" \"npm run client\"",
+		"dependencies": "npm i && cd ../client && npm i"
 	},
 	"eslintConfig": {
 		"extends": [
