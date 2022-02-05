@@ -1,3 +1,3 @@
-import Friises from './friises';
+import form from './couples.form';
 
-export default Friises;
+export default form;

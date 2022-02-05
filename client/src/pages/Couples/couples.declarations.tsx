@@ -6,6 +6,13 @@ export interface IAutoAuthProps extends IHandleAuthSuccess {
 	autoAuthKey: string | undefined;
 }
 
+export interface ICoupleConfig {
+	coupleName: string;
+	marriedName: string;
+	coupleInitials: string;
+	foodOptions: string[];
+}
+
 export interface IGuests {
 	address: string;
 	city: string;
@@ -18,4 +25,9 @@ export interface IGuests {
 	name_4: string;
 	names: string[];
 	envolope: string;
+}
+
+export interface IConfirmedGuest {
+	guest: string;
+	selection: string | unknown;
 }

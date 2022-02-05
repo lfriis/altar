@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
 	Avatar,
@@ -7,12 +7,17 @@ import {
 	FormControl,
 	Input,
 	InputLabel,
+	Button,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { LoadingButton } from '../../components';
-import { IGuests } from './couples.declarations';
-import GuestsComp from './GuestsComp';
+import {
+	IGuests,
+	IConfirmedGuest,
+	ICoupleConfig,
+} from './couples.declarations';
+import FoodOptionSelect from '../../components/FoodOption.Select';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -48,15 +53,21 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export default function Friises() {
+export default function CouplesForm({
+	coupleName,
+	coupleInitials,
+	foodOptions,
+}: ICoupleConfig) {
 	const styles = useStyles();
 	const navigate = useNavigate();
 	// const dispatch = useAuthDispatch();
 	const [loading, setLoading] = useState(false);
 	const [address, setAddress] = useState('1294 Heritage Road');
 	const [guests, setGuests] = useState<IGuests>();
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>();
 
-	const handleSubmitRSVP = async () => {
+	const handleSearchSheet = async () => {
 		setLoading(true);
 
 		axios
@@ -72,6 +83,32 @@ export default function Friises() {
 			});
 	};
 
+	const handleSubmitRSVP = async () => {
+		setLoading(true);
+		axios
+			.post(`/api/guests/option`, confirmedGuests)
+			.then((res) => {
+				console.log(res.data);
+				setGuests(res.data.guestInfo);
+				setLoading(false);
+			})
+			.catch((e) => {
+				console.log(e);
+				setLoading(false);
+			});
+	};
+
+	const handleSetGuest = (confirmedSelection: IConfirmedGuest) => {
+		// const tempArray = [...confirmedGuests, confirmedSelection];
+		// setConfirmedGuests(tempArray);
+		// setConfirmedGuests(confirmedSelection);
+		console.log(confirmedGuests, confirmedSelection);
+	};
+
+	useEffect(() => {
+		console.log({ confirmedGuests });
+	}, [confirmedGuests]);
+
 	return (
 		<form className={styles.form}>
 			<Avatar
@@ -79,10 +116,10 @@ export default function Friises() {
 				alt="logo"
 				onClick={() => navigate('/')}
 			>
-				J & L
+				{coupleInitials}
 			</Avatar>
 
-			<Typography className={styles.title}>Jillian and Larsen</Typography>
+			<Typography className={styles.title}>{coupleName}</Typography>
 			<Paper className={styles.form}>
 				<FormControl variant="standard">
 					<InputLabel color="secondary" htmlFor="input-field-address">
@@ -98,16 +135,24 @@ export default function Friises() {
 						type="text"
 					/>
 				</FormControl>
-				<LoadingButton loading={loading} onClick={handleSubmitRSVP}>
+				<LoadingButton loading={loading} onClick={handleSearchSheet}>
 					{loading ? 'Searching...' : 'Search Guests'}
 				</LoadingButton>
 			</Paper>
 			{guests?.names && (
 				<Paper className={styles.form}>
 					<h4>Select a food option per guest</h4>
-					{guests.names.map((name) => (
-						<GuestsComp key={name} name={name} />
+					{guests.names.map((guest) => (
+						<FoodOptionSelect
+							key={guest}
+							guest={guest}
+							handleSetGuest={handleSetGuest}
+							options={foodOptions}
+						/>
 					))}
+					<Button variant="contained" onClick={handleSubmitRSVP}>
+						Submit RSVP
+					</Button>
 				</Paper>
 			)}
 		</form>
