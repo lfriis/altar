@@ -5,10 +5,16 @@ import {
 } from 'google-spreadsheet';
 import googleConfig from '../config/googleAPI';
 
-interface IRow {
+interface IGetRow {
 	sheet: GoogleSpreadsheetWorksheet;
 	header: string;
 	value: string;
+}
+
+interface IAddRow {
+	doc: GoogleSpreadsheet;
+	rowData: string[];
+	sheetIndex: number;
 }
 
 /**
@@ -26,6 +32,26 @@ export async function generateGoogleSpreadsheetInstance(sheetId: string) {
 	const sheet = doc.sheetsByIndex[0];
 
 	return sheet;
+}
+
+export async function addDataToGoogleSpreadsheet({
+	doc,
+	rowData,
+	sheetIndex = 0,
+}: IAddRow) {
+	console.log(doc, rowData, sheetIndex);
+
+	// const headers = Object.keys(rowData[0]);
+	// let sheet = doc.sheetsByIndex[sheetIndex];
+	// if (!sheet) {
+	// 	// Create sheet
+	// 	sheet = await doc.addSheet();
+	// 	if (sheet.columnCount < headers.length) {
+	// 		await sheet.resize({ rowCount: 1000, columnCount: headers.length });
+	// 	}
+	// }
+	// await sheet.setHeaderRow(headers);
+	// await sheet.addRows(rowData);
 }
 
 /**
@@ -79,7 +105,7 @@ async function formatRow(row: GoogleSpreadsheetRow | undefined) {
  * @param param0 Selectors to retrieve row
  * @returns Formatted row
  */
-export async function getRow({ sheet, header, value }: IRow) {
+export async function getRow({ sheet, header, value }: IGetRow) {
 	await sheet.loadHeaderRow();
 	const rows = await sheet.getRows();
 	const result = rows.find((row) => row[header] === value);
