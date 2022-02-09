@@ -15,10 +15,10 @@ jobs:
         # CONFIGURE CI/CD PIPELINE BELOW
         env:
             NODE_VERSION: 14.18.0
-            AWS_ELB_APPLICATION_NAME: SE-Project-Template
-            AWS_ELB_ENVIRONMENT_NAME: Seprojecttemplate-env
+            AWS_ELB_APPLICATION_NAME: <TEST>
+            AWS_ELB_ENVIRONMENT_NAME: <TEST>
             AWS_REGION: us-east-2
-            BUILD_ASSET_NAME: prod-build-release
+            BUILD_ASSET_NAME: <TEST>
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:

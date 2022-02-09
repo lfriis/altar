@@ -5,43 +5,41 @@ import {
 	Select,
 	MenuItem,
 	InputLabel,
-	IconButton,
+	SelectChangeEvent,
 } from '@mui/material';
-import { Check, Clear } from '@mui/icons-material';
-import { IConfirmedGuest } from '../pages/Couples/couples.declarations';
+// import { Check, Clear } from '@mui/icons-material';
+import { IConfirmedGuest } from '../pages/Couples';
 
 interface IProps {
-	guest: string;
-	handleSetGuest: (arg0: IConfirmedGuest) => void;
+	guestName: string;
+	handleSetConfirmedGuest: (arg0: IConfirmedGuest) => void;
 	options: string[];
 }
 
 export default function GuestConfirmFoodOption({
-	guest,
-	handleSetGuest,
+	guestName,
+	handleSetConfirmedGuest,
 	options,
 }: IProps) {
-	const [selection, setSelection] =
-		useState<Nullable<string | unknown>>(null);
-	const [confirmedSelection, setConfirmedSelection] = useState(false);
+	const [foodSelection, setFoodSelection] = useState<Nullable<string>>(null);
 
 	useEffect(() => {
-		handleSetGuest({ guest, selection });
-	}, [confirmedSelection]);
+		if (!foodSelection) return;
+		handleSetConfirmedGuest({ guestName, foodSelection });
+	}, [foodSelection]);
 
 	return (
 		<div style={{ display: 'flex', alignItems: 'center' }}>
 			<FormControl>
-				<TextField variant="outlined" value={guest} disabled />
+				<TextField variant="outlined" value={guestName} disabled />
 			</FormControl>
 			<FormControl>
 				<InputLabel id="guest-food-option">Food Option</InputLabel>
 
 				<Select
 					labelId="guest-food-option"
-					onChange={(e) => {
-						setSelection(e.target.value);
-						setConfirmedSelection(false);
+					onChange={(e: SelectChangeEvent) => {
+						setFoodSelection(e.target.value);
 					}}
 				>
 					{options.map((option) => (
@@ -51,12 +49,12 @@ export default function GuestConfirmFoodOption({
 					))}
 				</Select>
 			</FormControl>
-			<IconButton
+			{/* <IconButton
 				disabled={selection === null}
 				onClick={() => setConfirmedSelection(!confirmedSelection)}
 			>
 				{confirmedSelection ? <Clear /> : <Check />}
-			</IconButton>
+			</IconButton> */}
 		</div>
 	);
 }

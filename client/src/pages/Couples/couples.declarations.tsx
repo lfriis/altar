@@ -1,11 +1,3 @@
-export type IHandleAuthSuccess = {
-	handleAuthSuccess: () => void;
-};
-
-export interface IAutoAuthProps extends IHandleAuthSuccess {
-	autoAuthKey: string | undefined;
-}
-
 export interface ICoupleConfig {
 	coupleName: string;
 	marriedName: string;
@@ -28,6 +20,6 @@ export interface IGuests {
 }
 
 export interface IConfirmedGuest {
-	guest: string;
-	selection: string | unknown;
+	guestName: string;
+	foodSelection: string | null;
 }

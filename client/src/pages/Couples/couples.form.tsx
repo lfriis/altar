@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import {
 	Avatar,
@@ -11,13 +11,8 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import { LoadingButton } from '../../components';
-import {
-	IGuests,
-	IConfirmedGuest,
-	ICoupleConfig,
-} from './couples.declarations';
-import FoodOptionSelect from '../../components/FoodOption.Select';
+import { LoadingButton, FoodOptionSelect } from '../../components';
+import { IGuests, IConfirmedGuest, ICoupleConfig } from './index';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -63,9 +58,11 @@ export default function CouplesForm({
 	// const dispatch = useAuthDispatch();
 	const [loading, setLoading] = useState(false);
 	const [address, setAddress] = useState('1294 Heritage Road');
+	const [emailAddress, setEmailAddress] = useState('');
 	const [guests, setGuests] = useState<IGuests>();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>();
+	const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>(
+		[]
+	);
 
 	const handleSearchSheet = async () => {
 		setLoading(true);
@@ -73,12 +70,10 @@ export default function CouplesForm({
 		axios
 			.get(`/api/guests/${address}`)
 			.then((res) => {
-				console.log(res.data);
 				setGuests(res.data.guestInfo);
 				setLoading(false);
 			})
-			.catch((e) => {
-				console.log(e);
+			.catch(() => {
 				setLoading(false);
 			});
 	};
@@ -98,16 +93,14 @@ export default function CouplesForm({
 			});
 	};
 
-	const handleSetGuest = (confirmedSelection: IConfirmedGuest) => {
-		// const tempArray = [...confirmedGuests, confirmedSelection];
-		// setConfirmedGuests(tempArray);
-		// setConfirmedGuests(confirmedSelection);
-		console.log(confirmedGuests, confirmedSelection);
+	const handleSetConfirmedGuest = (
+		confirmedGuestSelection: IConfirmedGuest
+	) => {
+		const filteredDuplicates = confirmedGuests.filter(
+			(guest) => guest.guestName !== confirmedGuestSelection.guestName
+		);
+		setConfirmedGuests([...filteredDuplicates, confirmedGuestSelection]);
 	};
-
-	useEffect(() => {
-		console.log({ confirmedGuests });
-	}, [confirmedGuests]);
 
 	return (
 		<form className={styles.form}>
@@ -145,11 +138,29 @@ export default function CouplesForm({
 					{guests.names.map((guest) => (
 						<FoodOptionSelect
 							key={guest}
-							guest={guest}
-							handleSetGuest={handleSetGuest}
+							guestName={guest}
+							handleSetConfirmedGuest={handleSetConfirmedGuest}
 							options={foodOptions}
 						/>
 					))}
+					<FormControl variant="standard">
+						<InputLabel
+							color="secondary"
+							htmlFor="input-field-emailAddress"
+						>
+							Please enter one email address
+						</InputLabel>
+						<Input
+							color="secondary"
+							id="input-field-emailAddress"
+							disabled={loading}
+							value={emailAddress}
+							onChange={(e) => setEmailAddress(e.target.value)}
+							autoComplete="email"
+							type="text"
+						/>
+					</FormControl>
+
 					<Button variant="contained" onClick={handleSubmitRSVP}>
 						Submit RSVP
 					</Button>
