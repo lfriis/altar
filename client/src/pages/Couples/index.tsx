@@ -1,3 +1,2 @@
-import form from './couples.form';
-
-export default form;
+export { default as CouplesForm } from './couples.form';
+export * from './couples.declarations';

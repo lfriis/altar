@@ -2,7 +2,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import HomePage from '../pages/Home';
-import GuestForm from '../pages/Couples';
+import { CouplesForm } from '../pages/Couples';
 
 import FriisesConfig from '../pages/Couples/Friises';
 
@@ -12,7 +12,7 @@ export default function AppRouter() {
 			<Route path="/" element={<HomePage />} />
 			<Route
 				path="/couples/friises"
-				element={<GuestForm {...FriisesConfig} />}
+				element={<CouplesForm {...FriisesConfig} />}
 			/>
 		</Routes>
 	);
