@@ -55,7 +55,6 @@ export default function CouplesForm({
 }: ICoupleConfig) {
 	const styles = useStyles();
 	const navigate = useNavigate();
-	// const dispatch = useAuthDispatch();
 	const [loading, setLoading] = useState(false);
 	const [address, setAddress] = useState('1294 Heritage Road');
 	const [emailAddress, setEmailAddress] = useState('');
@@ -81,7 +80,7 @@ export default function CouplesForm({
 	const handleSubmitRSVP = async () => {
 		setLoading(true);
 		axios
-			.post(`/api/guests/option`, confirmedGuests)
+			.post('/api/guests/option', confirmedGuests)
 			.then((res) => {
 				console.log(res.data);
 				setGuests(res.data.guestInfo);

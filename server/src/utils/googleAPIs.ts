@@ -12,46 +12,33 @@ interface IGetRow {
 }
 
 interface IAddRow {
-	doc: GoogleSpreadsheet;
-	rowData: string[];
-	sheetIndex: number;
+	sheet: GoogleSpreadsheetWorksheet;
+	rowData: any;
 }
 
 /**
- * Connects to Google Spreadsheet
+ * Creates a Google Spreadsheet Instance
  * @param sheetId Google Spreadsheet ID
- * @returns First worksheet in Google Spreadsheet
+ * @returns
  */
-export async function generateGoogleSpreadsheetInstance(sheetId: string) {
+export async function generateGoogleSpreadsheetInstance(
+	sheetId: string,
+	title: string
+) {
 	const doc = new GoogleSpreadsheet(sheetId);
 	await doc.useServiceAccountAuth({
 		client_email: googleConfig.clientEmail,
 		private_key: googleConfig.privateKey,
 	});
 	await doc.loadInfo();
-	const sheet = doc.sheetsByIndex[0];
+	let sheet = doc.sheetsByTitle[title];
+
+	if (!sheet) {
+		sheet = await doc.addSheet({ title: 'Guest Food Options' });
+		await sheet.setHeaderRow(['guestName', 'foodSelection']);
+	}
 
 	return sheet;
-}
-
-export async function addDataToGoogleSpreadsheet({
-	doc,
-	rowData,
-	sheetIndex = 0,
-}: IAddRow) {
-	console.log(doc, rowData, sheetIndex);
-
-	// const headers = Object.keys(rowData[0]);
-	// let sheet = doc.sheetsByIndex[sheetIndex];
-	// if (!sheet) {
-	// 	// Create sheet
-	// 	sheet = await doc.addSheet();
-	// 	if (sheet.columnCount < headers.length) {
-	// 		await sheet.resize({ rowCount: 1000, columnCount: headers.length });
-	// 	}
-	// }
-	// await sheet.setHeaderRow(headers);
-	// await sheet.addRows(rowData);
 }
 
 /**
@@ -94,10 +81,8 @@ async function formatRow(row: GoogleSpreadsheetRow | undefined) {
 		}
 	}
 
-	return {
-		...modifiedRow,
-		names,
-	};
+	if (names.length === 0) return { ...modifiedRow };
+	return { ...modifiedRow, names };
 }
 
 /**
@@ -111,4 +96,25 @@ export async function getRow({ sheet, header, value }: IGetRow) {
 	const result = rows.find((row) => row[header] === value);
 
 	return formatRow(result);
+}
+
+export async function addDataToGoogleSpreadsheet({ sheet, rowData }: IAddRow) {
+	// checking if row already exists
+	rowData.forEach(async (guest: any) => {
+		const foundGuest = await getRow({
+			sheet,
+			header: 'guestName',
+			value: guest.guestName,
+		});
+
+		console.log(guest, foundGuest);
+
+		// if guest does not exist
+		if (Object.keys(foundGuest).length === 0) await sheet.addRows([guest]);
+		else {
+			// foundGuest = guest;
+			// await foundGuest.save();
+			console.log('Update guest');
+		}
+	});
 }
