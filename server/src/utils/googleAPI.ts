@@ -58,5 +58,16 @@ export async function getData({
 }
 
 export function filterData(data: any, header: string, value: string) {
-	return data.filter((obj: any) => obj[header] === value);
+	const foundGuest = data.find((obj: any) => obj[header] === value);
+	if (!foundGuest) return null;
+
+	const names = Object.entries(foundGuest).reduce((acc: any, [p, v]) => {
+		if (p.includes('name') && v !== '') acc.push(v);
+		return acc;
+	}, []);
+
+	return {
+		...foundGuest,
+		names,
+	};
 }

@@ -69,6 +69,8 @@ export default function CouplesForm({
 		axios
 			.get(`/api/guests/${address}`)
 			.then((res) => {
+				console.log(res.data);
+
 				setGuests(res.data.guestInfo);
 				setLoading(false);
 			})
