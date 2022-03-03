@@ -16,7 +16,7 @@ export interface IGuests {
 	name_3: string;
 	name_4: string;
 	names: string[];
-	envolope: string;
+	envelope: string;
 }
 
 export interface IConfirmedGuest {

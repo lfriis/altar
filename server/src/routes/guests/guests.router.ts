@@ -2,12 +2,8 @@
  * ? Required External Modules and Interfaces
  */
 import express, { Request, Response } from 'express';
-import {
-	generateGoogleSpreadsheetInstance,
-	getRow,
-	addDataToGoogleSpreadsheet,
-} from '../../utils/googleAPIs';
 import googleConfig from '../../config/googleAPI';
+import { GoogleSheetsService } from '../../utils';
 
 export const guestsRouter = express.Router();
 export default guestsRouter;
@@ -18,37 +14,52 @@ export default guestsRouter;
 guestsRouter.get('/:address', async (req: Request, res: Response) => {
 	const { address } = req.params;
 	try {
-		const sheet = await generateGoogleSpreadsheetInstance(
-			googleConfig.sheetId,
-			'Guest List'
+		const authClientObject = await GoogleSheetsService.authenticate();
+		const googleSheetsInstance = await GoogleSheetsService.generateInstance(
+			authClientObject
 		);
-		const guestInfo = await getRow({
-			sheet,
-			header: 'address',
-			value: address,
+
+		const sheetsData = await GoogleSheetsService.getData({
+			auth: authClientObject,
+			googleSheetsInstance,
+			spreadsheetId: googleConfig.sheetId,
+			sheetName: 'Guest List',
+			range: 'A:J',
 		});
+
+		const guestInfo = GoogleSheetsService.filterData(
+			sheetsData,
+			'address',
+			address
+		);
 
 		return res
 			.status(200)
 			.json({ message: 'Retrieved Guest Information', guestInfo });
 	} catch (e) {
+		console.log(e);
 		return res.status(401).json({ e });
 	}
 });
 
 guestsRouter.post('/option', async (req: Request, res: Response) => {
-	const confirmedGuests = req.body;
+	// const confirmedGuests = req.body;
 
 	try {
-		const sheet = await generateGoogleSpreadsheetInstance(
-			googleConfig.sheetId,
-			'Guest Food Options'
-		);
+		// const authClientObject = await GoogleSheetsService.authenticate();
+		// const googleSheetsInstance = await GoogleSheetsService.generateInstance(
+		// 	authClientObject
+		// );
 
-		await addDataToGoogleSpreadsheet({
-			sheet,
-			rowData: confirmedGuests,
-		});
+		// const sheetsData = await GoogleSheetsService.getData({
+		// 	auth: authClientObject,
+		// 	googleSheetsInstance,
+		// 	spreadsheetId: googleConfig.sheetId,
+		// 	sheetName: 'Guest Food Options',
+		// 	range: 'A:B',
+		// });
+
+		// create function to update row
 
 		return res.status(200).json({ message: 'Retrieved Guest Information' });
 	} catch (e) {
