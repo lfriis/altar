@@ -11,7 +11,11 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import { LoadingButton, FoodOptionSelect } from '../../components';
+import {
+	LoadingButton,
+	FoodOptionSelect,
+	HorizontalStepperWithError,
+} from '../../components';
 import { IGuests, IConfirmedGuest, ICoupleConfig } from './index';
 
 const useStyles = makeStyles(() => ({
@@ -69,8 +73,6 @@ export default function CouplesForm({
 		axios
 			.get(`/api/guests/${address}`)
 			.then((res) => {
-				console.log(res.data);
-
 				setGuests(res.data.guestInfo);
 				setLoading(false);
 			})
@@ -112,6 +114,8 @@ export default function CouplesForm({
 			>
 				{coupleInitials}
 			</Avatar>
+
+			<HorizontalStepperWithError />
 
 			<Typography className={styles.title}>{coupleName}</Typography>
 			<Paper className={styles.form}>

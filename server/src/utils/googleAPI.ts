@@ -1,9 +1,9 @@
 /* eslint-disable camelcase */
 import { google, sheets_v4 } from 'googleapis';
-
 import path from 'path';
+import { GuestFoodSelection } from '../routes/guests/guests.interface';
 
-interface GoogleSheetsData {
+interface GetGoogleSheetsData {
 	auth: any;
 	googleSheetsInstance: sheets_v4.Sheets;
 	spreadsheetId: string;
@@ -11,16 +11,20 @@ interface GoogleSheetsData {
 	range: string;
 }
 
+interface AddGoogleSheetsData extends GetGoogleSheetsData {
+	values: GuestFoodSelection[];
+}
+
 function formatData(data: any) {
 	const headers: string[] = data.shift();
 
-	return headers.map((prop: string, i: number) => {
+	return data.map((row: string[]) => {
 		let tempObj = {};
 
-		data[i].forEach((value: string, j: number) => {
+		row.forEach((value: string, j: number) => {
 			tempObj = {
 				...tempObj,
-				[headers[j]]: value,
+				[headers[j]]: value.trim(),
 			};
 		});
 
@@ -47,7 +51,7 @@ export async function getData({
 	spreadsheetId,
 	sheetName,
 	range,
-}: GoogleSheetsData) {
+}: GetGoogleSheetsData) {
 	const { data } = await googleSheetsInstance.spreadsheets.values.get({
 		auth,
 		spreadsheetId,
@@ -55,6 +59,50 @@ export async function getData({
 	});
 
 	return formatData(data.values);
+}
+
+export async function addData({
+	auth,
+	googleSheetsInstance,
+	spreadsheetId,
+	sheetName,
+	range,
+	values,
+}: AddGoogleSheetsData) {
+	return googleSheetsInstance.spreadsheets.values.append({
+		auth,
+		spreadsheetId,
+		range: `${sheetName}!${range}`,
+		valueInputOption: 'USER_ENTERED',
+		requestBody: {
+			values: values.map((guest: GuestFoodSelection) => [
+				guest.guestName,
+				guest.foodSelection,
+			]),
+		},
+	});
+}
+
+export async function updateData({
+	auth,
+	googleSheetsInstance,
+	spreadsheetId,
+	sheetName,
+	range,
+	values,
+}: AddGoogleSheetsData) {
+	return googleSheetsInstance.spreadsheets.values.append({
+		auth,
+		spreadsheetId,
+		range: `${sheetName}!${range}`,
+		valueInputOption: 'USER_ENTERED',
+		requestBody: {
+			values: values.map((guest: GuestFoodSelection) => [
+				guest.guestName,
+				guest.foodSelection,
+			]),
+		},
+	});
 }
 
 export function filterData(data: any, header: string, value: string) {

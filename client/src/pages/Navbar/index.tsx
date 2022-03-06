@@ -12,7 +12,7 @@ export default function Navbar() {
 				onClick={() => navigate('/')}
 				style={{ marginLeft: 'auto' }}
 			>
-				See samples
+				View schedule
 			</Button>
 		</nav>
 	);

@@ -13,6 +13,8 @@ export default guestsRouter;
  */
 guestsRouter.get('/:address', async (req: Request, res: Response) => {
 	const { address } = req.params;
+
+	console.log({ address });
 	try {
 		const authClientObject = await GoogleSheetsService.authenticate();
 		const googleSheetsInstance = await GoogleSheetsService.generateInstance(
@@ -43,26 +45,27 @@ guestsRouter.get('/:address', async (req: Request, res: Response) => {
 });
 
 guestsRouter.post('/option', async (req: Request, res: Response) => {
-	// const confirmedGuests = req.body;
+	const confirmedGuests = req.body;
 
 	try {
-		// const authClientObject = await GoogleSheetsService.authenticate();
-		// const googleSheetsInstance = await GoogleSheetsService.generateInstance(
-		// 	authClientObject
-		// );
+		const authClientObject = await GoogleSheetsService.authenticate();
+		const googleSheetsInstance = await GoogleSheetsService.generateInstance(
+			authClientObject
+		);
 
-		// const sheetsData = await GoogleSheetsService.getData({
-		// 	auth: authClientObject,
-		// 	googleSheetsInstance,
-		// 	spreadsheetId: googleConfig.sheetId,
-		// 	sheetName: 'Guest Food Options',
-		// 	range: 'A:B',
-		// });
-
-		// create function to update row
+		await GoogleSheetsService.addData({
+			auth: authClientObject,
+			googleSheetsInstance,
+			spreadsheetId: googleConfig.sheetId,
+			sheetName: 'Guest Food Options',
+			range: 'A:B',
+			values: confirmedGuests,
+		});
 
 		return res.status(200).json({ message: 'Retrieved Guest Information' });
 	} catch (e) {
+		console.log(e);
+
 		return res.status(401).json({ e });
 	}
 });
