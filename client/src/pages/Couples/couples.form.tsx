@@ -11,11 +11,7 @@ import {
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import {
-	LoadingButton,
-	FoodOptionSelect,
-	HorizontalStepperWithError,
-} from '../../components';
+import { LoadingButton, FoodOptionSelect, Stepper } from '../../components';
 import { IGuests, IConfirmedGuest, ICoupleConfig } from './index';
 
 const useStyles = makeStyles(() => ({
@@ -115,8 +111,6 @@ export default function CouplesForm({
 				{coupleInitials}
 			</Avatar>
 
-			<HorizontalStepperWithError />
-
 			<Typography className={styles.title}>{coupleName}</Typography>
 			<Paper className={styles.form}>
 				<FormControl variant="standard">
@@ -171,6 +165,10 @@ export default function CouplesForm({
 					</Button>
 				</Paper>
 			)}
+
+			<br />
+			<br />
+			<Stepper />
 		</form>
 	);
 }

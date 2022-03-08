@@ -21,7 +21,7 @@ export default function GuestConfirmFoodOption({
 	handleSetConfirmedGuest,
 	options,
 }: IProps) {
-	const [foodSelection, setFoodSelection] = useState<Nullable<string>>(null);
+	const [foodSelection, setFoodSelection] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (!foodSelection) return;
