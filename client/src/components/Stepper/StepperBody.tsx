@@ -1,20 +1,18 @@
 import React from 'react';
-import { Steps } from './Stepper';
+import { Step } from '../../interfaces/Step';
 
-export interface Stepper {
-	steps: Steps[];
-	activeStep: number;
-}
+export default function StepperBody({ step }: { step: Step }) {
+	const { label, description, component: StepComponent } = step;
 
-export default function StepperBody({ steps, activeStep }: Stepper) {
 	return (
 		<div>
-			{steps[activeStep].label}
+			{label}
 
 			<br />
 			<br />
+			{description}
 
-			{steps[activeStep].description}
+			<StepComponent />
 		</div>
 	);
 }

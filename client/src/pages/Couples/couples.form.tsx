@@ -1,18 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import {
-	Avatar,
-	Typography,
-	Paper,
-	FormControl,
-	Input,
-	InputLabel,
-	Button,
-} from '@mui/material';
+import { Avatar, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
-import { LoadingButton, FoodOptionSelect, Stepper } from '../../components';
-import { IGuests, IConfirmedGuest, ICoupleConfig } from './index';
+import { Stepper } from '../../components';
+import { CoupleConfig } from '../../interfaces';
+import { useSetGuests } from '../../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -51,55 +44,56 @@ const useStyles = makeStyles(() => ({
 export default function CouplesForm({
 	coupleName,
 	coupleInitials,
-	foodOptions,
-}: ICoupleConfig) {
+}: CoupleConfig) {
 	const styles = useStyles();
 	const navigate = useNavigate();
-	const [loading, setLoading] = useState(false);
-	const [address, setAddress] = useState('1294 Heritage Road');
-	const [emailAddress, setEmailAddress] = useState('');
-	const [guests, setGuests] = useState<IGuests>();
-	const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>(
-		[]
-	);
+	const setGuests = useSetGuests();
+	// const [emailAddress, setEmailAddress] = useState('');
+	// const [guests, setGuests] = useState<IGuests>();
+	// const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>(
+	// 	[]
+	// );
 
-	const handleSearchSheet = async () => {
-		setLoading(true);
+	const handleRetrieveGuestInfo = async () => {
+		const address = '1294%20Heritage%20Road';
 
 		axios
 			.get(`/api/guests/${address}`)
 			.then((res) => {
 				setGuests(res.data.guestInfo);
-				setLoading(false);
-			})
-			.catch(() => {
-				setLoading(false);
-			});
-	};
-
-	const handleSubmitRSVP = async () => {
-		setLoading(true);
-		axios
-			.post('/api/guests/option', confirmedGuests)
-			.then((res) => {
-				console.log(res.data);
-				setGuests(res.data.guestInfo);
-				setLoading(false);
 			})
 			.catch((e) => {
 				console.log(e);
-				setLoading(false);
 			});
 	};
 
-	const handleSetConfirmedGuest = (
-		confirmedGuestSelection: IConfirmedGuest
-	) => {
-		const filteredDuplicates = confirmedGuests.filter(
-			(guest) => guest.guestName !== confirmedGuestSelection.guestName
-		);
-		setConfirmedGuests([...filteredDuplicates, confirmedGuestSelection]);
-	};
+	// const handleSubmitRSVP = async () => {
+	// 	setLoading(true);
+	// 	axios
+	// 		.post('/api/guests/option', confirmedGuests)
+	// 		.then((res) => {
+	// 			console.log(res.data);
+	// 			setGuests(res.data.guestInfo);
+	// 			setLoading(false);
+	// 		})
+	// 		.catch((e) => {
+	// 			console.log(e);
+	// 			setLoading(false);
+	// 		});
+	// };
+
+	// const handleSetConfirmedGuest = (
+	// 	confirmedGuestSelection: IConfirmedGuest
+	// ) => {
+	// 	const filteredDuplicates = confirmedGuests.filter(
+	// 		(guest) => guest.guestName !== confirmedGuestSelection.guestName
+	// 	);
+	// 	setConfirmedGuests([...filteredDuplicates, confirmedGuestSelection]);
+	// };
+
+	useEffect(() => {
+		handleRetrieveGuestInfo();
+	}, []);
 
 	return (
 		<form className={styles.form}>
@@ -112,16 +106,16 @@ export default function CouplesForm({
 			</Avatar>
 
 			<Typography className={styles.title}>{coupleName}</Typography>
-			<Paper className={styles.form}>
+			{/* <Paper className={styles.form}>
 				<FormControl variant="standard">
-					<InputLabel color="secondary" htmlFor="input-field-address">
-						Please enter your address
-					</InputLabel>
-					<Input
-						color="secondary"
-						id="input-field-address"
-						disabled={loading}
-						value={address}
+				<InputLabel color="secondary" htmlFor="input-field-address">
+				Please enter your address
+				</InputLabel>
+				<Input
+				color="secondary"
+				id="input-field-address"
+				disabled={loading}
+				value={address}
 						onChange={(e) => setAddress(e.target.value)}
 						autoComplete="address"
 						type="text"
@@ -130,8 +124,8 @@ export default function CouplesForm({
 				<LoadingButton loading={loading} onClick={handleSearchSheet}>
 					{loading ? 'Searching...' : 'Search Guests'}
 				</LoadingButton>
-			</Paper>
-			{guests?.names && (
+			</Paper> */}
+			{/* {guests?.names && (
 				<Paper className={styles.form}>
 					<h4>Select a food option per guest</h4>
 					{guests.names.map((guest) => (
@@ -164,7 +158,7 @@ export default function CouplesForm({
 						Submit RSVP
 					</Button>
 				</Paper>
-			)}
+			)} */}
 
 			<br />
 			<br />

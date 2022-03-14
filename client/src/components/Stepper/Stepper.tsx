@@ -7,34 +7,34 @@ import {
 	Check,
 } from '@mui/icons-material';
 import { useActiveStep, useSetNextStep, useSetPreviousStep } from '../../store';
-import StepperBody from './StepperBody';
+import { Step } from '../../interfaces';
+import { ConfirmationStep, FoodSelectionStep } from './Steps';
+import ActiveStep from './StepperBody';
 
-export interface Steps {
-	label: string;
-	description: string;
-	completed: boolean;
-}
-
-const steps = [
+const steps: Step[] = [
 	{
 		label: 'Guest Confirmation',
 		description: 'Guest confirmation description',
 		completed: false,
+		component: ConfirmationStep,
 	},
 	{
 		label: 'Select food option',
 		description: 'Select food description',
 		completed: false,
+		component: FoodSelectionStep,
 	},
 	{
 		label: 'Enter email address',
 		description: 'Email address description',
 		completed: false,
+		component: ConfirmationStep,
 	},
 	{
 		label: 'Completed',
 		description: '',
 		completed: false,
+		component: ConfirmationStep,
 	},
 ];
 
@@ -75,7 +75,7 @@ export default function Stepper() {
 					</Button>
 				}
 			/>
-			<StepperBody steps={steps} activeStep={activeStep} />
+			<ActiveStep step={steps[activeStep]} />
 		</>
 	);
 }
