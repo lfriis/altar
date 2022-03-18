@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {
 	FormControl,
-	TextField,
 	Select,
 	MenuItem,
 	InputLabel,
@@ -29,14 +28,19 @@ export default function GuestConfirmFoodOption({
 	}, [foodSelection]);
 
 	return (
-		<div style={{ display: 'flex', alignItems: 'center' }}>
-			<FormControl>
-				<TextField variant="outlined" value={guestName} disabled />
-			</FormControl>
+		<div
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+			}}
+		>
+			<h4>{guestName}</h4>
+
 			<FormControl>
 				<InputLabel id="guest-food-option">Food Option</InputLabel>
 
 				<Select
+					style={{ maxWidth: '300px' }}
 					labelId="guest-food-option"
 					onChange={(e: SelectChangeEvent) => {
 						setFoodSelection(e.target.value);
@@ -49,12 +53,6 @@ export default function GuestConfirmFoodOption({
 					))}
 				</Select>
 			</FormControl>
-			{/* <IconButton
-				disabled={selection === null}
-				onClick={() => setConfirmedSelection(!confirmedSelection)}
-			>
-				{confirmedSelection ? <Clear /> : <Check />}
-			</IconButton> */}
 		</div>
 	);
 }

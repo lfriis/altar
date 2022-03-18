@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Paper } from '@mui/material';
 import { useGuests } from '../../../store';
 import { ConfirmedGuest } from '../../../interfaces';
 import { FoodOptionSelect } from '../..';
@@ -21,8 +20,7 @@ export default function FoodSelectionStep() {
 	};
 
 	return (
-		<Paper>
-			<h4>Select a food option per guest</h4>
+		<div>
 			{guests &&
 				guests.names.map((guest) => (
 					<FoodOptionSelect
@@ -32,6 +30,6 @@ export default function FoodSelectionStep() {
 						options={config.foodOptions}
 					/>
 				))}
-		</Paper>
+		</div>
 	);
 }

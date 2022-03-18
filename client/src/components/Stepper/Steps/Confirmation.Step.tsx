@@ -1,32 +1,64 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import {
+	FormGroup,
+	FormControlLabel,
+	Checkbox,
+	IconButton,
+} from '@mui/material';
+import { Cancel, CancelOutlined, PlusOne } from '@mui/icons-material';
 import { useGuests } from '../../../store';
 
 export default function ConfirmationStep() {
 	const guests = useGuests();
-	const [confirmedGuest, setConfirmedGuest] = useState(false);
+	const [confirmedGuest, setConfirmedGuest] = useState<boolean | null>(null);
 
 	useEffect(() => {
-		console.log(confirmedGuest);
+		console.log('Confirmed: ', confirmedGuest);
 	}, [confirmedGuest]);
 
 	return (
 		<div>
-			{guests ? (
+			{guests &&
 				guests.names.map((guest) => (
-					<div style={{ display: 'flex', alignItems: 'center' }}>
-						<h4>{guest}</h4>
-						<Button onClick={() => setConfirmedGuest(true)}>
-							Im coming
-						</Button>
-						<Button onClick={() => setConfirmedGuest(false)}>
-							Cant come
-						</Button>
-					</div>
-				))
-			) : (
-				<h4>No info on guest</h4>
-			)}
+					<>
+						{guest === 'plus 1' ? (
+							<IconButton>
+								<PlusOne />
+							</IconButton>
+						) : (
+							<h4>{guest}</h4>
+						)}
+
+						<FormGroup>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={confirmedGuest === true}
+										style={{ margin: '0' }}
+										onClick={() => {
+											setConfirmedGuest(true);
+										}}
+									/>
+								}
+								label="Joyfully Accept"
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={confirmedGuest === false}
+										icon={<CancelOutlined />}
+										checkedIcon={<Cancel />}
+										style={{ margin: '0' }}
+										onClick={() => {
+											setConfirmedGuest(false);
+										}}
+									/>
+								}
+								label="Regretfully Decline"
+							/>
+						</FormGroup>
+					</>
+				))}
 		</div>
 	);
 }

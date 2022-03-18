@@ -6,35 +6,36 @@ import {
 	KeyboardArrowRight,
 	Check,
 } from '@mui/icons-material';
-import { useActiveStep, useSetNextStep, useSetPreviousStep } from '../../store';
-import { Step } from '../../interfaces';
-import { ConfirmationStep, FoodSelectionStep } from './Steps';
 import ActiveStep from './StepperBody';
+import {
+	ConfirmationStep,
+	FoodSelectionStep,
+	EmailAddressStep,
+	SummaryStep,
+} from './Steps';
+import { Step } from '../../interfaces';
+import { useActiveStep, useSetNextStep, useSetPreviousStep } from '../../store';
 
 const steps: Step[] = [
 	{
-		label: 'Guest Confirmation',
-		description: 'Guest confirmation description',
+		label: 'Please kindly respond by the first of April',
 		completed: false,
 		component: ConfirmationStep,
 	},
 	{
 		label: 'Select food option',
-		description: 'Select food description',
 		completed: false,
 		component: FoodSelectionStep,
 	},
 	{
 		label: 'Enter email address',
-		description: 'Email address description',
 		completed: false,
-		component: ConfirmationStep,
+		component: EmailAddressStep,
 	},
 	{
-		label: 'Completed',
-		description: '',
+		label: 'Display links and what was confirmed',
 		completed: false,
-		component: ConfirmationStep,
+		component: SummaryStep,
 	},
 ];
 
@@ -44,13 +45,18 @@ export default function Stepper() {
 	const setPreviousStep = useSetPreviousStep();
 
 	return (
-		<>
+		<div
+			style={{
+				width: '500px',
+			}}
+		>
+			<ActiveStep step={steps[activeStep]} />
 			<MobileStepper
 				variant="progress"
 				steps={steps.length}
 				position="static"
 				activeStep={activeStep}
-				sx={{ width: 800, maxWidth: 400, flexGrow: 1 }}
+				sx={{ width: 800, maxWidth: 500, flexGrow: 1 }}
 				nextButton={
 					activeStep === 3 ? (
 						<Button>
@@ -75,7 +81,6 @@ export default function Stepper() {
 					</Button>
 				}
 			/>
-			<ActiveStep step={steps[activeStep]} />
-		</>
+		</div>
 	);
 }

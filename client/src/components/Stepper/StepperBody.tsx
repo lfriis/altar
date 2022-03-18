@@ -2,17 +2,14 @@ import React from 'react';
 import { Step } from '../../interfaces/Step';
 
 export default function StepperBody({ step }: { step: Step }) {
-	const { label, description, component: StepComponent } = step;
+	const { label, component: StepComponent } = step;
 
 	return (
-		<div>
-			{label}
-
-			<br />
-			<br />
-			{description}
-
+		<>
+			<div>
+				<h4>{label}</h4>
+			</div>
 			<StepComponent />
-		</div>
+		</>
 	);
 }
