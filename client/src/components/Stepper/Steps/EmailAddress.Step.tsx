@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { FormControl, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
+import styles from '../Stepper.module.css';
 
 export default function EmailAddressStep() {
 	const [email, setEmail] = useState('');
@@ -17,31 +18,29 @@ export default function EmailAddressStep() {
 	};
 
 	return (
-		<div>
-			<FormControl>
-				<TextField
-					type="email"
-					label="Email Address"
-					variant="outlined"
-					size="small"
-					value={email}
-					fullWidth
-					onChange={(e) => {
-						setEmail(e.target.value);
-						validateEmail(e.target.value, false);
-					}}
-					onBlur={(e) => {
-						if (e.target.value.length > 0) {
-							validateEmail(e.target.value, true);
-						}
-					}}
-					autoFocus
-					helperText={
-						!emailValidated && 'Please enter a valid email address.'
+		<div className={styles.step_container}>
+			<TextField
+				style={{ margin: '0' }}
+				type="email"
+				label="Email Address"
+				variant="outlined"
+				value={email}
+				fullWidth
+				onChange={(e) => {
+					setEmail(e.target.value);
+					validateEmail(e.target.value, false);
+				}}
+				onBlur={(e) => {
+					if (e.target.value.length > 0) {
+						validateEmail(e.target.value, true);
 					}
-					error={!emailValidated}
-				/>
-			</FormControl>
+				}}
+				autoFocus
+				error={!emailValidated}
+				helperText={
+					!emailValidated && 'Please enter a valid email address.'
+				}
+			/>
 		</div>
 	);
 }

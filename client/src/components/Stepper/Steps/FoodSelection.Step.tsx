@@ -3,6 +3,7 @@ import { useGuests } from '../../../store';
 import { ConfirmedGuest } from '../../../interfaces';
 import { FoodOptionSelect } from '../..';
 import config from '../../../pages/Couples/Friises';
+import styles from '../Stepper.module.css';
 
 export default function FoodSelectionStep() {
 	const guests = useGuests();
@@ -23,12 +24,16 @@ export default function FoodSelectionStep() {
 		<div>
 			{guests &&
 				guests.names.map((guest) => (
-					<FoodOptionSelect
-						key={guest}
-						guestName={guest}
-						handleSetConfirmedGuest={handleSetConfirmedGuest}
-						options={config.foodOptions}
-					/>
+					<div className={styles.step_container}>
+						<h4 className={styles.guest_label}>{guest}</h4>
+
+						<FoodOptionSelect
+							key={guest}
+							guestName={guest}
+							handleSetConfirmedGuest={handleSetConfirmedGuest}
+							options={config.foodOptions}
+						/>
+					</div>
 				))}
 		</div>
 	);

@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { MobileStepper, Button } from '@mui/material';
+import { MobileStepper, Button, Paper } from '@mui/material';
 import {
 	KeyboardArrowLeft,
 	KeyboardArrowRight,
@@ -15,6 +15,7 @@ import {
 } from './Steps';
 import { Step } from '../../interfaces';
 import { useActiveStep, useSetNextStep, useSetPreviousStep } from '../../store';
+import styles from './Stepper.module.css';
 
 const steps: Step[] = [
 	{
@@ -45,18 +46,13 @@ export default function Stepper() {
 	const setPreviousStep = useSetPreviousStep();
 
 	return (
-		<div
-			style={{
-				width: '500px',
-			}}
-		>
+		<Paper className={styles.wrapper}>
 			<ActiveStep step={steps[activeStep]} />
 			<MobileStepper
 				variant="progress"
 				steps={steps.length}
 				position="static"
 				activeStep={activeStep}
-				sx={{ width: 800, maxWidth: 500, flexGrow: 1 }}
 				nextButton={
 					activeStep === 3 ? (
 						<Button>
@@ -81,6 +77,6 @@ export default function Stepper() {
 					</Button>
 				}
 			/>
-		</div>
+		</Paper>
 	);
 }

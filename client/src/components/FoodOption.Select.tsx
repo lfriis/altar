@@ -9,7 +9,7 @@ import {
 // import { Check, Clear } from '@mui/icons-material';
 import { IConfirmedGuest } from '../pages/Couples';
 
-interface IProps {
+interface Props {
 	guestName: string;
 	handleSetConfirmedGuest: (arg0: IConfirmedGuest) => void;
 	options: string[];
@@ -19,7 +19,7 @@ export default function GuestConfirmFoodOption({
 	guestName,
 	handleSetConfirmedGuest,
 	options,
-}: IProps) {
+}: Props) {
 	const [foodSelection, setFoodSelection] = useState<string | null>(null);
 
 	useEffect(() => {
@@ -28,31 +28,21 @@ export default function GuestConfirmFoodOption({
 	}, [foodSelection]);
 
 	return (
-		<div
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-			}}
-		>
-			<h4>{guestName}</h4>
+		<FormControl>
+			<InputLabel>Food Option</InputLabel>
 
-			<FormControl>
-				<InputLabel id="guest-food-option">Food Option</InputLabel>
-
-				<Select
-					style={{ maxWidth: '300px' }}
-					labelId="guest-food-option"
-					onChange={(e: SelectChangeEvent) => {
-						setFoodSelection(e.target.value);
-					}}
-				>
-					{options.map((option) => (
-						<MenuItem key={option} value={option}>
-							{option}
-						</MenuItem>
-					))}
-				</Select>
-			</FormControl>
-		</div>
+			<Select
+				variant="outlined"
+				onChange={(e: SelectChangeEvent) => {
+					setFoodSelection(e.target.value);
+				}}
+			>
+				{options.map((option) => (
+					<MenuItem key={option} value={option}>
+						{option}
+					</MenuItem>
+				))}
+			</Select>
+		</FormControl>
 	);
 }

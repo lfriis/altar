@@ -1,0 +1,20 @@
+.wrapper {
+	padding: 20px 30px 0px 30px;
+	width: 100%;
+	max-width: 600px;
+}
+
+.step_container {
+	display: flex;
+	justify-content: space-between;
+}
+
+.guest_name {
+	margin-top: 9px;
+}
+
+.guest_label {
+	width: 180px;
+	clear: left;
+	padding-right: 10px;
+}

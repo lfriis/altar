@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
 import { Avatar, Typography } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
 import { makeStyles } from '@mui/styles';
 import { Stepper } from '../../components';
 import { CoupleConfig } from '../../interfaces';
@@ -46,17 +45,13 @@ export default function CouplesForm({
 	coupleInitials,
 }: CoupleConfig) {
 	const styles = useStyles();
-	const navigate = useNavigate();
 	const setGuests = useSetGuests();
 	// const [emailAddress, setEmailAddress] = useState('');
 	// const [guests, setGuests] = useState<IGuests>();
-	// const [confirmedGuests, setConfirmedGuests] = useState<IConfirmedGuest[]>(
-	// 	[]
-	// );
 
 	const handleRetrieveGuestInfo = async () => {
-		// const address = '1294%20Heritage%20Road';
-		const address = '5%20Buona%20Vista%20Drive';
+		const address = '1294%20Heritage%20Road';
+		// const address = '5%20Buona%20Vista%20Drive';
 
 		axios
 			.get(`/api/guests/${address}`)
@@ -83,86 +78,17 @@ export default function CouplesForm({
 	// 		});
 	// };
 
-	// const handleSetConfirmedGuest = (
-	// 	confirmedGuestSelection: IConfirmedGuest
-	// ) => {
-	// 	const filteredDuplicates = confirmedGuests.filter(
-	// 		(guest) => guest.guestName !== confirmedGuestSelection.guestName
-	// 	);
-	// 	setConfirmedGuests([...filteredDuplicates, confirmedGuestSelection]);
-	// };
-
 	useEffect(() => {
 		handleRetrieveGuestInfo();
 	}, []);
 
 	return (
 		<form className={styles.form}>
-			<Avatar
-				className={styles.avatar}
-				alt="logo"
-				onClick={() => navigate('/')}
-			>
+			<Avatar className={styles.avatar} alt="logo">
 				{coupleInitials}
 			</Avatar>
 
 			<Typography className={styles.title}>{coupleName}</Typography>
-			{/* <Paper className={styles.form}>
-				<FormControl variant="standard">
-				<InputLabel color="secondary" htmlFor="input-field-address">
-				Please enter your address
-				</InputLabel>
-				<Input
-				color="secondary"
-				id="input-field-address"
-				disabled={loading}
-				value={address}
-						onChange={(e) => setAddress(e.target.value)}
-						autoComplete="address"
-						type="text"
-					/>
-				</FormControl>
-				<LoadingButton loading={loading} onClick={handleSearchSheet}>
-					{loading ? 'Searching...' : 'Search Guests'}
-				</LoadingButton>
-			</Paper> */}
-			{/* {guests?.names && (
-				<Paper className={styles.form}>
-					<h4>Select a food option per guest</h4>
-					{guests.names.map((guest) => (
-						<FoodOptionSelect
-							key={guest}
-							guestName={guest}
-							handleSetConfirmedGuest={handleSetConfirmedGuest}
-							options={foodOptions}
-						/>
-					))}
-					<FormControl variant="standard">
-						<InputLabel
-							color="secondary"
-							htmlFor="input-field-emailAddress"
-						>
-							Please enter one email address
-						</InputLabel>
-						<Input
-							color="secondary"
-							id="input-field-emailAddress"
-							disabled={loading}
-							value={emailAddress}
-							onChange={(e) => setEmailAddress(e.target.value)}
-							autoComplete="email"
-							type="text"
-						/>
-					</FormControl>
-
-					<Button variant="contained" onClick={handleSubmitRSVP}>
-						Submit RSVP
-					</Button>
-				</Paper>
-			)} */}
-
-			<br />
-			<br />
 			<Stepper />
 		</form>
 	);
