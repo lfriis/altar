@@ -4,7 +4,7 @@ import styles from '../Stepper.module.css';
 
 export default function EmailAddressStep() {
 	const [email, setEmail] = useState('');
-	const [emailValidated, setEmailValidated] = useState(false);
+	const [emailValidated, setEmailValidated] = useState(true);
 
 	const validateEmail = (_email: string, setError: boolean) => {
 		const emailPattern =

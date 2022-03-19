@@ -22,10 +22,10 @@ export default function ConfirmationStep() {
 		<div>
 			{guests &&
 				guests.names.map((guest) => (
-					<div className={styles.step_container}>
+					<div key={guest} className={styles.step_container}>
 						<h4 className={styles.guest_name}>{guest}</h4>
 
-						<ConfirmToggle key={guest} />
+						<ConfirmToggle />
 					</div>
 				))}
 		</div>
