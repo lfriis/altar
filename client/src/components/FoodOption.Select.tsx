@@ -1,40 +1,38 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
 	FormControl,
-	Select,
 	MenuItem,
-	InputLabel,
-	SelectChangeEvent,
+	TextField,
+	Checkbox,
+	FormControlLabel,
+	Accordion,
+	AccordionSummary,
+	AccordionDetails,
+	Typography,
 } from '@mui/material';
-// import { Check, Clear } from '@mui/icons-material';
-import { IConfirmedGuest } from '../pages/Couples';
+import { ExpandMore } from '@mui/icons-material';
+import { Guest } from '../interfaces';
+import { useSetUpdatedGuest } from '../store';
 
 interface Props {
-	guestName: string;
-	handleSetConfirmedGuest: (arg0: IConfirmedGuest) => void;
+	guest: Guest;
 	options: string[];
 }
 
-export default function GuestConfirmFoodOption({
-	guestName,
-	handleSetConfirmedGuest,
-	options,
-}: Props) {
-	const [foodSelection, setFoodSelection] = useState<string | null>(null);
-
-	useEffect(() => {
-		if (!foodSelection) return;
-		handleSetConfirmedGuest({ guestName, foodSelection });
-	}, [foodSelection]);
+export default function GuestConfirmFoodOption({ guest, options }: Props) {
+	const setUpdatedGuest = useSetUpdatedGuest();
 
 	return (
 		<FormControl>
-			<InputLabel>Food Option</InputLabel>
-
-			<Select
+			<TextField
+				select
+				label="Food Option"
+				value={guest.foodOption?.main ? guest.foodOption.main : ''}
 				variant="outlined"
-				onChange={(e: SelectChangeEvent) => {
-					setFoodSelection(e.target.value);
+				onChange={(e) => {
+					const editedGuest = guest.clone();
+					editedGuest.foodOption.main = e.target.value;
+					setUpdatedGuest(editedGuest);
 				}}
 			>
 				{options.map((option) => (
@@ -42,7 +40,55 @@ export default function GuestConfirmFoodOption({
 						{option}
 					</MenuItem>
 				))}
-			</Select>
+			</TextField>
+
+			<Accordion className="accordion-borderless" variant="outlined">
+				<AccordionSummary expandIcon={<ExpandMore />}>
+					<Typography>Any dietary restrictions?</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+					<FormControl>
+						<FormControlLabel
+							control={
+								<Checkbox
+									style={{ margin: '0' }}
+									onChange={(e) => {
+										const editedGuest = guest.clone();
+										editedGuest.foodOption.glutenFree =
+											e.target.checked;
+										setUpdatedGuest(editedGuest);
+									}}
+								/>
+							}
+							label="Gluten Free"
+						/>
+						<FormControlLabel
+							control={
+								<Checkbox
+									style={{ margin: '0' }}
+									onChange={(e) => {
+										const editedGuest = guest.clone();
+										editedGuest.foodOption.vegan =
+											e.target.checked;
+										setUpdatedGuest(editedGuest);
+									}}
+								/>
+							}
+							label="Vegan"
+						/>
+						<TextField
+							label="Other"
+							variant="standard"
+							size="small"
+							onChange={(e) => {
+								const editedGuest = guest.clone();
+								editedGuest.foodOption.other = e.target.value;
+								setUpdatedGuest(editedGuest);
+							}}
+						/>
+					</FormControl>
+				</AccordionDetails>
+			</Accordion>
 		</FormControl>
 	);
 }

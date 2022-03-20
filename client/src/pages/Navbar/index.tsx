@@ -1,18 +1,19 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useGuests, useGuestInfo } from '../../store';
 
 export default function Navbar() {
-	const navigate = useNavigate();
+	const guests = useGuests();
+	const guestInfo = useGuestInfo();
 
 	return (
 		<nav className="navbar">
 			<Button
 				variant="contained"
-				onClick={() => navigate('/')}
+				onClick={() => console.log({ guests, guestInfo })}
 				style={{ marginLeft: 'auto' }}
 			>
-				View schedule
+				View store
 			</Button>
 		</nav>
 	);

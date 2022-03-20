@@ -1,17 +1,28 @@
 import create from 'zustand';
-import { Guest, GuestInfo } from '../interfaces';
+import { Guest, GuestInfo, GoogleSheetGuestInfo } from '../interfaces';
 import { Store } from './store.declarations';
+import updateGuest from './store.services';
 
 export const useStore = create<Store>(
 	(set): Store => ({
-		guests: null,
+		guests: [],
 		guestInfo: null,
 		activeStep: 0,
-		setGuests: (guestInfo: GuestInfo) =>
+		setGuests: (guestInfo: GoogleSheetGuestInfo) =>
 			set((state) => ({
 				...state,
-				guestInfo,
+				guestInfo: new GuestInfo(guestInfo),
 				guests: guestInfo.names.map((guest) => new Guest(guest)),
+			})),
+		setUpdatedGuest: (updatedGuest: Guest) =>
+			set((state) => ({
+				...state,
+				guests: updateGuest(state.guests, updatedGuest),
+			})),
+		setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) =>
+			set((state) => ({
+				...state,
+				guestInfo: updatedGuestInfo,
 			})),
 		setNextStep: (activeStep: number) =>
 			set((state) => ({
@@ -30,6 +41,10 @@ export const useStore = create<Store>(
 export const useActiveStep = () => useStore((state) => state.activeStep);
 export const useGuests = () => useStore((state) => state.guests);
 export const useGuestInfo = () => useStore((state) => state.guestInfo);
+export const useSetUpdatedGuest = () =>
+	useStore((state) => state.setUpdatedGuest);
+export const useSetUpdatedGuestInfo = () =>
+	useStore((state) => state.setUpdatedGuestInfo);
 export const useSetGuests = () => useStore((state) => state.setGuests);
 export const useSetNextStep = () => useStore((state) => state.setNextStep);
 export const useSetPreviousStep = () =>

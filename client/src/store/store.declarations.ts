@@ -1,10 +1,12 @@
-import { Guest, GuestInfo } from '../interfaces/Guests';
+import { Guest, GuestInfo, GoogleSheetGuestInfo } from '../interfaces';
 
 export type Store = {
 	guestInfo: GuestInfo | null;
-	guests: Guest[] | null;
+	guests: Guest[];
 	activeStep: number;
-	setGuests: (guestInfo: GuestInfo) => void;
+	setGuests: (guestInfo: GoogleSheetGuestInfo) => void;
+	setUpdatedGuest: (updatedGuest: Guest) => void;
+	setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) => void;
 	setNextStep: (activeStep: number) => void;
 	setPreviousStep: (activeStep: number) => void;
 };

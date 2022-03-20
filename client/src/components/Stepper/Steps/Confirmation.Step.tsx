@@ -25,7 +25,7 @@ export default function ConfirmationStep() {
 					<div key={guest.name} className={styles.step_container}>
 						<h4 className={styles.guest_name}>{guest.name}</h4>
 
-						<ConfirmToggle />
+						<ConfirmToggle guest={guest} />
 					</div>
 				))}
 		</div>

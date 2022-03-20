@@ -1,3 +1,19 @@
 /* 
 	--- MUI OVERRIDES ---
 */
+
+/* Borderless Accordion */
+.accordion-borderless {
+	border: 0px !important;
+	margin: 0px !important;
+}
+
+.accordion-borderless::before {
+	height: 0px !important;
+}
+
+.accordion-borderless > .MuiAccordionSummary-root {
+	display: inline-flex !important;
+	padding: 0px !important;
+	margin: 0px 0px 0px 15px !important;
+}

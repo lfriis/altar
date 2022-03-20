@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { TextField } from '@mui/material';
 import styles from '../Stepper.module.css';
+import { useGuestInfo, useSetUpdatedGuestInfo } from '../../../store';
 
 export default function EmailAddressStep() {
-	const [email, setEmail] = useState('');
+	const guestInfo = useGuestInfo();
+	const updateGuestInfo = useSetUpdatedGuestInfo();
 	const [emailValidated, setEmailValidated] = useState(true);
 
 	const validateEmail = (_email: string, setError: boolean) => {
@@ -24,11 +26,15 @@ export default function EmailAddressStep() {
 				type="email"
 				label="Email Address"
 				variant="outlined"
-				value={email}
+				value={guestInfo?.email ? guestInfo?.email : ''}
 				fullWidth
 				onChange={(e) => {
-					setEmail(e.target.value);
-					validateEmail(e.target.value, false);
+					if (guestInfo) {
+						const editedGuestInfo = guestInfo.clone();
+						editedGuestInfo.email = e.target.value;
+						updateGuestInfo(editedGuestInfo);
+						validateEmail(e.target.value, false);
+					}
 				}}
 				onBlur={(e) => {
 					if (e.target.value.length > 0) {

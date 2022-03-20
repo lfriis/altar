@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { CancelOutlined, Cancel } from '@mui/icons-material';
+import { Guest } from '../interfaces';
+import { useSetUpdatedGuest } from '../store';
 
-export default function ConfirmToggle() {
-	const [confirmedGuest, setConfirmedGuest] = useState<boolean | null>(null);
+export default function ConfirmToggle({ guest }: { guest: Guest }) {
+	const setUpdatedGuest = useSetUpdatedGuest();
 
 	return (
 		<FormGroup>
 			<FormControlLabel
 				control={
 					<Checkbox
-						checked={confirmedGuest === true}
+						checked={guest.confirmed === true}
 						style={{ margin: '0' }}
 						onClick={() => {
-							setConfirmedGuest(true);
+							const editedGuest = guest.clone();
+							editedGuest.confirmed = true;
+							setUpdatedGuest(editedGuest);
 						}}
 					/>
 				}
@@ -22,12 +26,14 @@ export default function ConfirmToggle() {
 			<FormControlLabel
 				control={
 					<Checkbox
-						checked={confirmedGuest === false}
+						checked={guest.confirmed === false}
 						icon={<CancelOutlined />}
 						checkedIcon={<Cancel />}
 						style={{ margin: '0' }}
 						onClick={() => {
-							setConfirmedGuest(false);
+							const editedGuest = guest.clone();
+							editedGuest.confirmed = false;
+							setUpdatedGuest(editedGuest);
 						}}
 					/>
 				}
