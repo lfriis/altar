@@ -23,12 +23,12 @@ export default function FoodSelectionStep() {
 	return (
 		<div>
 			{guests &&
-				guests.names.map((guest) => (
-					<div className={styles.step_container} key={guest}>
-						<h4 className={styles.guest_label}>{guest}</h4>
+				guests.map((guest) => (
+					<div className={styles.step_container} key={guest.name}>
+						<h4 className={styles.guest_label}>{guest.name}</h4>
 
 						<FoodOptionSelect
-							guestName={guest}
+							guestName={guest.name}
 							handleSetConfirmedGuest={handleSetConfirmedGuest}
 							options={config.foodOptions}
 						/>

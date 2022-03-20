@@ -60,7 +60,7 @@ export default function Stepper() {
 				position="static"
 				activeStep={activeStep}
 				nextButton={
-					activeStep === 3 ? (
+					activeStep === 4 ? (
 						<Button>
 							Done
 							<Check />

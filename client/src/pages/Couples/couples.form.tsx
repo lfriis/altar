@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Avatar, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Stepper } from '../../components';
+import { Stepper, StepperSkeleton } from '../../components';
 import { CoupleConfig } from '../../interfaces';
 import { useSetGuests } from '../../store';
 
@@ -46,10 +46,12 @@ export default function CouplesForm({
 }: CoupleConfig) {
 	const styles = useStyles();
 	const setGuests = useSetGuests();
+	const [loading, setLoading] = useState(false);
 	// const [emailAddress, setEmailAddress] = useState('');
 	// const [guests, setGuests] = useState<IGuests>();
 
 	const handleRetrieveGuestInfo = async () => {
+		setLoading(true);
 		const address = '1294%20Heritage%20Road';
 		// const address = '5%20Buona%20Vista%20Drive';
 
@@ -60,7 +62,8 @@ export default function CouplesForm({
 			})
 			.catch((e) => {
 				console.log(e);
-			});
+			})
+			.finally(() => setLoading(false));
 	};
 
 	// const handleSubmitRSVP = async () => {
@@ -89,7 +92,7 @@ export default function CouplesForm({
 			</Avatar>
 
 			<Typography className={styles.title}>{coupleName}</Typography>
-			<Stepper />
+			{loading ? <StepperSkeleton /> : <Stepper />}
 		</form>
 	);
 }

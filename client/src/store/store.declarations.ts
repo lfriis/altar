@@ -1,9 +1,10 @@
-import { Guests } from '../interfaces/Guests';
+import { Guest, GuestInfo } from '../interfaces/Guests';
 
 export type Store = {
-	guests: Guests | null;
+	guestInfo: GuestInfo | null;
+	guests: Guest[] | null;
 	activeStep: number;
-	setGuests: (guests: Guests) => void;
+	setGuests: (guestInfo: GuestInfo) => void;
 	setNextStep: (activeStep: number) => void;
 	setPreviousStep: (activeStep: number) => void;
 };

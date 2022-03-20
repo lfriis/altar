@@ -1,11 +1,4 @@
-export interface CoupleConfig {
-	coupleName: string;
-	marriedName: string;
-	coupleInitials: string;
-	foodOptions: string[];
-}
-
-export interface Guests {
+export interface GuestInfo {
 	address: string;
 	city: string;
 	country: string;
@@ -17,6 +10,23 @@ export interface Guests {
 	name_4: string;
 	names: string[];
 	envelope: string;
+}
+
+export class Guest {
+	name: string;
+
+	confirmed: boolean | null;
+
+	foodOption: string | null;
+
+	email: string | null;
+
+	constructor(guest: string) {
+		this.name = guest;
+		this.confirmed = null;
+		this.foodOption = null;
+		this.email = null;
+	}
 }
 
 export interface ConfirmedGuest {

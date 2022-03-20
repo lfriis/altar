@@ -74,6 +74,12 @@ body {
 /* 
 	--- CUSTOM CLASSES ---
 */
+.align-items {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .align-contents {
 	display: flex;
 	align-items: center;
