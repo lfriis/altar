@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { TextField, InputAdornment, Button } from '@mui/material';
 import { Search } from '@mui/icons-material';
+import SpotifyCard from '../../Spotify.Card';
 
 export default function SongRequestStep() {
 	const [spotifySearchTerm, setSpotifySearchTerm] = useState('');
+	const [spotifyResults, setSpotifyResults] = useState([])
 
 	const searchSpotify = () => {
 		axios
@@ -13,7 +15,8 @@ export default function SongRequestStep() {
 				spotifySearchTerm,
 			})
 			.then((res) => {
-				console.log(res.data);
+				console.log(res.data.searchResults);
+				setSpotifyResults(res.data.searchResults)
 			})
 			.catch((e) => {
 				console.log(e);
@@ -36,6 +39,13 @@ export default function SongRequestStep() {
 				}}
 			/>
 			<Button onClick={searchSpotify}>Search spotify test</Button>
+			{spotifyResults.length > 0 && (
+
+<SpotifyCard />
+				// spotifyResults.items((item) => {
+				// 	SpotifyCard
+				// })
+			)}
 		</>
 	);
 }

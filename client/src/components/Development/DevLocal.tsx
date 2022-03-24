@@ -2,19 +2,19 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 export interface IGitInfo {
-	gitInfo?: Nullable<{
+	gitInfo?: {
 		gitBranch?: string | null;
 		gitCommitHash?: string | null;
 		cwd?: string;
 		version?: string;
-	}>;
+	} | null;
 	message: string | null;
 	status: string;
 }
 
 export default function DevLocal() {
 	const [serverResponse, setServerResponse] =
-		useState<Nullable<IGitInfo>>(null);
+		useState<IGitInfo | null>(null);
 
 	function healthCheck() {
 		axios

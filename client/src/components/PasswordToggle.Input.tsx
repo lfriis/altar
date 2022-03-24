@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 
 interface IProps extends InputBaseProps {
 	label: string;
-	value: Nullable<string>;
+	value: string | null;
 	helperText?: string;
 	displayHelper?: boolean;
 }
