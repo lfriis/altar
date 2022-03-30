@@ -25,6 +25,7 @@ spotifyRouter.post('/', async (req: Request, res: Response) => {
 			searchResults,
 		});
 	} catch (e) {
+		console.log(e);
 		return res.status(401).json({ e });
 	}
 });

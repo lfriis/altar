@@ -1,20 +1,26 @@
 import React from 'react';
-import { Button } from '@mui/material';
-import { useGuests, useGuestInfo } from '../../store';
+import { Typography, Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import NavbarLink from './Navbar.Link';
 
 export default function Navbar() {
-	const guests = useGuests();
-	const guestInfo = useGuestInfo();
+	const navigate = useNavigate();
 
 	return (
 		<nav className="navbar">
-			<Button
-				variant="contained"
-				onClick={() => console.log({ guests, guestInfo })}
-				style={{ marginLeft: 'auto' }}
-			>
-				View store
-			</Button>
+			<Typography className="navbar__brand">JILLIAN & LARSEN</Typography>
+			<div>
+				<NavbarLink to="/">Wedding</NavbarLink>
+				<NavbarLink to="/location">Location</NavbarLink>
+				<NavbarLink to="/gifts">Gifts</NavbarLink>
+				<Button
+					className="rsvp-button"
+					variant="outlined"
+					onClick={() => navigate('/rsvp')}
+				>
+					RSVP
+				</Button>
+			</div>
 		</nav>
 	);
 }

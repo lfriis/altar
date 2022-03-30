@@ -23,8 +23,20 @@ export async function authenticate() {
 	return access_token;
 }
 
+// export async function getTrackMetadata(spotifyToken: string, trackId: string) {
+// 	const track = await axios({
+// 		url: `https://api.spotify.com/v1/tracks/${trackId}`,
+// 		method: 'get',
+// 		headers: {
+// 			Authorization: `Bearer ${spotifyToken}`,
+// 		},
+// 	});
+
+// 	return track.data;
+// }
+
 export async function search(spotifyToken: string, searchKey: string) {
-	const result = await axios({
+	const searchResult = await axios({
 		url: 'https://api.spotify.com/v1/search',
 		method: 'get',
 		params: {
@@ -36,5 +48,5 @@ export async function search(spotifyToken: string, searchKey: string) {
 		},
 	});
 
-	return result.data;
+	return searchResult.data;
 }

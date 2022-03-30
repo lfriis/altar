@@ -17,3 +17,16 @@
 	padding: 0px !important;
 	margin: 0px 0px 0px 15px !important;
 }
+
+.rsvp-button {
+	color: white !important;
+	border-color: white !important;
+	border-radius: 0 !important;
+	padding: 10px 20px !important;
+	margin-left: 20px !important;
+}
+
+.rsvp-button:hover {
+	color: black !important;
+	background-color: white !important;
+}

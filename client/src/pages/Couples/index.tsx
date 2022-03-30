@@ -1,2 +1,2 @@
-export { default as CouplesForm } from './couples.form';
-export * from './couples.declarations';
+export { default as CouplesForm } from './Couples.Form';
+export * from './Couples.Declarations';
