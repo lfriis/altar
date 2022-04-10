@@ -7,44 +7,9 @@ import {
 	Check,
 } from '@mui/icons-material';
 import ActiveStep from './StepperBody';
-import {
-	ConfirmationStep,
-	FoodSelectionStep,
-	EmailAddressStep,
-	SongRequestStep,
-	SummaryStep,
-} from './Steps';
-import { Step } from '../../interfaces';
+import steps from './StepIndex';
 import { useActiveStep, useSetNextStep, useSetPreviousStep } from '../../store';
 import styles from './Stepper.module.css';
-
-const steps: Step[] = [
-	{
-		label: 'We hope to see you there',
-		completed: false,
-		component: ConfirmationStep,
-	},
-	{
-		label: "What's on the menu?",
-		completed: false,
-		component: FoodSelectionStep,
-	},
-	{
-		label: "We won't bug you too much",
-		completed: false,
-		component: EmailAddressStep,
-	},
-	{
-		label: 'Give us a beat',
-		completed: false,
-		component: SongRequestStep,
-	},
-	{
-		label: "Can't wait to see you",
-		completed: false,
-		component: SummaryStep,
-	},
-];
 
 export default function Stepper() {
 	const activeStep = useActiveStep();

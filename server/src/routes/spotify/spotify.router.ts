@@ -11,13 +11,16 @@ export default spotifyRouter;
  * ? Controller Definitions
  */
 spotifyRouter.post('/', async (req: Request, res: Response) => {
-	const { spotifySearchTerm } = req.body;
+	const { spotifySearchTerm, spotifyOffset } = req.body;
+
+	console.log(spotifyOffset);
 
 	try {
 		const spotifyToken = await SpotifyService.authenticate();
 		const searchResults = await SpotifyService.search(
 			spotifyToken,
-			spotifySearchTerm
+			spotifySearchTerm,
+			spotifyOffset
 		);
 
 		return res.status(200).json({
@@ -25,7 +28,6 @@ spotifyRouter.post('/', async (req: Request, res: Response) => {
 			searchResults,
 		});
 	} catch (e) {
-		console.log(e);
 		return res.status(401).json({ e });
 	}
 });

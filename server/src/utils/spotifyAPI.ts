@@ -35,13 +35,18 @@ export async function authenticate() {
 // 	return track.data;
 // }
 
-export async function search(spotifyToken: string, searchKey: string) {
+export async function search(
+	spotifyToken: string,
+	searchKey: string,
+	offset: number
+) {
 	const searchResult = await axios({
 		url: 'https://api.spotify.com/v1/search',
 		method: 'get',
 		params: {
 			q: searchKey,
 			type: 'track',
+			offset,
 		},
 		headers: {
 			Authorization: `Bearer ${spotifyToken}`,

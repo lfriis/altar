@@ -65,6 +65,10 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 						<FormControlLabel
 							control={
 								<Checkbox
+									disabled={
+										guest.foodOption.main ===
+										'Pork Tenderloin'
+									}
 									style={{ margin: '0' }}
 									onChange={(e) => {
 										const editedGuest = guest.clone();

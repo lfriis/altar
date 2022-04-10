@@ -1,8 +1,11 @@
 .wrapper {
 	padding: 0px 30px 0px 30px;
+	height: 650px;
 	width: 100%;
-	max-width: 600px;
-	min-height: 20%;
+	max-width: 450px;
+	opacity: 95%;
+	/* border-top-left-radius: 300px !important; */
+	/* border-top-right-radius: 300px !important; */
 }
 
 .step_container {
@@ -18,4 +21,12 @@
 	width: 180px;
 	clear: left;
 	padding-right: 10px;
+}
+
+/**
+ * Steps
+ */
+
+.song_request_wrapper {
+	padding: 10px 0px 10px 0px;
 }

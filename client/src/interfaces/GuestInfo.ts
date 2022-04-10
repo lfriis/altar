@@ -30,6 +30,8 @@ export class GuestInfo {
 
 	email: string | null;
 
+	songRequests: string[];
+
 	constructor(g: GoogleSheetGuestInfo) {
 		this.address = g.address;
 		this.city = g.city;
@@ -39,6 +41,7 @@ export class GuestInfo {
 		this.names = g.names;
 		this.envelope = g.envelope;
 		this.email = null;
+		this.songRequests = [];
 	}
 
 	clone() {

@@ -1,33 +1,57 @@
-import React from 'react'
-import { Card, Box, CardContent, CardMedia, Typography, IconButton } from '@mui/material'
-import { PlayArrow } from '@mui/icons-material'
+import React from 'react';
+import {
+	Card,
+	Box,
+	CardContent,
+	CardMedia,
+	Typography,
+	IconButton,
+} from '@mui/material';
+import { Add, Remove } from '@mui/icons-material';
+import { useGuestInfo } from '../store';
 
-export default function SpotifyCard() {
-  return (
-    <Card sx={{ display: 'flex' }}>
-      <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-        <CardContent sx={{ flex: '1 0 auto' }}>
-          <Typography component="div" variant="h5">
-            Live From Space
-          </Typography>
-          <Typography variant="subtitle1" color="text.secondary" component="div">
-            Mac Miller
-          </Typography>
-        </CardContent>
-        <Box sx={{ display: 'flex', alignItems: 'center', pl: 1, pb: 1 }}>
+interface Props {
+	track: SpotifyApi.TrackObjectFull;
+	handleSetSongRequest: (trackId: string) => void;
+}
 
-          <IconButton aria-label="play/pause">
-            <PlayArrow sx={{ height: 38, width: 38 }} />
-          </IconButton>
-       
-        </Box>
-      </Box>
-      <CardMedia
-        component="img"
-        sx={{ width: 151 }}
-        image="/static/images/cards/live-from-space.jpg"
-        alt="Live from space album cover"
-      />
-    </Card>
-  )
+export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
+	// const [, previewSong] = useAudio(track.preview_url);
+	const guestInfo = useGuestInfo();
+	const songExists = guestInfo?.songRequests.includes(track.id);
+
+	return (
+		<Card sx={{ display: 'flex', padding: '10px' }}>
+			<CardMedia
+				component="img"
+				sx={{ height: 60, width: 60 }}
+				image={track.album.images[0].url}
+			/>
+			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+				<CardContent
+					style={{
+						padding: '0px 0px 0px 10px',
+					}}
+					sx={{ flex: '1 0 auto' }}
+				>
+					<Typography component="div" variant="h5">
+						{track.name}
+					</Typography>
+					<Typography
+						variant="subtitle1"
+						color="text.secondary"
+						component="div"
+					>
+						{track.artists[0].name}
+					</Typography>
+				</CardContent>
+			</Box>
+			<IconButton
+				onClick={() => handleSetSongRequest(track.id)}
+				disabled={!songExists && guestInfo?.songRequests.length === 3}
+			>
+				{songExists ? <Remove /> : <Add />}
+			</IconButton>
+		</Card>
+	);
 }

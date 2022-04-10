@@ -1,26 +1,88 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { TextField, InputAdornment, Button } from '@mui/material';
+import _ from 'lodash';
+import {
+	TextField,
+	InputAdornment,
+	CircularProgress,
+	Button,
+	// Accordion,
+	// AccordionSummary,
+	// Typography,
+	// AccordionDetails,
+} from '@mui/material';
 import { Search } from '@mui/icons-material';
 import SpotifyCard from '../../Spotify.Card';
+import { useGuestInfo, useSetUpdatedGuestInfo } from '../../../store';
 
 export default function SongRequestStep() {
-	const [spotifySearchTerm, setSpotifySearchTerm] = useState('');
-	const [spotifyResults, setSpotifyResults] = useState([])
+	const guestInfo = useGuestInfo();
+	const updateGuestInfo = useSetUpdatedGuestInfo();
+	const [loading, setLoading] = useState(false);
+	const [nextOffset, setNextOffset] = useState(0);
+	const [searchTerm, setSearchTerm] = useState('');
+	const [spotifyResults, setSpotifyResults] = useState<
+		SpotifyApi.TrackObjectFull[]
+	>([]);
 
-	const searchSpotify = () => {
+	const parseURL = (url: string) => {
+		const urlSearchParams = new URLSearchParams(url);
+		return Object.fromEntries(urlSearchParams.entries());
+	};
+
+	const searchSpotify = (
+		spotifySearchTerm: string,
+		spotifyOffset: number = 0
+	) => {
+		if (spotifySearchTerm.length === 1) return;
+
+		setLoading(true);
 		axios
 			.post('/api/spotify', {
 				spotifySearchTerm,
+				spotifyOffset,
 			})
 			.then((res) => {
-				console.log(res.data.searchResults);
-				setSpotifyResults(res.data.searchResults)
+				setSpotifyResults(res.data.searchResults.tracks.items);
+
+				setNextOffset(
+					parseInt(
+						parseURL(res.data.searchResults.tracks.next).offset,
+						10
+					)
+				);
 			})
 			.catch((e) => {
 				console.log(e);
+			})
+			.finally(() => {
+				setLoading(false);
 			});
+	};
+
+	const debouncedFilterFunction = useCallback(
+		_.debounce(searchSpotify, 250),
+		[]
+	);
+
+	const handleSetSongRequest = (trackId: string) => {
+		if (guestInfo) {
+			if (!guestInfo?.songRequests.includes(trackId)) {
+				const editedGuestInfo = guestInfo.clone();
+				editedGuestInfo.songRequests = [
+					...editedGuestInfo.songRequests,
+					trackId,
+				];
+				updateGuestInfo(editedGuestInfo);
+			} else {
+				const editedGuestInfo = guestInfo.clone();
+				editedGuestInfo.songRequests =
+					editedGuestInfo.songRequests.filter(
+						(track) => track !== trackId
+					);
+				updateGuestInfo(editedGuestInfo);
+			}
+		}
 	};
 
 	return (
@@ -29,23 +91,64 @@ export default function SongRequestStep() {
 				size="small"
 				variant="outlined"
 				placeholder="Search Spotify..."
-				onChange={(e) => setSpotifySearchTerm(e.target.value)}
+				disabled={loading}
+				onChange={(e) => {
+					if (e.target.value === '') {
+						setSpotifyResults([]);
+						setNextOffset(0);
+					} else {
+						setSearchTerm(e.target.value);
+						debouncedFilterFunction(e.target.value);
+					}
+				}}
 				InputProps={{
 					startAdornment: (
 						<InputAdornment position="start">
-							<Search fontSize="small" />
+							<Search />
 						</InputAdornment>
 					),
 				}}
+				helperText={
+					spotifyResults.length > 0 &&
+					`${spotifyResults.length} results`
+				}
 			/>
-			<Button onClick={searchSpotify}>Search spotify test</Button>
-			{spotifyResults.length > 0 && (
-
-<SpotifyCard />
-				// spotifyResults.items((item) => {
-				// 	SpotifyCard
-				// })
+			{loading && <CircularProgress />}
+			{/* <Button
+				disabled={loading}
+				onClick={() => searchSpotify(searchTerm, previousOffset)}
+			>
+				See Previous Page
+			</Button> */}
+			{nextOffset !== 0 && (
+				<Button
+					disabled={loading}
+					onClick={() => searchSpotify(searchTerm, nextOffset)}
+				>
+					See Next Page
+				</Button>
 			)}
+			{/* {guestInfo && guestInfo?.songRequests.length > 0 && (
+				<Accordion className="accordion-borderless" variant="outlined">
+					<AccordionSummary expandIcon={<ExpandMore />}>
+						<Typography>Requested Songs</Typography>
+					</AccordionSummary>
+					<AccordionDetails>
+						{guestInfo?.songRequests.map((track) => (
+							<p key={track}>{track}</p>
+						))}
+					</AccordionDetails>
+				</Accordion>
+			)} */}
+			<div style={{ overflowY: 'auto', maxHeight: '250px' }}>
+				{spotifyResults.map((track) => (
+					<SpotifyCard
+						track={track}
+						handleSetSongRequest={handleSetSongRequest}
+						key={track.id}
+					/>
+				))}
+			</div>
 		</>
 	);
 }

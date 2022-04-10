@@ -1,4 +1,4 @@
 export * from './Step';
-export * from './Guests';
+export * from './Guest';
 export * from './GuestInfo';
 export * from './Couple';

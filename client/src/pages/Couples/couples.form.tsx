@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Avatar, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { Stepper, StepperSkeleton } from '../../components';
-import { CoupleConfig } from '../../interfaces';
-import { useSetGuests } from '../../store';
+import { useGuestInfo, useGuests, useSetGuests } from '../../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -40,11 +38,10 @@ const useStyles = makeStyles(() => ({
 	},
 }));
 
-export default function CouplesForm({
-	coupleName,
-	coupleInitials,
-}: CoupleConfig) {
+export default function CouplesForm() {
 	const styles = useStyles();
+	const guests = useGuests();
+	const guestInfo = useGuestInfo();
 	const setGuests = useSetGuests();
 	const [loading, setLoading] = useState(false);
 	// const [emailAddress, setEmailAddress] = useState('');
@@ -65,6 +62,14 @@ export default function CouplesForm({
 			})
 			.finally(() => setLoading(false));
 	};
+
+	useEffect(() => {
+		console.log({ guests });
+	}, [guests]);
+
+	useEffect(() => {
+		console.log(guestInfo);
+	}, [guestInfo]);
 
 	// const handleSubmitRSVP = async () => {
 	// 	setLoading(true);
@@ -87,11 +92,6 @@ export default function CouplesForm({
 
 	return (
 		<form className={styles.form}>
-			<Avatar className={styles.avatar} alt="logo">
-				{coupleInitials}
-			</Avatar>
-
-			<Typography className={styles.title}>{coupleName}</Typography>
 			{loading ? <StepperSkeleton /> : <Stepper />}
 		</form>
 	);
