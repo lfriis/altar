@@ -1,3 +1,2 @@
-import checkIsIFramed from './checkIsIFramed';
-
-export default checkIsIFramed;
+export { default as checkIsIFramed } from './checkIsIFramed';
+export { default as parseURL } from './parseURL';

@@ -2,7 +2,8 @@
  * ? Required External Modules and Interfaces
  */
 import express, { Request, Response } from 'express';
-import { googleConfig } from '../../config';
+import jwt from 'jsonwebtoken';
+import { googleConfig, serverConfig } from '../../config';
 import { GoogleSheetsService } from '../../utils';
 
 export const guestsRouter = express.Router();
@@ -11,10 +12,13 @@ export default guestsRouter;
 /**
  * ? Controller Definitions
  */
-guestsRouter.get('/:address', async (req: Request, res: Response) => {
-	const { address } = req.params;
+guestsRouter.post('/', async (req: Request, res: Response) => {
+	const { query } = req.body;
 
-	console.log({ address });
+	const decodedToken = <jwt.AuthPayload>(
+		jwt.verify(query, serverConfig.jwt_token)
+	);
+
 	try {
 		const authClientObject = await GoogleSheetsService.authenticate();
 		const googleSheetsInstance = await GoogleSheetsService.generateInstance(
@@ -32,12 +36,13 @@ guestsRouter.get('/:address', async (req: Request, res: Response) => {
 		const guestInfo = GoogleSheetsService.filterData(
 			sheetsData,
 			'address',
-			address
+			decodedToken.address
 		);
 
-		return res
-			.status(200)
-			.json({ message: 'Retrieved Guest Information', guestInfo });
+		return res.status(200).json({
+			message: 'Retrieved Guest Information',
+			guestInfo,
+		});
 	} catch (e) {
 		console.log(e);
 		return res.status(401).json({ e });

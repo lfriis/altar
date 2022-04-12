@@ -14,6 +14,7 @@ import {
 import { Search } from '@mui/icons-material';
 import SpotifyCard from '../../Spotify.Card';
 import { useGuestInfo, useSetUpdatedGuestInfo } from '../../../store';
+import { parseURL } from '../../../utils';
 
 export default function SongRequestStep() {
 	const guestInfo = useGuestInfo();
@@ -24,11 +25,6 @@ export default function SongRequestStep() {
 	const [spotifyResults, setSpotifyResults] = useState<
 		SpotifyApi.TrackObjectFull[]
 	>([]);
-
-	const parseURL = (url: string) => {
-		const urlSearchParams = new URLSearchParams(url);
-		return Object.fromEntries(urlSearchParams.entries());
-	};
 
 	const searchSpotify = (
 		spotifySearchTerm: string,

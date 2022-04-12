@@ -1,9 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useSetGuests } from '../../store';
 
 export default function Home() {
 	const navigate = useNavigate();
+	const setGuests = useSetGuests();
+	const [loading, setLoading] = useState(false);
+
+	const handleRetrieveGuestInfo = async () => {
+		setLoading(true);
+
+		const urlParams = new URLSearchParams(window.location.search);
+		const query = urlParams.get('query');
+
+		axios
+			.post(`/api/guests`, {
+				query,
+			})
+			.then((res) => {
+				setGuests(res.data.guestInfo);
+			})
+			.catch((e) => {
+				console.log(e);
+			})
+			.finally(() => setLoading(false));
+	};
+
+	useEffect(() => {
+		handleRetrieveGuestInfo();
+	}, []);
 
 	return (
 		<div>
@@ -24,6 +51,10 @@ export default function Home() {
 					</Button>
 				</div>
 			</div>
+
+			{loading && <div>Loading...</div>}
+
+			<Button onClick={handleRetrieveGuestInfo}>Test Auth</Button>
 		</div>
 	);
 }

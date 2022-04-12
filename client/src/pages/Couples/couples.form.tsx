@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stepper, StepperSkeleton } from '../../components';
-import { useGuestInfo, useGuests, useSetGuests } from '../../store';
+import { Stepper } from '../../components';
+import { useGuestInfo, useGuests } from '../../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -42,26 +41,6 @@ export default function CouplesForm() {
 	const styles = useStyles();
 	const guests = useGuests();
 	const guestInfo = useGuestInfo();
-	const setGuests = useSetGuests();
-	const [loading, setLoading] = useState(false);
-	// const [emailAddress, setEmailAddress] = useState('');
-	// const [guests, setGuests] = useState<IGuests>();
-
-	const handleRetrieveGuestInfo = async () => {
-		setLoading(true);
-		const address = '1294%20Heritage%20Road';
-		// const address = '5%20Buona%20Vista%20Drive';
-
-		axios
-			.get(`/api/guests/${address}`)
-			.then((res) => {
-				setGuests(res.data.guestInfo);
-			})
-			.catch((e) => {
-				console.log(e);
-			})
-			.finally(() => setLoading(false));
-	};
 
 	useEffect(() => {
 		console.log({ guests });
@@ -86,13 +65,9 @@ export default function CouplesForm() {
 	// 		});
 	// };
 
-	useEffect(() => {
-		handleRetrieveGuestInfo();
-	}, []);
-
 	return (
 		<form className={styles.form}>
-			{loading ? <StepperSkeleton /> : <Stepper />}
+			<Stepper />
 		</form>
 	);
 }
