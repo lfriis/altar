@@ -7,7 +7,7 @@
 # server dependencies
 /server/node_modules
 /server/.env
-/server/src/config/googleAPI/googleConfig.json
+/server/src/config/googleConfig.json
 
 # testing
 /coverage

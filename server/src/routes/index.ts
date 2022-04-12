@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import config from '../config/server';
+import { serverConfig } from '../config';
 import devRouter from './dev/dev.router';
 import guestsRouter from './guests/guests.router';
 import spotifyRouter from './spotify/spotify.router';
@@ -12,6 +12,6 @@ routes.use('/spotify', spotifyRouter);
 /**
  * ? Deploying dev endpoint
  */
-if (config.environment === 'DEVELOPMENT') routes.use('/dev', devRouter);
+if (serverConfig.environment === 'DEVELOPMENT') routes.use('/dev', devRouter);
 
 export default routes;

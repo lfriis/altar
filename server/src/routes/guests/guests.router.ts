@@ -2,7 +2,7 @@
  * ? Required External Modules and Interfaces
  */
 import express, { Request, Response } from 'express';
-import googleConfig from '../../config/googleAPI';
+import { googleConfig } from '../../config';
 import { GoogleSheetsService } from '../../utils';
 
 export const guestsRouter = express.Router();

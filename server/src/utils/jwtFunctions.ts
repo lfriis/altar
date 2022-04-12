@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
-import config from '../config/server';
+import { serverConfig } from '../config';
 
 export default function generateJWTToken(payload: any) {
-	const token = jwt.sign(payload, config.jwt_token, {
+	const token = jwt.sign(payload, serverConfig.jwt_token, {
 		expiresIn: '8h',
 	});
 	return token;

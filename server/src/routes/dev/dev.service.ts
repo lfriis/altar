@@ -1,7 +1,7 @@
 import path from 'path';
 import { execSync } from 'child_process';
 import { IGitInfo } from './dev.interface';
-import config from '../../config/server';
+import { serverConfig } from '../../config';
 
 const execSyncWrapper = (command: string): string | null => {
 	let stdout: string | null;
@@ -22,6 +22,6 @@ export default function getGitInfo(): IGitInfo {
 		gitBranch,
 		gitCommitHash,
 		cwd,
-		version: config.version,
+		version: serverConfig.version,
 	};
 }

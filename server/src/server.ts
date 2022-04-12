@@ -4,8 +4,8 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import routes from './routes';
-import config from './config/server';
-import logging from './middleware/logging.middleware';
+import { serverConfig } from './config';
+import { loggingMiddlware, errorHandler } from './middleware';
 import { logger } from './utils';
 
 const server = express();
@@ -16,25 +16,26 @@ const server = express();
 server.use(express.json());
 server.use(cookieParser());
 server.use(express.urlencoded({ extended: true }));
-server.use(cors({ credentials: true, origin: config.front_end_url }));
+server.use(cors({ credentials: true, origin: serverConfig.front_end_url }));
 server.use(helmet());
 server.use(morgan('dev'));
 server.use('/api', routes);
-server.use(logging);
+server.use(errorHandler);
+server.use(loggingMiddlware);
 
 /**
  * ? Server deployment
  */
 server
-	.listen(config.port, (): void => {
+	.listen(serverConfig.port, (): void => {
 		logger.info({
-			namespace: config.namespace,
-			message: `${config.environment} server listening @ http://${config.hostname}:${config.port}`,
+			namespace: serverConfig.namespace,
+			message: `${serverConfig.environment} server listening @ http://${serverConfig.hostname}:${serverConfig.port}`,
 		});
 	})
 	.on('error', (err: Error): void => {
 		logger.error({
-			namespace: config.namespace,
+			namespace: serverConfig.namespace,
 			message: 'Error deploying server',
 			object: err,
 		});

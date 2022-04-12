@@ -1,5 +1,5 @@
 import * as dotenv from 'dotenv';
-import { version } from '../../../package.json';
+import { version } from '../../package.json';
 
 dotenv.config();
 

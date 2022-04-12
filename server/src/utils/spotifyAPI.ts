@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import axios from 'axios';
-import spotifyConfig from '../config/spotifyAPI';
+import { spotifyConfig } from '../config';
 
 export async function authenticate() {
 	const encodedCrendentials = Buffer.from(

@@ -34,7 +34,7 @@ function formatData(data: any) {
 
 export async function authenticate() {
 	const auth = new google.auth.GoogleAuth({
-		keyFile: path.join(__dirname, '../config/googleAPI/googleConfig.json'),
+		keyFile: path.join(__dirname, '../config/googleConfig.json'),
 		scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 	});
 

@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import config from '../config';
-// import { generateUberflipToken } from '../routes/auth/auth.service';
+import { serverConfig } from '../config';
 
 export default async function authenticateJWTToken(
 	req: Request,
 	res: Response,
-	next: NextFunction,
+	next: NextFunction
 ) {
 	const { token: JWTToken } = req.cookies;
 
@@ -20,22 +19,12 @@ export default async function authenticateJWTToken(
 	}
 
 	try {
-		const decodedToken = <jwt.IAutoAuthToken>(
-			jwt.verify(JWTToken, config.jwt_token)
+		const decodedToken = <jwt.AuthPayload>(
+			jwt.verify(JWTToken, serverConfig.jwt_token)
 		);
 
-		// Will throw error if APIKey and APISecret are old
-		// const uberflipToken = await generateUberflipToken(
-		// 	decodedToken.APIKey,
-		// 	decodedToken.APISecret,
-		// );
-
-		req.date = new Date().toISOString();
-		req.accountId = decodedToken.accountId;
-		req.APIKey = decodedToken.APIKey;
-		req.APISecret = decodedToken.APISecret;
-		req.uberflipToken = decodedToken.uberflipToken;
-		// req.uberflipToken = uberflipToken;
+		console.log(decodedToken);
+		// req.guestAddress = decodedToken.accountId;
 		next();
 	} catch (e) {
 		console.log(`Error: ${e}`);
