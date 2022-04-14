@@ -1,13 +1,24 @@
 import create from 'zustand';
 import { Guest, GuestInfo, GoogleSheetGuestInfo } from '../interfaces';
 import { Store } from './store.declarations';
-import updateGuest from './store.services';
+import { updateGuest, fetchGuests } from './store.services';
 
 export const useStore = create<Store>(
 	(set): Store => ({
 		guests: [],
 		guestInfo: null,
 		activeStep: 0,
+		loading: true,
+		fetchGuests: async () => {
+			const guestInfo = await fetchGuests();
+
+			set((state) => ({
+				...state,
+				guestInfo: new GuestInfo(guestInfo),
+				guests: guestInfo.names.map((guest) => new Guest(guest)),
+				loading: false,
+			}));
+		},
 		setGuests: (guestInfo: GoogleSheetGuestInfo) =>
 			set((state) => ({
 				...state,
@@ -41,6 +52,7 @@ export const useStore = create<Store>(
 export const useActiveStep = () => useStore((state) => state.activeStep);
 export const useGuests = () => useStore((state) => state.guests);
 export const useGuestInfo = () => useStore((state) => state.guestInfo);
+export const useFetchGuests = () => useStore((state) => state.fetchGuests);
 export const useSetUpdatedGuest = () =>
 	useStore((state) => state.setUpdatedGuest);
 export const useSetUpdatedGuestInfo = () =>

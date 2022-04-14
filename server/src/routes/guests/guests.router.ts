@@ -15,6 +15,8 @@ export default guestsRouter;
 guestsRouter.post('/', async (req: Request, res: Response) => {
 	const { query } = req.body;
 
+	// console.log(generateJWTToken({ address: query }));
+
 	const decodedToken = <jwt.AuthPayload>(
 		jwt.verify(query, serverConfig.jwt_token)
 	);
