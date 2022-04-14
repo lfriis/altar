@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useFetchGuests, useGuests } from '../../store';
+import { useGuests, useFetchGuests } from '../../store';
+import { getQueryParam } from '../../utils';
 
 export default function Home() {
 	const navigate = useNavigate();
@@ -9,7 +10,8 @@ export default function Home() {
 	const fetchGuests = useFetchGuests();
 
 	useEffect(() => {
-		if (guests.length === 0) fetchGuests();
+		const query = getQueryParam(window.location.search);
+		if (guests.length === 0 && query) fetchGuests({ query });
 	}, [guests]);
 
 	return (

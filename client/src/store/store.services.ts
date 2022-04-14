@@ -10,14 +10,20 @@ export function updateGuest(guests: Guest[], updatedGuest: Guest): Guest[] {
 	});
 }
 
-export async function fetchGuests(): Promise<GoogleSheetGuestInfo> {
-	const urlParams = new URLSearchParams(window.location.search);
-	const query = urlParams.get('query');
+export async function fetchGuests({
+	query,
+	address,
+}: {
+	query?: string;
+	address?: string;
+}): Promise<GoogleSheetGuestInfo> {
+	// const query =
+	// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMTI5NCBIZXJpdGFnZSBSb2FkIiwiaWF0IjoxNjQ5ODkzNjA2fQ.I6w4e1bnVmzEjKI4aE36kOFUHlehnFCwjw_yFdRmdnA';
 
 	const res = await axios({
 		url: '/api/guests',
 		method: 'post',
-		data: { query },
+		data: { query, address },
 	});
 
 	return res.data.guestInfo;

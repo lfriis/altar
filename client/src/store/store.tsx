@@ -3,21 +3,40 @@ import { Guest, GuestInfo, GoogleSheetGuestInfo } from '../interfaces';
 import { Store } from './store.declarations';
 import { updateGuest, fetchGuests } from './store.services';
 
+const initialState = {
+	guests: [],
+	guestInfo: null,
+	activeStep: 0,
+	loading: false,
+};
+
 export const useStore = create<Store>(
 	(set): Store => ({
-		guests: [],
-		guestInfo: null,
-		activeStep: 0,
-		loading: true,
-		fetchGuests: async () => {
-			const guestInfo = await fetchGuests();
-
-			set((state) => ({
-				...state,
-				guestInfo: new GuestInfo(guestInfo),
-				guests: guestInfo.names.map((guest) => new Guest(guest)),
-				loading: false,
-			}));
+		...initialState,
+		fetchGuests: async ({
+			query,
+			address,
+		}: {
+			query?: string;
+			address?: string;
+		}) => {
+			set({ loading: true });
+			await fetchGuests({ query, address })
+				.then((guestInfo) => {
+					set((state) => ({
+						...state,
+						guestInfo: new GuestInfo(guestInfo),
+						guests: guestInfo.names.map(
+							(guest) => new Guest(guest)
+						),
+						loading: false,
+					}));
+				})
+				.catch(() => {
+					set({
+						...initialState,
+					});
+				});
 		},
 		setGuests: (guestInfo: GoogleSheetGuestInfo) =>
 			set((state) => ({
@@ -49,6 +68,7 @@ export const useStore = create<Store>(
 );
 
 // Store hooks
+export const useLoading = () => useStore((state) => state.loading);
 export const useActiveStep = () => useStore((state) => state.activeStep);
 export const useGuests = () => useStore((state) => state.guests);
 export const useGuestInfo = () => useStore((state) => state.guestInfo);

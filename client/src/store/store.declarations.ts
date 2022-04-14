@@ -5,7 +5,13 @@ export type Store = {
 	guests: Guest[];
 	activeStep: number;
 	loading: boolean;
-	fetchGuests: () => void;
+	fetchGuests: ({
+		query,
+		address,
+	}: {
+		query?: string;
+		address?: string;
+	}) => void;
 	setGuests: (guestInfo: GoogleSheetGuestInfo) => void;
 	setUpdatedGuest: (updatedGuest: Guest) => void;
 	setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) => void;

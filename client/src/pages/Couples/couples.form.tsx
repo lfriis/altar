@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-import { Stepper } from '../../components';
+import { GuestAddressSearch, Stepper } from '../../components';
 import { useGuestInfo, useGuests } from '../../store';
 
 const useStyles = makeStyles(() => ({
@@ -67,7 +67,7 @@ export default function CouplesForm() {
 
 	return (
 		<form className={styles.form}>
-			<Stepper />
+			{guestInfo ? <Stepper /> : <GuestAddressSearch />}
 		</form>
 	);
 }
