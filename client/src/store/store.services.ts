@@ -3,7 +3,7 @@ import { GoogleSheetGuestInfo, Guest } from '../interfaces';
 
 export function updateGuest(guests: Guest[], updatedGuest: Guest): Guest[] {
 	return guests.map((guest) => {
-		if (guest.name === updatedGuest.name) {
+		if (guest.id === updatedGuest.id) {
 			return updatedGuest;
 		}
 		return guest;

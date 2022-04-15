@@ -1,20 +1,43 @@
 import React from 'react';
-import { useGuests } from '../../../store';
+import { IconButton } from '@mui/material';
+import { Edit } from '@mui/icons-material';
+import { useGuests, useSetUpdatedGuest } from '../../../store';
 import ConfirmToggle from '../../Confirm.Toggle';
+import PlusOneInput from '../../PlusOne.Input';
 
 export default function ConfirmationStep() {
 	const guests = useGuests();
+	const updateGuest = useSetUpdatedGuest();
+	// const [editGuest, setEditGuest] = useState(false);
 
 	return (
 		<div>
 			{guests &&
-				guests.map((guest) => (
-					<div key={guest.name}>
-						<h4>{guest.name}</h4>
+				guests.map((guest) =>
+					guest.name === 'plus 1' || guest.edit ? (
+						<PlusOneInput key={guest.name} guest={guest} />
+					) : (
+						<div key={guest.name}>
+							<div className="align-items-center">
+								<h4>{guest.name}</h4>
 
-						<ConfirmToggle guest={guest} />
-					</div>
-				))}
+								{guest.plusOne && guest.name !== 'plus 1' && (
+									<IconButton
+										onClick={() => {
+											const editGuest = guest.clone();
+											editGuest.edit = true;
+											updateGuest(editGuest);
+										}}
+									>
+										<Edit />
+									</IconButton>
+								)}
+							</div>
+
+							<ConfirmToggle guest={guest} />
+						</div>
+					)
+				)}
 		</div>
 	);
 }

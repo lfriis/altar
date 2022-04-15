@@ -101,6 +101,11 @@ body {
 	justify-content: center;
 }
 
+.align-items-center {
+	display: flex;
+	align-items: center;
+}
+
 .text-link {
 	text-decoration: none !important;
 }

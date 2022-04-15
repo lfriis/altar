@@ -11,12 +11,24 @@ export default function FoodSelectionStep() {
 			{guests &&
 				guests.map((guest) => (
 					<div key={guest.name}>
-						<h4>{guest.name}</h4>
-
-						<FoodOptionSelect
-							guest={guest}
-							options={config.foodOptions}
-						/>
+						{guest.name !== 'plus 1' ? (
+							<>
+								<h4>{guest.name}</h4>
+								<FoodOptionSelect
+									guest={guest}
+									options={config.foodOptions}
+								/>
+							</>
+						) : (
+							<div>
+								<br />
+								<br />
+								<br />
+								<br />
+								Don&apos;t forget your guest! Go back and input
+								their information!
+							</div>
+						)}
 					</div>
 				))}
 		</div>

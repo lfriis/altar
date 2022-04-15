@@ -49,6 +49,7 @@ export const useStore = create<Store>(
 				...state,
 				guests: updateGuest(state.guests, updatedGuest),
 			})),
+
 		setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) =>
 			set((state) => ({
 				...state,

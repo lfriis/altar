@@ -48,7 +48,7 @@ export default function SearchAddress() {
 	const styles = useStyles();
 	const loading = useLoading();
 	const fetchGuests = useFetchGuests();
-	const [address, setAddress] = useState('');
+	const [address, setAddress] = useState('#1305-45 Lisgar Street');
 
 	return (
 		<form>
@@ -66,7 +66,7 @@ export default function SearchAddress() {
 						id="input-field-address"
 						disabled={loading}
 						value={address}
-						onChange={(e) => setAddress(e.target.value)}
+						onChange={(e) => setAddress(e.target.value.trim())}
 						autoComplete="address"
 						type="text"
 					/>
