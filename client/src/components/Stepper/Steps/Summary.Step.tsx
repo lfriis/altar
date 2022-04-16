@@ -5,20 +5,19 @@ export default function SummaryStep() {
 	const guests = useGuests();
 	const guestInfo = useGuestInfo();
 
-	console.log(guestInfo, guests);
-
 	return (
 		<div>
-			<h4>Guests Selections</h4>
+			<br />
 			{guests.map(
 				(guest) =>
 					guest.name !== 'plus 1' && (
 						<div key={guest.name}>
-							<p>{guest.name}</p>
-							<p>{guest.foodOption.main}</p>
+							<h2>{guest.name}</h2>
+							<h5>{guest.foodOption.main}</h5>
 							<p>
 								{guest.foodOption.glutenFree && 'Gluten Free'}
 							</p>
+
 							<p>{guest.foodOption.vegan && 'Vegan'}</p>
 							<p>
 								{guest.foodOption.other &&
@@ -30,16 +29,24 @@ export default function SummaryStep() {
 					)
 			)}
 
-			<h4>Email</h4>
-			<p>{guestInfo?.email}</p>
-			<br />
+			{guestInfo?.email && (
+				<>
+					<h4>Email</h4>
+					<p>{guestInfo?.email}</p>
+					<br />
+				</>
+			)}
 
-			<h4>Songs Requested</h4>
-			{guestInfo?.songRequests.map((song) => (
-				<div key={song.id}>
-					<p>{song.name}</p>
-				</div>
-			))}
+			{guestInfo && guestInfo?.songRequests.length > 0 && (
+				<>
+					<h4>Songs Requested</h4>
+					{guestInfo?.songRequests.map((song) => (
+						<div key={song.id}>
+							<p>{song.name}</p>
+						</div>
+					))}
+				</>
+			)}
 		</div>
 	);
 }

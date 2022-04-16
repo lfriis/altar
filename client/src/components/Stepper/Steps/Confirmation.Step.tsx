@@ -8,7 +8,8 @@ import PlusOneInput from '../../PlusOne.Input';
 export default function ConfirmationStep() {
 	const guests = useGuests();
 	const updateGuest = useSetUpdatedGuest();
-	// const [editGuest, setEditGuest] = useState(false);
+
+	console.log(guests);
 
 	return (
 		<div>
