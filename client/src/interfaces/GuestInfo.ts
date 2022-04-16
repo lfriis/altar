@@ -30,7 +30,7 @@ export class GuestInfo {
 
 	email: string | null;
 
-	songRequests: string[];
+	songRequests: SpotifyApi.TrackObjectFull[];
 
 	constructor(g: GoogleSheetGuestInfo) {
 		this.address = g.address;

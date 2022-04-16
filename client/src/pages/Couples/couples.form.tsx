@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { makeStyles } from '@mui/styles';
 import { GuestAddressSearch, Stepper } from '../../components';
-import { useGuestInfo, useGuests } from '../../store';
+import { useGuestInfo } from '../../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -39,31 +39,7 @@ const useStyles = makeStyles(() => ({
 
 export default function CouplesForm() {
 	const styles = useStyles();
-	const guests = useGuests();
 	const guestInfo = useGuestInfo();
-
-	useEffect(() => {
-		console.log({ guests });
-	}, [guests]);
-
-	useEffect(() => {
-		console.log(guestInfo);
-	}, [guestInfo]);
-
-	// const handleSubmitRSVP = async () => {
-	// 	setLoading(true);
-	// 	axios
-	// 		.post('/api/guests/option', confirmedGuests)
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			setGuests(res.data.guestInfo);
-	// 			setLoading(false);
-	// 		})
-	// 		.catch((e) => {
-	// 			console.log(e);
-	// 			setLoading(false);
-	// 		});
-	// };
 
 	return (
 		<form className={styles.form}>

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
 import axios from 'axios';
 import _ from 'lodash';
 import {
@@ -13,18 +13,26 @@ import {
 } from '@mui/material';
 import { Search } from '@mui/icons-material';
 import SpotifyCard from '../../Spotify.Card';
-import { useGuestInfo, useSetUpdatedGuestInfo } from '../../../store';
+import {
+	useGuestInfo,
+	useSetUpdatedGuestInfo,
+	useOffset,
+	useSetOffset,
+} from '../../../store';
 import { parseURL } from '../../../utils';
 
 export default function SongRequestStep() {
 	const guestInfo = useGuestInfo();
+	const offset = useOffset();
 	const updateGuestInfo = useSetUpdatedGuestInfo();
+	const setOffset = useSetOffset();
+
 	const [loading, setLoading] = useState(false);
-	const [nextOffset, setNextOffset] = useState(0);
 	const [searchTerm, setSearchTerm] = useState('');
 	const [spotifyResults, setSpotifyResults] = useState<
 		SpotifyApi.TrackObjectFull[]
 	>([]);
+	const paginationOperation = useRef<'Previous' | 'Next'>('Next');
 
 	const searchSpotify = (
 		spotifySearchTerm: string,
@@ -41,11 +49,12 @@ export default function SongRequestStep() {
 			.then((res) => {
 				setSpotifyResults(res.data.searchResults.tracks.items);
 
-				setNextOffset(
+				setOffset(
 					parseInt(
 						parseURL(res.data.searchResults.tracks.next).offset,
 						10
-					)
+					),
+					paginationOperation.current
 				);
 			})
 			.catch((e) => {
@@ -61,20 +70,20 @@ export default function SongRequestStep() {
 		[]
 	);
 
-	const handleSetSongRequest = (trackId: string) => {
+	const handleSetSongRequest = (track: SpotifyApi.TrackObjectFull) => {
 		if (guestInfo) {
-			if (!guestInfo?.songRequests.includes(trackId)) {
+			if (!guestInfo?.songRequests.some((t) => t.id === track.id)) {
 				const editedGuestInfo = guestInfo.clone();
 				editedGuestInfo.songRequests = [
 					...editedGuestInfo.songRequests,
-					trackId,
+					track,
 				];
 				updateGuestInfo(editedGuestInfo);
 			} else {
 				const editedGuestInfo = guestInfo.clone();
 				editedGuestInfo.songRequests =
 					editedGuestInfo.songRequests.filter(
-						(track) => track !== trackId
+						(t) => t.id !== track.id
 					);
 				updateGuestInfo(editedGuestInfo);
 			}
@@ -91,7 +100,7 @@ export default function SongRequestStep() {
 				onChange={(e) => {
 					if (e.target.value === '') {
 						setSpotifyResults([]);
-						setNextOffset(0);
+						setOffset(0, 'Next');
 					} else {
 						setSearchTerm(e.target.value);
 						debouncedFilterFunction(e.target.value);
@@ -110,20 +119,24 @@ export default function SongRequestStep() {
 				}
 			/>
 			{loading && <CircularProgress />}
-			{/* <Button
-				disabled={loading}
-				onClick={() => searchSpotify(searchTerm, previousOffset)}
+			<Button
+				disabled={loading || offset.previous === -20}
+				onClick={() => {
+					searchSpotify(searchTerm, offset.previous);
+					paginationOperation.current = 'Previous';
+				}}
 			>
 				See Previous Page
-			</Button> */}
-			{nextOffset !== 0 && (
-				<Button
-					disabled={loading}
-					onClick={() => searchSpotify(searchTerm, nextOffset)}
-				>
-					See Next Page
-				</Button>
-			)}
+			</Button>
+			<Button
+				disabled={loading || offset.next === 0}
+				onClick={() => {
+					searchSpotify(searchTerm, offset.next);
+					paginationOperation.current = 'Next';
+				}}
+			>
+				See Next Page
+			</Button>
 			{/* {guestInfo && guestInfo?.songRequests.length > 0 && (
 				<Accordion className="accordion-borderless" variant="outlined">
 					<AccordionSummary expandIcon={<ExpandMore />}>

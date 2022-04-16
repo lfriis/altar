@@ -5,6 +5,10 @@ export type Store = {
 	guests: Guest[];
 	activeStep: number;
 	loading: boolean;
+	offset: {
+		previous: number;
+		next: number;
+	};
 	fetchGuests: ({
 		query,
 		address,
@@ -16,5 +20,9 @@ export type Store = {
 	setUpdatedGuest: (updatedGuest: Guest) => void;
 	setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) => void;
 	setNextStep: (activeStep: number) => void;
+	setOffset: (
+		nextOffset: number,
+		paginationOperation: 'Previous' | 'Next'
+	) => void;
 	setPreviousStep: (activeStep: number) => void;
 };
