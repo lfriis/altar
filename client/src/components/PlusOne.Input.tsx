@@ -30,9 +30,21 @@ export default function PlusOne({ guest }: Props) {
 						}}
 						onBlur={() => {
 							const plusOne = guest.clone();
-							plusOne.name = name;
-							plusOne.edit = false;
-
+							// Reset plus one to default
+							if (name === '') {
+								plusOne.name = 'plus 1';
+								plusOne.edit = false;
+								plusOne.confirmed = null;
+								plusOne.foodOption = {
+									main: null,
+									glutenFree: null,
+									vegan: null,
+									other: null,
+								};
+							} else {
+								plusOne.name = name;
+								plusOne.edit = false;
+							}
 							updateGuest(plusOne);
 						}}
 					/>
