@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { MobileStepper, Button, Paper } from '@mui/material';
 import {
 	KeyboardArrowLeft,
@@ -13,12 +14,14 @@ import {
 	useSetPreviousStep,
 	useGuests,
 	useGuestInfo,
+	useSetRSVPStatus,
 } from '../../store';
 import styles from './Stepper.module.css';
 
 export default function Stepper() {
 	const guests = useGuests();
 	const guestInfo = useGuestInfo();
+	const setRSVPStatus = useSetRSVPStatus();
 
 	const activeStep = useActiveStep();
 	const setNextStep = useSetNextStep();
@@ -38,20 +41,16 @@ export default function Stepper() {
 			  )
 			: false;
 
-	// const handleSubmitRSVP = async () => {
-	// 	setLoading(true);
-	// 	axios
-	// 		.post('/api/guests/option', confirmedGuests)
-	// 		.then((res) => {
-	// 			console.log(res.data);
-	// 			setGuests(res.data.guestInfo);
-	// 			setLoading(false);
-	// 		})
-	// 		.catch((e) => {
-	// 			console.log(e);
-	// 			setLoading(false);
-	// 		});
-	// };
+	const handleSubmitRSVP = async () => {
+		axios
+			.post('/api/guests/rsvp', { guests, guestInfo })
+			.then(() => {
+				setRSVPStatus('Success');
+			})
+			.catch(() => {
+				setRSVPStatus('Error');
+			});
+	};
 
 	return (
 		<Paper className={styles.wrapper}>
@@ -63,13 +62,15 @@ export default function Stepper() {
 				activeStep={activeStep}
 				nextButton={
 					activeStep === 4 ? (
-						<Button onClick={() => console.log(guests, guestInfo)}>
+						<Button onClick={handleSubmitRSVP}>
 							Done
 							<Check />
 						</Button>
 					) : (
 						<Button
-							onClick={() => setNextStep(activeStep)}
+							onClick={() => {
+								setNextStep(activeStep);
+							}}
 							disabled={disableNext}
 						>
 							Next

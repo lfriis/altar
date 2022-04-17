@@ -1,21 +1,21 @@
 /* eslint-disable camelcase */
 import { google, sheets_v4 } from 'googleapis';
 import path from 'path';
-import { GuestFoodSelection } from '../routes/guests/guests.interface';
+import { Guest } from '../interfaces';
 
 interface GetGoogleSheetsData {
 	auth: any;
 	googleSheetsInstance: sheets_v4.Sheets;
 	spreadsheetId: string;
 	sheetName: string;
-	range: string;
+	range?: string;
 }
 
 interface AddGoogleSheetsData extends GetGoogleSheetsData {
-	values: GuestFoodSelection[];
+	values: Guest;
 }
 
-function formatData(data: any) {
+function convertToJSONArray(data: any) {
 	const headers: string[] = data.shift();
 
 	return data.map((row: string[]) => {
@@ -58,10 +58,39 @@ export async function getData({
 		range: `${sheetName}!${range}`,
 	});
 
-	return formatData(data.values);
+	return convertToJSONArray(data.values);
 }
 
-export async function addData({
+export async function addFoodData({
+	auth,
+	googleSheetsInstance,
+	spreadsheetId,
+	sheetName,
+	values,
+}: AddGoogleSheetsData) {
+	const appendRequest = {
+		auth,
+		spreadsheetId,
+		range: `${sheetName}`,
+		valueInputOption: 'USER_ENTERED',
+		resource: {
+			values: [
+				[
+					`${values.name}`,
+					`${values.foodOption.main}`,
+					`${values.foodOption.vegan}`,
+					`${values.foodOption.glutenFree}`,
+					`${values.foodOption.other}`,
+					`${values.confirmed}`,
+				],
+			],
+		},
+	};
+
+	await googleSheetsInstance.spreadsheets.values.append(appendRequest);
+}
+
+export async function updateFoodData({
 	auth,
 	googleSheetsInstance,
 	spreadsheetId,
@@ -69,40 +98,26 @@ export async function addData({
 	range,
 	values,
 }: AddGoogleSheetsData) {
-	return googleSheetsInstance.spreadsheets.values.append({
+	const updateRequest = {
 		auth,
 		spreadsheetId,
 		range: `${sheetName}!${range}`,
 		valueInputOption: 'USER_ENTERED',
-		requestBody: {
-			values: values.map((guest: GuestFoodSelection) => [
-				guest.guestName,
-				guest.foodSelection,
-			]),
+		resource: {
+			values: [
+				[
+					`${values.name}`,
+					`${values.foodOption.main}`,
+					`${values.foodOption.vegan}`,
+					`${values.foodOption.glutenFree}`,
+					`${values.foodOption.other}`,
+					`${values.confirmed}`,
+				],
+			],
 		},
-	});
-}
+	};
 
-export async function updateData({
-	auth,
-	googleSheetsInstance,
-	spreadsheetId,
-	sheetName,
-	range,
-	values,
-}: AddGoogleSheetsData) {
-	return googleSheetsInstance.spreadsheets.values.append({
-		auth,
-		spreadsheetId,
-		range: `${sheetName}!${range}`,
-		valueInputOption: 'USER_ENTERED',
-		requestBody: {
-			values: values.map((guest: GuestFoodSelection) => [
-				guest.guestName,
-				guest.foodSelection,
-			]),
-		},
-	});
+	await googleSheetsInstance.spreadsheets.values.update(updateRequest);
 }
 
 export function filterData(data: any, header: string, value: string) {

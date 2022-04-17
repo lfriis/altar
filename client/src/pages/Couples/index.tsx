@@ -1,2 +1,2 @@
+// eslint-disable-next-line import/prefer-default-export
 export { default as CouplesForm } from './Couples.Form';
-export * from './Couples.Declarations';

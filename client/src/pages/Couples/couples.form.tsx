@@ -1,7 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@mui/styles';
-import { GuestAddressSearch, Stepper } from '../../components';
-import { useGuestInfo } from '../../store';
+import { AlertMessage, GuestAddressSearch, Stepper } from '../../components';
+import {
+	useGuestInfo,
+	useGuestsFoodSelectionsExist,
+	useRSVPStatus,
+} from '../../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -40,10 +44,30 @@ const useStyles = makeStyles(() => ({
 export default function CouplesForm() {
 	const styles = useStyles();
 	const guestInfo = useGuestInfo();
+	const guestsFoodSelectionsExist = useGuestsFoodSelectionsExist();
+	const rsvpStatus = useRSVPStatus();
 
 	return (
 		<form className={styles.form}>
-			{guestInfo ? <Stepper /> : <GuestAddressSearch />}
+			{guestInfo && guestsFoodSelectionsExist ? (
+				<AlertMessage status="Warning">
+					<div>
+						We already have your info saved. If you want to make any
+						changes please reach out to Jillian or Larsen.
+					</div>
+				</AlertMessage>
+			) : rsvpStatus === 'Success' ? (
+				<AlertMessage status="Success">
+					<div>
+						Woohoo! RSVP has been saved.We are exiting to see you
+						there
+					</div>
+				</AlertMessage>
+			) : guestInfo ? (
+				<Stepper />
+			) : (
+				<GuestAddressSearch />
+			)}
 		</form>
 	);
 }

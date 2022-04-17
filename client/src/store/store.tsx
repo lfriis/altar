@@ -8,6 +8,8 @@ const initialState = {
 	guestInfo: null,
 	activeStep: 0,
 	loading: false,
+	guestsFoodSelectionsExist: null,
+	rsvpStatus: null,
 	offset: {
 		previous: -20,
 		next: 0,
@@ -26,16 +28,25 @@ export const useStore = create<Store>(
 		}) => {
 			set({ loading: true });
 			await fetchGuests({ query, address })
-				.then((guestInfo) => {
-					set((state) => ({
-						...state,
-						guestInfo: new GuestInfo(guestInfo),
-						guests: guestInfo.names.map(
-							(guest) => new Guest(guest)
-						),
-						loading: false,
-					}));
-				})
+				.then(
+					({
+						guestInfo,
+						guestsFoodSelectionsExist,
+					}: {
+						guestInfo: GoogleSheetGuestInfo;
+						guestsFoodSelectionsExist: boolean;
+					}) => {
+						set((state) => ({
+							...state,
+							guestInfo: new GuestInfo(guestInfo),
+							guests: guestInfo.names.map(
+								(guest) => new Guest(guest)
+							),
+							guestsFoodSelectionsExist,
+							loading: false,
+						}));
+					}
+				)
 				.catch(() => {
 					set({
 						...initialState,
@@ -58,6 +69,12 @@ export const useStore = create<Store>(
 				...state,
 				guestInfo: updatedGuestInfo,
 			})),
+		setRSVPStatus: (rsvpStatus: 'Success' | 'Error' | null) =>
+			set((state) => ({
+				...state,
+				rsvpStatus,
+			})),
+
 		setOffset: (offset: number, paginationOperation: 'Previous' | 'Next') =>
 			set((state) => ({
 				...state,
@@ -87,12 +104,16 @@ export const useLoading = () => useStore((state) => state.loading);
 export const useGuests = () => useStore((state) => state.guests);
 export const useGuestInfo = () => useStore((state) => state.guestInfo);
 export const useOffset = () => useStore((state) => state.offset);
+export const useGuestsFoodSelectionsExist = () =>
+	useStore((state) => state.guestsFoodSelectionsExist);
 export const useActiveStep = () => useStore((state) => state.activeStep);
+export const useRSVPStatus = () => useStore((state) => state.rsvpStatus);
 export const useFetchGuests = () => useStore((state) => state.fetchGuests);
 export const useSetUpdatedGuest = () =>
 	useStore((state) => state.setUpdatedGuest);
 export const useSetUpdatedGuestInfo = () =>
 	useStore((state) => state.setUpdatedGuestInfo);
+export const useSetRSVPStatus = () => useStore((state) => state.setRSVPStatus);
 export const useSetOffset = () => useStore((state) => state.setOffset);
 export const useSetGuests = () => useStore((state) => state.setGuests);
 export const useSetNextStep = () => useStore((state) => state.setNextStep);

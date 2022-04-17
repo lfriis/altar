@@ -9,6 +9,43 @@ declare module 'jsonwebtoken' {
 	}
 }
 
+export interface GuestInfo {
+	address: string;
+
+	city: string;
+
+	country: string;
+
+	postalCode: string;
+
+	province: string;
+
+	names: string[];
+
+	envelope: string;
+
+	email: string | null;
+
+	songRequests: any[];
+}
+
+export interface Guests {
+	name: string;
+
+	confirmed: boolean | null;
+
+	foodOption: {
+		main: string | null;
+		glutenFree: boolean | null;
+		vegan: boolean | null;
+		other: string | null;
+	};
+
+	plusOne: boolean;
+
+	edit: boolean;
+}
+
 export interface GuestRow {
 	address: string;
 	city: string;
@@ -23,7 +60,11 @@ export interface GuestRow {
 	envelope: string;
 }
 
-export interface GuestFoodSelection {
-	guestName: string;
-	foodSelection: string | null;
+export interface GuestFoodRow {
+	name: string;
+	main: string;
+	vegan: string;
+	glutenFree: string;
+	other: string;
+	confirmed: string;
 }

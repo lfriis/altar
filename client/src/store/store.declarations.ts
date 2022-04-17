@@ -5,6 +5,8 @@ export type Store = {
 	guests: Guest[];
 	activeStep: number;
 	loading: boolean;
+	guestsFoodSelectionsExist: boolean | null;
+	rsvpStatus: 'Success' | 'Error' | null;
 	offset: {
 		previous: number;
 		next: number;
@@ -20,6 +22,7 @@ export type Store = {
 	setUpdatedGuest: (updatedGuest: Guest) => void;
 	setUpdatedGuestInfo: (updatedGuestInfo: GuestInfo) => void;
 	setNextStep: (activeStep: number) => void;
+	setRSVPStatus: (rsvpStatus: 'Success' | 'Error' | null) => void;
 	setOffset: (
 		nextOffset: number,
 		paginationOperation: 'Previous' | 'Next'

@@ -1,9 +1,12 @@
+/* eslint-disable consistent-return */
+/* eslint-disable no-await-in-loop */
 /**
  * ? Required External Modules and Interfaces
  */
 import express, { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { googleConfig, serverConfig } from '../../config';
+import { Guests, GuestFoodRow } from './guests.interface';
 import { GoogleSheetsService } from '../../utils';
 
 export const guestsRouter = express.Router();
@@ -17,8 +20,6 @@ guestsRouter.post(
 	async (req: Request, res: Response, next: NextFunction) => {
 		const { query, address } = req.body;
 		let searchAddressKey: string;
-
-		console.log({ query, address });
 
 		if (query) {
 			const decodedToken = <jwt.AuthPayload>(
@@ -38,6 +39,7 @@ guestsRouter.post(
 			const googleSheetsInstance =
 				await GoogleSheetsService.generateInstance(authClientObject);
 
+			// Fetch Existing Sheets Data
 			const sheetsData = await GoogleSheetsService.getData({
 				auth: authClientObject,
 				googleSheetsInstance,
@@ -46,15 +48,35 @@ guestsRouter.post(
 				range: 'A:J',
 			});
 
+			// Filter Sheet Data by Address
 			const guestInfo = GoogleSheetsService.filterData(
 				sheetsData,
 				'address',
 				searchAddressKey
 			);
 
+			const guestFoodSelectionData = await GoogleSheetsService.getData({
+				auth: authClientObject,
+				googleSheetsInstance,
+				spreadsheetId: googleConfig.sheetId,
+				sheetName: 'Guest Food Selections',
+				range: 'A:F',
+			});
+
+			const guestsFoodSelectionsExist = guestInfo.names.some(
+				(guestName: string) => {
+					const foundGuestSelections = guestFoodSelectionData.filter(
+						(g: GuestFoodRow) => g.name === guestName
+					);
+
+					return foundGuestSelections.length > 0;
+				}
+			);
+
 			return res.status(200).json({
 				message: 'Retrieved Guest Information',
 				guestInfo,
+				guestsFoodSelectionsExist,
 			});
 		} catch (e) {
 			return next(e);
@@ -63,28 +85,64 @@ guestsRouter.post(
 );
 
 guestsRouter.post(
-	'/option',
+	'/rsvp',
 	async (req: Request, res: Response, next: NextFunction) => {
-		const confirmedGuests = req.body;
+		const { guests } = req.body;
 
 		try {
+			// const spotifyTracksURIs = guestInfo.songRequests.map(
+			// 	(song: any) => song.uri
+			// );
+			// const spotifyToken = await SpotifyService.authenticate();
+			// guestInfo.songRequests.forEach(async (song: any) => {
+			// 	await SpotifyService.addToPlaylist(spotifyToken, song.id);
+			// });
+
 			const authClientObject = await GoogleSheetsService.authenticate();
 			const googleSheetsInstance =
 				await GoogleSheetsService.generateInstance(authClientObject);
 
-			await GoogleSheetsService.addData({
+			const guestFoodSelectionData = await GoogleSheetsService.getData({
 				auth: authClientObject,
 				googleSheetsInstance,
 				spreadsheetId: googleConfig.sheetId,
-				sheetName: 'Guest Food Options',
-				range: 'A:B',
-				values: confirmedGuests,
+				sheetName: 'Guest Food Selections',
+				range: 'A:F',
 			});
+
+			for (let i = 0; i < guests.length; i++) {
+				const guest: Guests = guests[i];
+
+				if (guest.name === 'plus 1') return;
+				const guestFoodSelectionIndex =
+					guestFoodSelectionData.findIndex(
+						(g: any) => g.name === guest.name
+					);
+
+				if (guestFoodSelectionIndex === -1) {
+					await GoogleSheetsService.addFoodData({
+						auth: authClientObject,
+						googleSheetsInstance,
+						spreadsheetId: googleConfig.sheetId,
+						sheetName: 'Guest Food Selections',
+						values: guest,
+					});
+				} else {
+					await GoogleSheetsService.updateFoodData({
+						auth: authClientObject,
+						googleSheetsInstance,
+						spreadsheetId: googleConfig.sheetId,
+						sheetName: 'Guest Food Selections',
+						range: `A${guestFoodSelectionIndex + 2}`,
+						values: guest,
+					});
+				}
+			}
 
 			return res
 				.status(200)
 				.json({ message: 'Retrieved Guest Information' });
-		} catch (e) {
+		} catch (e: any) {
 			return next(e);
 		}
 	}

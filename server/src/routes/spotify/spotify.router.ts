@@ -15,8 +15,6 @@ spotifyRouter.post(
 	async (req: Request, res: Response, next: NextFunction) => {
 		const { spotifySearchTerm, spotifyOffset } = req.body;
 
-		console.log(spotifyOffset);
-
 		try {
 			const spotifyToken = await SpotifyService.authenticate();
 			const searchResults = await SpotifyService.search(

@@ -56,6 +56,12 @@ export default function SearchAddress() {
 				<Typography>
 					Please enter your address so we can find your seat!
 				</Typography>
+				<br />
+				<Typography>
+					P.S. Use the address on your invitations envelope.
+				</Typography>
+				<br />
+				<br />
 
 				<FormControl variant="standard">
 					<InputLabel color="secondary" htmlFor="input-field-address">
@@ -66,7 +72,8 @@ export default function SearchAddress() {
 						id="input-field-address"
 						disabled={loading}
 						value={address}
-						onChange={(e) => setAddress(e.target.value.trim())}
+						onChange={(e) => setAddress(e.target.value)}
+						onBlur={() => setAddress(address.trim())}
 						autoComplete="address"
 						type="text"
 					/>

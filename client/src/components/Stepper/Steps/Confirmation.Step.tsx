@@ -9,8 +9,6 @@ export default function ConfirmationStep() {
 	const guests = useGuests();
 	const updateGuest = useSetUpdatedGuest();
 
-	console.log(guests);
-
 	return (
 		<div>
 			{guests &&

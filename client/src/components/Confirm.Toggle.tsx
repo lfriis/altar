@@ -33,6 +33,12 @@ export default function ConfirmToggle({ guest }: { guest: Guest }) {
 						onClick={() => {
 							const editedGuest = guest.clone();
 							editedGuest.confirmed = false;
+							editedGuest.foodOption = {
+								main: null,
+								vegan: null,
+								glutenFree: null,
+								other: null,
+							};
 							setUpdatedGuest(editedGuest);
 						}}
 					/>
