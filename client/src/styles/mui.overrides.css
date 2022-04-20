@@ -30,3 +30,13 @@
 	color: black !important;
 	background-color: white !important;
 }
+
+.half-circle {
+	width: 200px;
+	height: 100px;
+	background-color: white;
+	border-top-left-radius: 110px;
+	border-top-right-radius: 110px;
+	border: 10px solid gray;
+	border-bottom: 0;
+}

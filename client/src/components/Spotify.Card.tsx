@@ -12,7 +12,7 @@ import { useGuestInfo } from '../store';
 
 interface Props {
 	track: SpotifyApi.TrackObjectFull;
-	handleSetSongRequest: (track: SpotifyApi.TrackObjectFull) => void;
+	handleSetSongRequest?: (track: SpotifyApi.TrackObjectFull) => void;
 }
 
 export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
@@ -26,7 +26,9 @@ export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
 				sx={{ height: 60, width: 60 }}
 				image={track.album.images[0].url}
 			/>
-			<Box sx={{ display: 'flex', flexDirection: 'column' }}>
+			<Box
+				sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}
+			>
 				<CardContent
 					style={{
 						padding: '0px 0px 0px 10px',
@@ -45,12 +47,16 @@ export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
 					</Typography>
 				</CardContent>
 			</Box>
-			<IconButton
-				onClick={() => handleSetSongRequest(track)}
-				disabled={!songExists && guestInfo?.songRequests.length === 3}
-			>
-				{songExists ? <Remove /> : <Add />}
-			</IconButton>
+			{handleSetSongRequest && (
+				<IconButton
+					onClick={() => handleSetSongRequest(track)}
+					disabled={
+						!songExists && guestInfo?.songRequests.length === 3
+					}
+				>
+					{songExists ? <Remove /> : <Add />}
+				</IconButton>
+			)}
 		</Card>
 	);
 }

@@ -1,11 +1,11 @@
 .wrapper {
-	padding: 0px 30px 0px 30px;
-	height: 650px;
-	width: 100%;
-	max-width: 450px;
+	padding: 0px 30px;
+	height: calc(100% + 300px);
+	min-width: 300px;
+	width: 600px;
 	opacity: 95%;
-	/* border-top-left-radius: 300px !important; */
-	/* border-top-right-radius: 300px !important; */
+	/* border-top-left-radius: 350px !important; */
+	/* border-top-right-radius: 350px !important; */
 }
 
 .step_container {

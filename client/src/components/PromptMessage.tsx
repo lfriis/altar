@@ -17,7 +17,7 @@ interface Props {
 	children: ReactNode;
 }
 
-export default function AlertMessage({ status, children }: Props) {
+export default function PromptMessage({ status, children }: Props) {
 	const styles = useStyles();
 
 	console.log(status);

@@ -23,7 +23,7 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 	const setUpdatedGuest = useSetUpdatedGuest();
 
 	return (
-		<FormControl>
+		<FormControl fullWidth>
 			<TextField
 				select
 				label="Food Option"
@@ -49,7 +49,7 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 						<Typography>Any dietary restrictions?</Typography>
 					</AccordionSummary>
 					<AccordionDetails>
-						<FormControl>
+						<FormControl fullWidth>
 							<FormControlLabel
 								control={
 									<Checkbox
@@ -94,7 +94,7 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 							/>
 							<TextField
 								value={guest.foodOption.other}
-								label="Other"
+								label="Other dietary restrictions"
 								variant="standard"
 								size="small"
 								onChange={(e) => {

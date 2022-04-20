@@ -11,7 +11,7 @@ import {
 	// Typography,
 	// AccordionDetails,
 } from '@mui/material';
-import { Search } from '@mui/icons-material';
+import { Search, NavigateNext } from '@mui/icons-material';
 import SpotifyCard from '../../Spotify.Card';
 import {
 	useGuestInfo,
@@ -66,7 +66,7 @@ export default function SongRequestStep() {
 	};
 
 	const debouncedFilterFunction = useCallback(
-		_.debounce(searchSpotify, 250),
+		_.debounce(searchSpotify, 500),
 		[]
 	);
 
@@ -79,6 +79,11 @@ export default function SongRequestStep() {
 					track,
 				];
 				updateGuestInfo(editedGuestInfo);
+
+				const filteredSpotifyResults = spotifyResults.filter(
+					(t) => t.id !== track.id
+				);
+				setSpotifyResults(filteredSpotifyResults);
 			} else {
 				const editedGuestInfo = guestInfo.clone();
 				editedGuestInfo.songRequests =
@@ -86,6 +91,10 @@ export default function SongRequestStep() {
 						(t) => t.id !== track.id
 					);
 				updateGuestInfo(editedGuestInfo);
+
+				if (spotifyResults.length === 0) {
+					setSpotifyResults([...spotifyResults]);
+				} else setSpotifyResults([track, ...spotifyResults]);
 			}
 		}
 	};
@@ -96,7 +105,9 @@ export default function SongRequestStep() {
 				size="small"
 				variant="outlined"
 				placeholder="Search Spotify..."
+				style={{ paddingBottom: '40px' }}
 				disabled={loading}
+				fullWidth
 				onChange={(e) => {
 					if (e.target.value === '') {
 						setSpotifyResults([]);
@@ -112,44 +123,48 @@ export default function SongRequestStep() {
 							<Search />
 						</InputAdornment>
 					),
+					endAdornment: (
+						<InputAdornment position="end">
+							{searchTerm.length > 0 && loading && (
+								<CircularProgress size={20} />
+							)}
+						</InputAdornment>
+					),
 				}}
 				helperText={
 					spotifyResults.length > 0 &&
 					`${spotifyResults.length} results`
 				}
 			/>
-			{loading && <CircularProgress />}
-			<Button
-				disabled={loading || offset.previous === -20}
-				onClick={() => {
-					searchSpotify(searchTerm, offset.previous);
-					paginationOperation.current = 'Previous';
-				}}
-			>
-				See Previous Page
-			</Button>
-			<Button
-				disabled={loading || offset.next === 0}
-				onClick={() => {
-					searchSpotify(searchTerm, offset.next);
-					paginationOperation.current = 'Next';
-				}}
-			>
-				See Next Page
-			</Button>
+
+			{guestInfo && guestInfo?.songRequests.length > 0 && (
+				<div>
+					Selected Songs ({guestInfo?.songRequests.length}/3)
+					{guestInfo?.songRequests.map((track) => (
+						<SpotifyCard
+							track={track}
+							handleSetSongRequest={handleSetSongRequest}
+							key={track.id}
+						/>
+					))}
+					<hr style={{ margin: '40px 0px' }} />
+				</div>
+			)}
+
 			{/* {guestInfo && guestInfo?.songRequests.length > 0 && (
 				<Accordion className="accordion-borderless" variant="outlined">
-					<AccordionSummary expandIcon={<ExpandMore />}>
-						<Typography>Requested Songs</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						{guestInfo?.songRequests.map((track) => (
-							<p key={track}>{track}</p>
-						))}
+				<AccordionSummary expandIcon={<ExpandMore />}>
+				<Typography>Requested Songs</Typography>
+				</AccordionSummary>
+				<AccordionDetails>
+				{guestInfo?.songRequests.map((track) => (
+					<p key={track}>{track}</p>
+					))}
 					</AccordionDetails>
-				</Accordion>
-			)} */}
-			<div style={{ overflowY: 'auto', maxHeight: '250px' }}>
+					</Accordion>
+				)} */}
+
+			<div style={{ overflowY: 'auto', maxHeight: '400px' }}>
 				{spotifyResults.map((track) => (
 					<SpotifyCard
 						track={track}
@@ -158,6 +173,40 @@ export default function SongRequestStep() {
 					/>
 				))}
 			</div>
+			{spotifyResults.length > 0 && (
+				<div
+					style={{
+						display: 'flex',
+						justifyContent: 'space-between',
+						paddingBottom: '50px',
+					}}
+				>
+					<Button
+						disabled={loading || offset.previous === -20}
+						onClick={() => {
+							searchSpotify(searchTerm, offset.previous);
+							paginationOperation.current = 'Previous';
+						}}
+						startIcon={
+							<NavigateNext
+								style={{ transform: 'rotate(180deg)' }}
+							/>
+						}
+					>
+						See Previous Page
+					</Button>
+					<Button
+						disabled={loading || offset.next === 0}
+						onClick={() => {
+							searchSpotify(searchTerm, offset.next);
+							paginationOperation.current = 'Next';
+						}}
+						endIcon={<NavigateNext />}
+					>
+						See Next Page
+					</Button>
+				</div>
+			)}
 		</>
 	);
 }

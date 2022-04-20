@@ -1,8 +1,7 @@
 import React from 'react';
 import { Check } from '@mui/icons-material';
-import { makeStyles } from '@mui/styles';
 import {
-	AlertMessage,
+	PromptMessage,
 	GuestAddressSearch,
 	NavButtons,
 	Stepper,
@@ -13,28 +12,15 @@ import {
 	useRSVPStatus,
 } from '../../store';
 
-const useStyles = makeStyles(() => ({
-	wrapper: {
-		minWidth: '300px',
-	},
-	buttonWrapper: {
-		paddingTop: '30px',
-	},
-	button: {
-		margin: '0 10px',
-	},
-}));
-
 export default function CouplesForm() {
-	const styles = useStyles();
 	const guestInfo = useGuestInfo();
 	const guestsFoodSelectionsExist = useGuestsFoodSelectionsExist();
 	const rsvpStatus = useRSVPStatus();
 
 	return (
-		<div className={`center_element ${styles.wrapper}`}>
+		<div className="center_element">
 			{guestInfo && guestsFoodSelectionsExist ? (
-				<AlertMessage status="Warning">
+				<PromptMessage status="Warning">
 					<div>
 						<h3 className="align-items-center">
 							<Check style={{ paddingRight: '10px' }} />
@@ -44,9 +30,9 @@ export default function CouplesForm() {
 						Jillian or Larsen.
 					</div>
 					<NavButtons />
-				</AlertMessage>
+				</PromptMessage>
 			) : rsvpStatus === 'Success' ? (
-				<AlertMessage status="Success">
+				<PromptMessage status="Success">
 					<h3 className="align-items-center">
 						<Check style={{ paddingRight: '10px' }} />
 						Your RSVP has been saved!
@@ -56,7 +42,7 @@ export default function CouplesForm() {
 						browser to the following pages:
 					</p>
 					<NavButtons />
-				</AlertMessage>
+				</PromptMessage>
 			) : guestInfo ? (
 				<Stepper />
 			) : (

@@ -1,5 +1,6 @@
 import React from 'react';
 import { useGuests, useGuestInfo } from '../../../store';
+import SpotifyCard from '../../Spotify.Card';
 
 export default function SummaryStep() {
 	const guests = useGuests();
@@ -42,7 +43,7 @@ export default function SummaryStep() {
 					<h4>Songs Requested</h4>
 					{guestInfo?.songRequests.map((song) => (
 						<div key={song.id}>
-							<p>{song.name}</p>
+							<SpotifyCard track={song} key={song.id} />
 						</div>
 					))}
 				</>

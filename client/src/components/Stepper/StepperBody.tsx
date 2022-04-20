@@ -7,7 +7,7 @@ export default function StepperBody({ step }: { step: Step }) {
 	return (
 		<>
 			<div>
-				<h4>{label}</h4>
+				<h2 style={{ paddingTop: '20px' }}>{label}</h2>
 			</div>
 			<StepComponent />
 		</>

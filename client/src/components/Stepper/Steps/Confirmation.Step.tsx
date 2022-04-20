@@ -18,7 +18,9 @@ export default function ConfirmationStep() {
 					) : (
 						<div key={guest.name}>
 							<div className="align-items-center">
-								<h4>{guest.name}</h4>
+								<h1 style={{ fontFamily: 'Allura' }}>
+									{guest.name}
+								</h1>
 
 								{guest.plusOne && guest.name !== 'plus 1' && (
 									<IconButton

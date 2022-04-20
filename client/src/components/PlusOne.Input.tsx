@@ -14,7 +14,7 @@ export default function PlusOne({ guest }: Props) {
 	const [name, setName] = useState(guest.edit ? guest.name : '');
 
 	return (
-		<div>
+		<div style={{ padding: '20px 0px 20px 0px' }}>
 			{!activated ? (
 				<Button variant="contained" onClick={() => setActivated(true)}>
 					Plus 1
@@ -47,6 +47,7 @@ export default function PlusOne({ guest }: Props) {
 							}
 							updateGuest(plusOne);
 						}}
+						fullWidth
 					/>
 					<ConfirmToggle guest={guest} />
 				</>

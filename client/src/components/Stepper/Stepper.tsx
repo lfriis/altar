@@ -63,7 +63,7 @@ export default function Stepper() {
 				nextButton={
 					activeStep === 3 ? (
 						<Button onClick={handleSubmitRSVP}>
-							Done
+							Submit RSVP
 							<Check />
 						</Button>
 					) : (
