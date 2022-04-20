@@ -8,7 +8,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-image: url('../assets/background.jpg');
-	height: 100%;
+	height: 100vh;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -112,6 +112,18 @@ body {
 
 .text-link:hover {
 	text-decoration: underline !important;
+}
+
+.center_element {
+	/* position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%); */
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	-webkit-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 }
 
 .home-page {

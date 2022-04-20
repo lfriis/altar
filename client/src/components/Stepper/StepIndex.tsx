@@ -1,7 +1,6 @@
 import {
 	ConfirmationStep,
 	FoodSelectionStep,
-	EmailAddressStep,
 	SongRequestStep,
 	SummaryStep,
 } from './Steps';
@@ -17,11 +16,6 @@ const steps: Step[] = [
 		label: "What's on the menu?",
 		completed: false,
 		component: FoodSelectionStep,
-	},
-	{
-		label: "We won't bug you too much",
-		completed: false,
-		component: EmailAddressStep,
 	},
 	{
 		label: 'Give us a beat',

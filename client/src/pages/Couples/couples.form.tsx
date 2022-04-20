@@ -1,6 +1,12 @@
 import React from 'react';
+import { Check } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
-import { AlertMessage, GuestAddressSearch, Stepper } from '../../components';
+import {
+	AlertMessage,
+	GuestAddressSearch,
+	NavButtons,
+	Stepper,
+} from '../../components';
 import {
 	useGuestInfo,
 	useGuestsFoodSelectionsExist,
@@ -8,36 +14,14 @@ import {
 } from '../../store';
 
 const useStyles = makeStyles(() => ({
-	form: {
-		display: 'flex',
-		flexDirection: 'column',
-		alignItems: 'center',
-		padding: '45px',
-
-		'& .MuiFormControl-root': {
-			margin: '10px',
-			width: '400px',
-		},
-		'& .MuiButtonBase-root': {
-			margin: '20px',
-		},
-		'& .MuiButton-contained': {
-			width: '400px',
-		},
+	wrapper: {
+		minWidth: '300px',
 	},
-	avatar: {
-		width: '70px !important',
-		height: '70px !important',
-	},
-	title: {
+	buttonWrapper: {
 		paddingTop: '30px',
-		paddingBottom: '30px',
-		fontSize: '18px !important',
-		textTransform: 'uppercase',
-		letterSpacing: '0.1em !important',
 	},
-	credentials: {
-		paddingTop: '8px',
+	button: {
+		margin: '0 10px',
 	},
 }));
 
@@ -48,26 +32,36 @@ export default function CouplesForm() {
 	const rsvpStatus = useRSVPStatus();
 
 	return (
-		<form className={styles.form}>
+		<div className={`center_element ${styles.wrapper}`}>
 			{guestInfo && guestsFoodSelectionsExist ? (
 				<AlertMessage status="Warning">
 					<div>
-						We already have your info saved. If you want to make any
-						changes please reach out to Jillian or Larsen.
+						<h3 className="align-items-center">
+							<Check style={{ paddingRight: '10px' }} />
+							You have already submitted your RSVP!
+						</h3>
+						If you want to make any changes, please reach out to
+						Jillian or Larsen.
 					</div>
+					<NavButtons />
 				</AlertMessage>
 			) : rsvpStatus === 'Success' ? (
 				<AlertMessage status="Success">
-					<div>
-						Woohoo! RSVP has been saved.We are exiting to see you
-						there
-					</div>
+					<h3 className="align-items-center">
+						<Check style={{ paddingRight: '10px' }} />
+						Your RSVP has been saved!
+					</h3>
+					<p>
+						For more information about the wedding, feel free to
+						browser to the following pages:
+					</p>
+					<NavButtons />
 				</AlertMessage>
 			) : guestInfo ? (
 				<Stepper />
 			) : (
 				<GuestAddressSearch />
 			)}
-		</form>
+		</div>
 	);
 }

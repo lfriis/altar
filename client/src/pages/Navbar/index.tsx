@@ -1,26 +1,32 @@
 import React from 'react';
-import { Typography, Button } from '@mui/material';
+import { Button, Typography, useMediaQuery } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import NavbarLink from './Navbar.Link';
+import CollapseMenu from './CollapseMenu';
 
 export default function Navbar() {
 	const navigate = useNavigate();
+	const showCollapseMenu = useMediaQuery('(max-width:780px)');
 
 	return (
 		<nav className="navbar">
 			<Typography className="navbar__brand">JILLIAN & LARSEN</Typography>
-			<div>
-				<NavbarLink to="/">Wedding</NavbarLink>
-				<NavbarLink to="/location">Location</NavbarLink>
-				<NavbarLink to="/gifts">Gifts</NavbarLink>
-				<Button
-					className="rsvp-button"
-					variant="outlined"
-					onClick={() => navigate('/rsvp')}
-				>
-					RSVP
-				</Button>
-			</div>
+			{showCollapseMenu ? (
+				<CollapseMenu />
+			) : (
+				<div>
+					<NavbarLink to="/">Wedding</NavbarLink>
+					<NavbarLink to="/location">Location</NavbarLink>
+					<NavbarLink to="/gifts">Gifts</NavbarLink>
+					<Button
+						className="rsvp-button"
+						variant="outlined"
+						onClick={() => navigate('/rsvp')}
+					>
+						RSVP
+					</Button>
+				</div>
+			)}
 		</nav>
 	);
 }

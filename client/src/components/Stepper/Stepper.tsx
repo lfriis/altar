@@ -61,7 +61,7 @@ export default function Stepper() {
 				position="static"
 				activeStep={activeStep}
 				nextButton={
-					activeStep === 4 ? (
+					activeStep === 3 ? (
 						<Button onClick={handleSubmitRSVP}>
 							Done
 							<Check />
