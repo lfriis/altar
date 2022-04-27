@@ -8,12 +8,12 @@ export default function SummaryStep() {
 
 	return (
 		<div>
-			<br />
 			{guests.map(
 				(guest) =>
-					guest.name !== 'plus 1' && (
+					guest.name !== 'plus 1' &&
+					guest.confirmed && (
 						<div key={guest.name}>
-							<h2>{guest.name}</h2>
+							<h3>{guest.name}</h3>
 							<h5>{guest.foodOption.main}</h5>
 							<p>
 								{guest.foodOption.glutenFree && 'Gluten Free'}
@@ -24,29 +24,19 @@ export default function SummaryStep() {
 								{guest.foodOption.other &&
 									`Other: ${guest.foodOption.other}`}
 							</p>
-
-							<br />
 						</div>
 					)
 			)}
 
-			{guestInfo?.email && (
-				<>
-					<h4>Email</h4>
-					<p>{guestInfo?.email}</p>
-					<br />
-				</>
-			)}
-
 			{guestInfo && guestInfo?.songRequests.length > 0 && (
-				<>
-					<h4>Songs Requested</h4>
+				<div style={{ padding: '8px 16px 16px' }}>
+					<h4>Song Requests</h4>
 					{guestInfo?.songRequests.map((song) => (
 						<div key={song.id}>
 							<SpotifyCard track={song} key={song.id} />
 						</div>
 					))}
-				</>
+				</div>
 			)}
 		</div>
 	);

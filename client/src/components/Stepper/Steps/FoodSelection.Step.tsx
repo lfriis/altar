@@ -13,9 +13,9 @@ export default function FoodSelectionStep() {
 					<div key={guest.name}>
 						{guest.name !== 'plus 1' ? (
 							<>
-								<h1 style={{ fontFamily: 'Allura' }}>
+								<h2 style={{ fontFamily: 'Alegreya Sans' }}>
 									{guest.name}
-								</h1>
+								</h2>
 								<FoodOptionSelect
 									guest={guest}
 									options={config.foodOptions}

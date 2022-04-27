@@ -21,14 +21,11 @@ export default function CouplesForm() {
 		<div className="center_element">
 			{guestInfo && guestsFoodSelectionsExist ? (
 				<PromptMessage status="Warning">
-					<div>
-						<h3 className="align-items-center">
-							<Check style={{ paddingRight: '10px' }} />
-							You have already submitted your RSVP!
-						</h3>
+					<h3>You have already submitted your RSVP!</h3>
+					<p style={{ textAlign: 'center' }}>
 						If you want to make any changes, please reach out to
 						Jillian or Larsen.
-					</div>
+					</p>
 					<NavButtons />
 				</PromptMessage>
 			) : rsvpStatus === 'Success' ? (
@@ -37,7 +34,7 @@ export default function CouplesForm() {
 						<Check style={{ paddingRight: '10px' }} />
 						Your RSVP has been saved!
 					</h3>
-					<p>
+					<p style={{ textAlign: 'center' }}>
 						For more information about the wedding, feel free to
 						browser to the following pages:
 					</p>

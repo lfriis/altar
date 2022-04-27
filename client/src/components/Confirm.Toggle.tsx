@@ -9,7 +9,7 @@ const useStyles = makeStyles(() => ({
 	button_wrapper: {
 		padding: '5px 0px',
 	},
-	options_button_override: {
+	options_button: {
 		color: '#333',
 		display: 'unset',
 		textAlign: 'left',
@@ -23,9 +23,6 @@ const useStyles = makeStyles(() => ({
 		fontSize: '13px',
 		marginTop: '0px',
 		lineHeight: 'normal',
-	},
-	selected: {
-		backgroundColor: '#f5f5f5',
 	},
 }));
 
@@ -51,13 +48,20 @@ export default function ConfirmToggle({ guest }: { guest: Guest }) {
 		setUpdatedGuest(editedGuest);
 	};
 
+	console.log(guest.name, guest.confirmed);
+
 	return (
 		<>
 			<div className={styles.button_wrapper}>
 				<Button
-					className={`${styles.options_button_override} ${
-						guest.confirmed === true ? styles.selected : ''
-					}`}
+					className={styles.options_button}
+					style={
+						guest.confirmed
+							? {
+									backgroundColor: '#80808020',
+							  }
+							: {}
+					}
 					variant="outlined"
 					onClick={() => confirm()}
 					fullWidth
@@ -78,9 +82,14 @@ export default function ConfirmToggle({ guest }: { guest: Guest }) {
 
 			<div className={styles.button_wrapper}>
 				<Button
-					className={`${styles.options_button_override} ${
-						guest.confirmed === false ? styles.selected : ''
-					}`}
+					className={styles.options_button}
+					style={
+						guest.confirmed === false
+							? {
+									backgroundColor: '#80808020',
+							  }
+							: {}
+					}
 					variant="outlined"
 					onClick={() => decline()}
 					fullWidth

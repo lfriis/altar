@@ -4,7 +4,6 @@ import { makeStyles } from '@mui/styles';
 
 const useStyles = makeStyles(() => ({
 	form: {
-		maxWidth: '400px',
 		display: 'flex',
 		flexDirection: 'column',
 		alignItems: 'center',

@@ -27,19 +27,19 @@ export default function Stepper() {
 	const setNextStep = useSetNextStep();
 	const setPreviousStep = useSetPreviousStep();
 
-	const disableNext =
-		activeStep === 0
-			? guests.some(
-					(guest) =>
-						guest.name !== 'plus 1' && guest.confirmed === null
-			  )
-			: activeStep === 1
-			? guests.some(
-					(guest) =>
-						guest.name !== 'plus 1' &&
-						guest.foodOption.main === null
-			  )
-			: false;
+	// const disableNext =
+	// 	activeStep === 0
+	// 		? guests.some(
+	// 				(guest) =>
+	// 					guest.name !== 'plus 1' && guest.confirmed === null
+	// 		  )
+	// 		: activeStep === 1
+	// 		? guests.some(
+	// 				(guest) =>
+	// 					guest.name !== 'plus 1' &&
+	// 					guest.foodOption.main === null
+	// 		  )
+	// 		: false;
 
 	const handleSubmitRSVP = async () => {
 		axios
@@ -71,7 +71,7 @@ export default function Stepper() {
 							onClick={() => {
 								setNextStep(activeStep);
 							}}
-							disabled={disableNext}
+							// disabled={disableNext}
 						>
 							Next
 							<KeyboardArrowRight />

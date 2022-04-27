@@ -20,6 +20,7 @@ import {
 	useSetOffset,
 } from '../../../store';
 import { parseURL } from '../../../utils';
+import DropdownAccordion from '../../Dropdown.Accordion';
 
 export default function SongRequestStep() {
 	const guestInfo = useGuestInfo();
@@ -105,12 +106,12 @@ export default function SongRequestStep() {
 				size="small"
 				variant="outlined"
 				placeholder="Search Spotify..."
-				style={{ paddingBottom: '40px' }}
+				style={{ paddingBottom: '20px' }}
 				disabled={loading}
 				fullWidth
 				onChange={(e) => {
 					if (e.target.value === '') {
-						setSpotifyResults([]);
+						// setSpotifyResults([]);
 						setOffset(0, 'Next');
 					} else {
 						setSearchTerm(e.target.value);
@@ -138,8 +139,9 @@ export default function SongRequestStep() {
 			/>
 
 			{guestInfo && guestInfo?.songRequests.length > 0 && (
-				<div>
-					Selected Songs ({guestInfo?.songRequests.length}/3)
+				<DropdownAccordion
+					accordionTitle={`Selected Songs (${guestInfo?.songRequests.length}/3)`}
+				>
 					{guestInfo?.songRequests.map((track) => (
 						<SpotifyCard
 							track={track}
@@ -147,22 +149,8 @@ export default function SongRequestStep() {
 							key={track.id}
 						/>
 					))}
-					<hr style={{ margin: '40px 0px' }} />
-				</div>
+				</DropdownAccordion>
 			)}
-
-			{/* {guestInfo && guestInfo?.songRequests.length > 0 && (
-				<Accordion className="accordion-borderless" variant="outlined">
-				<AccordionSummary expandIcon={<ExpandMore />}>
-				<Typography>Requested Songs</Typography>
-				</AccordionSummary>
-				<AccordionDetails>
-				{guestInfo?.songRequests.map((track) => (
-					<p key={track}>{track}</p>
-					))}
-					</AccordionDetails>
-					</Accordion>
-				)} */}
 
 			<div style={{ overflowY: 'auto', maxHeight: '400px' }}>
 				{spotifyResults.map((track) => (
@@ -193,7 +181,7 @@ export default function SongRequestStep() {
 							/>
 						}
 					>
-						See Previous Page
+						See Previous
 					</Button>
 					<Button
 						disabled={loading || offset.next === 0}
@@ -203,7 +191,7 @@ export default function SongRequestStep() {
 						}}
 						endIcon={<NavigateNext />}
 					>
-						See Next Page
+						See Next
 					</Button>
 				</div>
 			)}

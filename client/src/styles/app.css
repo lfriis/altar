@@ -1,31 +1,22 @@
 html,
 #root,
 body {
-	font-family: Roboto, Archivo, sans-serif;
+	font-family: 'Alegreya Sans', sans-serif;
 	color: #333;
-	min-width: 430px;
+	height: 100vh;
 	width: 100vw;
+	min-width: 320px;
 	margin: 0;
 	padding: 0;
 	background-image: url('../assets/background.jpg');
-	height: 100vh;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
-.App {
+/* .App {
 	padding: 2rem;
-}
-
-:root {
-	--uf-primary: #ce0058;
-	--uf-secondary: #041b64;
-	--uf-disabled: #0e8a4485;
-	--uf-lighter: #0e8a4417;
-	--button-text: white;
-	--button-text-secondary: rgb(255, 255, 255);
-}
+} */
 
 /* 
 	--- NAVBAR --- 
@@ -35,7 +26,8 @@ body {
 	align-items: center;
 	border-radius: 4px;
 	flex-wrap: wrap;
-	padding: 0px 17px 0px 10px;
+	padding: 30px;
+	font-family: 'Alegreya Sans', sans-serif;
 }
 
 .navbar > div {
@@ -47,15 +39,15 @@ body {
 .navbar__link {
 	color: white !important;
 	margin: 1em;
-	font-family: Roboto, Archivo, sans-serif;
+	font-family: 'Alegreya Sans', sans-serif;
 	cursor: pointer;
 	letter-spacing: 0.1em !important;
 	text-indent: 0.3em;
 	border-bottom: 3px solid transparent;
-	font-size: 1rem;
-	padding: 0.625rem 0rem 0.3125rem 0rem;
+	font-size: 1.25rem;
 }
 .navbar__brand {
+	font-family: 'Alegreya Sans', sans-serif !important;
 	color: white;
 	cursor: pointer;
 	display: inline-block;
@@ -115,15 +107,19 @@ body {
 }
 
 .center_element {
-	/* position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%); */
 	position: absolute;
 	top: 50%;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
+	width: 60%;
+	max-width: 600px;
+}
+
+@media (max-width: 650px) {
+	.center_element {
+		width: 90%;
+	}
 }
 
 .home-page {
@@ -139,4 +135,6 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	text-align: center;
+	padding: 0.5rem;
 }

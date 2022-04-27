@@ -5,14 +5,10 @@ import {
 	TextField,
 	Checkbox,
 	FormControlLabel,
-	Accordion,
-	AccordionSummary,
-	AccordionDetails,
-	Typography,
 } from '@mui/material';
-import { ExpandMore } from '@mui/icons-material';
 import { Guest } from '../interfaces';
 import { useSetUpdatedGuest } from '../store';
+import DropdownAccordion from './Dropdown.Accordion';
 
 interface Props {
 	guest: Guest;
@@ -44,69 +40,63 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 			</TextField>
 
 			{guest.confirmed && (
-				<Accordion className="accordion-borderless" variant="outlined">
-					<AccordionSummary expandIcon={<ExpandMore />}>
-						<Typography>Any dietary restrictions?</Typography>
-					</AccordionSummary>
-					<AccordionDetails>
-						<FormControl fullWidth>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={
-											guest.foodOption.glutenFree
-												? guest.foodOption.glutenFree
-												: false
-										}
-										style={{ margin: '0' }}
-										onChange={(e) => {
-											const editedGuest = guest.clone();
-											editedGuest.foodOption.glutenFree =
-												e.target.checked;
-											setUpdatedGuest(editedGuest);
-										}}
-									/>
-								}
-								label="Gluten Free"
-							/>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={
-											guest.foodOption.vegan
-												? guest.foodOption.vegan
-												: false
-										}
-										disabled={
-											guest.foodOption.main ===
-											'Pork Tenderloin'
-										}
-										style={{ margin: '0' }}
-										onChange={(e) => {
-											const editedGuest = guest.clone();
-											editedGuest.foodOption.vegan =
-												e.target.checked;
-											setUpdatedGuest(editedGuest);
-										}}
-									/>
-								}
-								label="Vegan"
-							/>
-							<TextField
-								value={guest.foodOption.other}
-								label="Other dietary restrictions"
-								variant="standard"
-								size="small"
-								onChange={(e) => {
-									const editedGuest = guest.clone();
-									editedGuest.foodOption.other =
-										e.target.value;
-									setUpdatedGuest(editedGuest);
-								}}
-							/>
-						</FormControl>
-					</AccordionDetails>
-				</Accordion>
+				<DropdownAccordion accordionTitle="Any allergies/dietary restrictions?">
+					<FormControl fullWidth>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={
+										guest.foodOption.glutenFree
+											? guest.foodOption.glutenFree
+											: false
+									}
+									style={{ margin: '0' }}
+									onChange={(e) => {
+										const editedGuest = guest.clone();
+										editedGuest.foodOption.glutenFree =
+											e.target.checked;
+										setUpdatedGuest(editedGuest);
+									}}
+								/>
+							}
+							label="Gluten Free"
+						/>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={
+										guest.foodOption.vegan
+											? guest.foodOption.vegan
+											: false
+									}
+									disabled={
+										guest.foodOption.main ===
+										'Pork Tenderloin'
+									}
+									style={{ margin: '0' }}
+									onChange={(e) => {
+										const editedGuest = guest.clone();
+										editedGuest.foodOption.vegan =
+											e.target.checked;
+										setUpdatedGuest(editedGuest);
+									}}
+								/>
+							}
+							label="Vegan"
+						/>
+						<TextField
+							value={guest.foodOption.other}
+							label="Other dietary restrictions"
+							variant="standard"
+							size="small"
+							onChange={(e) => {
+								const editedGuest = guest.clone();
+								editedGuest.foodOption.other = e.target.value;
+								setUpdatedGuest(editedGuest);
+							}}
+						/>
+					</FormControl>
+				</DropdownAccordion>
 			)}
 		</FormControl>
 	);

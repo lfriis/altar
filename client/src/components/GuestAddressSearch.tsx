@@ -12,7 +12,6 @@ import { useFetchGuests, useLoading } from '../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
-		width: 'calc(100% - 30px)',
 		display: 'flex',
 		flexDirection: 'column',
 		padding: '30px',
@@ -24,7 +23,7 @@ export default function SearchAddress() {
 	const styles = useStyles();
 	const loading = useLoading();
 	const fetchGuests = useFetchGuests();
-	const [address, setAddress] = useState('');
+	const [address, setAddress] = useState('63 Watermill Street');
 
 	return (
 		<Paper className={styles.form}>

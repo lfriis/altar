@@ -25,6 +25,10 @@ const useStyles = makeStyles(() => ({
 		color: 'black !important',
 		pointerEvents: 'none',
 	},
+	menuIconOverride: {
+		margin: 0,
+		padding: 0,
+	},
 	menuIcon: {
 		color: 'white',
 	},
@@ -47,7 +51,10 @@ export default function CollapseMenu() {
 
 	return (
 		<div style={{ marginLeft: 'auto' }}>
-			<IconButton onClick={handleClick}>
+			<IconButton
+				className={styles.menuIconOverride}
+				onClick={handleClick}
+			>
 				<MenuIcon className={styles.menuIcon} fontSize="medium" />
 			</IconButton>
 			<Menu

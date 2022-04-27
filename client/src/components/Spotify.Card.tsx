@@ -23,7 +23,7 @@ export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
 		<Card sx={{ display: 'flex', padding: '10px' }}>
 			<CardMedia
 				component="img"
-				sx={{ height: 60, width: 60 }}
+				sx={{ height: 50, width: 50 }}
 				image={track.album.images[0].url}
 			/>
 			<Box
@@ -35,11 +35,11 @@ export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
 					}}
 					sx={{ flex: '1 0 auto' }}
 				>
-					<Typography component="div" variant="h5">
+					<Typography component="div" variant="subtitle2">
 						{track.name}
 					</Typography>
 					<Typography
-						variant="subtitle1"
+						variant="overline"
 						color="text.secondary"
 						component="div"
 					>

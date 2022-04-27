@@ -6,7 +6,7 @@ import CollapseMenu from './CollapseMenu';
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	const showCollapseMenu = useMediaQuery('(max-width:780px)');
+	const showCollapseMenu = useMediaQuery('(max-width:800px)');
 
 	return (
 		<nav className="navbar">
