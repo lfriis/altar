@@ -9,6 +9,14 @@ declare module 'jsonwebtoken' {
 	}
 }
 
+export interface SpotifySong {
+	id: string;
+	name: string;
+	artists: {
+		name: string;
+	}[];
+}
+
 export interface GuestInfo {
 	address: string;
 

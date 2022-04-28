@@ -6,7 +6,7 @@
 import express, { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { googleConfig, serverConfig } from '../../config';
-import { Guests, GuestFoodRow } from './guests.interface';
+import { Guests, GuestFoodRow, SpotifySong } from './guests.interface';
 import { GoogleSheetsService } from '../../utils';
 
 export const guestsRouter = express.Router();
@@ -25,8 +25,6 @@ guestsRouter.post(
 			const decodedToken = <jwt.AuthPayload>(
 				jwt.verify(query, serverConfig.jwt_token)
 			);
-			console.log(decodedToken);
-
 			searchAddressKey = decodedToken.address;
 		} else if (address) {
 			searchAddressKey = address;
@@ -89,17 +87,9 @@ guestsRouter.post(
 guestsRouter.post(
 	'/rsvp',
 	async (req: Request, res: Response, next: NextFunction) => {
-		const { guests } = req.body;
+		const { guests, guestInfo } = req.body;
 
 		try {
-			// const spotifyTracksURIs = guestInfo.songRequests.map(
-			// 	(song: any) => song.uri
-			// );
-			// const spotifyToken = await SpotifyService.authenticate();
-			// guestInfo.songRequests.forEach(async (song: any) => {
-			// 	await SpotifyService.addToPlaylist(spotifyToken, song.id);
-			// });
-
 			const authClientObject = await GoogleSheetsService.authenticate();
 			const googleSheetsInstance =
 				await GoogleSheetsService.generateInstance(authClientObject);
@@ -127,7 +117,7 @@ guestsRouter.post(
 						googleSheetsInstance,
 						spreadsheetId: googleConfig.sheetId,
 						sheetName: 'Guest Food Selections',
-						values: guest,
+						foodSelection: guest,
 					});
 				} else {
 					await GoogleSheetsService.updateFoodData({
@@ -136,7 +126,21 @@ guestsRouter.post(
 						spreadsheetId: googleConfig.sheetId,
 						sheetName: 'Guest Food Selections',
 						range: `A${guestFoodSelectionIndex + 2}`,
-						values: guest,
+						foodSelection: guest,
+					});
+				}
+			}
+
+			if (guestInfo.songRequests.length > 0) {
+				for (let i = 0; i < guestInfo.songRequests.length; i++) {
+					const song: SpotifySong = guestInfo.songRequests[i];
+
+					await GoogleSheetsService.addSongData({
+						auth: authClientObject,
+						googleSheetsInstance,
+						spreadsheetId: googleConfig.sheetId,
+						sheetName: 'Song Requests',
+						song,
 					});
 				}
 			}

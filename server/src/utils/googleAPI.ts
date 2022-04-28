@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import { google, sheets_v4 } from 'googleapis';
 import path from 'path';
-import { Guest } from '../interfaces';
+import { Guests, SpotifySong } from '../routes/guests/guests.interface';
 
 interface GetGoogleSheetsData {
 	auth: any;
@@ -12,7 +12,8 @@ interface GetGoogleSheetsData {
 }
 
 interface AddGoogleSheetsData extends GetGoogleSheetsData {
-	values: Guest;
+	foodSelection?: Guests;
+	song?: SpotifySong;
 }
 
 function convertToJSONArray(data: any) {
@@ -66,7 +67,7 @@ export async function addFoodData({
 	googleSheetsInstance,
 	spreadsheetId,
 	sheetName,
-	values,
+	foodSelection,
 }: AddGoogleSheetsData) {
 	const appendRequest = {
 		auth,
@@ -76,12 +77,12 @@ export async function addFoodData({
 		resource: {
 			values: [
 				[
-					`${values.name}`,
-					`${values.foodOption.main}`,
-					`${values.foodOption.vegan}`,
-					`${values.foodOption.glutenFree}`,
-					`${values.foodOption.other}`,
-					`${values.confirmed}`,
+					`${foodSelection?.name}`,
+					`${foodSelection?.foodOption.main}`,
+					`${foodSelection?.foodOption.vegan}`,
+					`${foodSelection?.foodOption.glutenFree}`,
+					`${foodSelection?.foodOption.other}`,
+					`${foodSelection?.confirmed}`,
 				],
 			],
 		},
@@ -96,7 +97,7 @@ export async function updateFoodData({
 	spreadsheetId,
 	sheetName,
 	range,
-	values,
+	foodSelection,
 }: AddGoogleSheetsData) {
 	const updateRequest = {
 		auth,
@@ -106,18 +107,40 @@ export async function updateFoodData({
 		resource: {
 			values: [
 				[
-					`${values.name}`,
-					`${values.foodOption.main}`,
-					`${values.foodOption.vegan}`,
-					`${values.foodOption.glutenFree}`,
-					`${values.foodOption.other}`,
-					`${values.confirmed}`,
+					`${foodSelection?.name}`,
+					`${foodSelection?.foodOption.main}`,
+					`${foodSelection?.foodOption.vegan}`,
+					`${foodSelection?.foodOption.glutenFree}`,
+					`${foodSelection?.foodOption.other}`,
+					`${foodSelection?.confirmed}`,
 				],
 			],
 		},
 	};
 
 	await googleSheetsInstance.spreadsheets.values.update(updateRequest);
+}
+
+export async function addSongData({
+	auth,
+	googleSheetsInstance,
+	spreadsheetId,
+	sheetName,
+	song,
+}: AddGoogleSheetsData) {
+	const appendRequest = {
+		auth,
+		spreadsheetId,
+		range: `${sheetName}`,
+		valueInputOption: 'USER_ENTERED',
+		resource: {
+			values: [
+				[`${song?.name}`, `${song?.artists[0].name}`, `${song?.id}`],
+			],
+		},
+	};
+
+	await googleSheetsInstance.spreadsheets.values.append(appendRequest);
 }
 
 export function filterData(data: any, header: string, value: string) {
