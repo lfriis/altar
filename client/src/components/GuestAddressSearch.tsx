@@ -44,7 +44,7 @@ export default function SearchAddress() {
 					type="text"
 				/>
 				<FormHelperText id="input-field-address">
-					Use the address on your invitations envelope.
+					Use the address found on your invitations envelope.
 				</FormHelperText>
 			</FormControl>
 			<br />

@@ -18,10 +18,13 @@ const useStyles = makeStyles(() => ({
 	options_button_header: {
 		fontSize: '16px',
 		fontWeight: '500',
+		margin: '0px',
+		padding: '5px',
 	},
 	options_button_body: {
 		fontSize: '13px',
-		marginTop: '0px',
+		margin: '0px',
+		padding: '5px',
 		lineHeight: 'normal',
 	},
 }));
@@ -47,8 +50,6 @@ export default function ConfirmToggle({ guest }: { guest: Guest }) {
 		};
 		setUpdatedGuest(editedGuest);
 	};
-
-	console.log(guest.name, guest.confirmed);
 
 	return (
 		<>

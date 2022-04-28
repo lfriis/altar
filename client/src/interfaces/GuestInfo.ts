@@ -11,6 +11,7 @@ export interface GoogleSheetGuestInfo {
 	names: string[];
 	envelope: string;
 	email: string | null;
+	encrypted_address?: string;
 }
 
 export class GuestInfo {

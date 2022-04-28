@@ -116,7 +116,7 @@ body {
 	max-width: 600px;
 }
 
-@media (max-width: 650px) {
+@media (max-width: 550px) {
 	.center_element {
 		width: 90%;
 	}

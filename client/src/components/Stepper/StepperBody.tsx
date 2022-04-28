@@ -5,11 +5,21 @@ export default function StepperBody({ step }: { step: Step }) {
 	const { label, component: StepComponent } = step;
 
 	return (
-		<>
-			<div>
-				<h2 style={{ paddingTop: '20px' }}>{label}</h2>
+		<div>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					alignItems: 'center',
+					padding: '30px',
+				}}
+			>
+				<h1>RSVP</h1>
+				<h3 style={{ padding: '0px', margin: '0px' }}>{label}</h3>
 			</div>
-			<StepComponent />
-		</>
+			<div>
+				<StepComponent />
+			</div>
+		</div>
 	);
 }

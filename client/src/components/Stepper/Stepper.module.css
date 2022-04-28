@@ -1,8 +1,10 @@
 .wrapper {
 	padding: 0px 30px;
-	opacity: 95%;
+	opacity: 85%;
+	height: calc(70vh + 150px);
 	border-top-left-radius: 350px !important;
 	border-top-right-radius: 350px !important;
+	overflow-y: auto;
 }
 
 .step_container {

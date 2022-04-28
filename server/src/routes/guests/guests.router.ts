@@ -25,6 +25,8 @@ guestsRouter.post(
 			const decodedToken = <jwt.AuthPayload>(
 				jwt.verify(query, serverConfig.jwt_token)
 			);
+			console.log(decodedToken);
+
 			searchAddressKey = decodedToken.address;
 		} else if (address) {
 			searchAddressKey = address;
@@ -45,7 +47,7 @@ guestsRouter.post(
 				googleSheetsInstance,
 				spreadsheetId: googleConfig.sheetId,
 				sheetName: 'Guest List',
-				range: 'A:J',
+				range: 'A:N',
 			});
 
 			// Filter Sheet Data by Address
