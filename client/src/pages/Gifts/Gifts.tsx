@@ -30,7 +30,7 @@ export default function Gifts() {
 					<p style={{ fontSize: '50px', letterSpacing: '0.1em' }}>
 						Gifts
 					</p>
-					<p style={{ fontSize: '20px', letterSpacing: '0.1em' }}>
+					<p style={{ fontSize: '30px', letterSpacing: '0.1em' }}>
 						Contribute to our Honeymoon or relocation to Austalia
 					</p>
 				</div>

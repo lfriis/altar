@@ -8,7 +8,7 @@ export default function Location() {
 					<p style={{ fontSize: '50px', letterSpacing: '0.1em' }}>
 						Location
 					</p>
-					<p style={{ fontSize: '20px', letterSpacing: '0.1em' }}>
+					<p style={{ fontSize: '30px', letterSpacing: '0.1em' }}>
 						Sprucewood Shores Estate Winery, Amherstburg ON
 					</p>
 				</div>

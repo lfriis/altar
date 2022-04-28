@@ -29,16 +29,12 @@ qrCodeRouter.get(
 				range: 'A:N',
 			});
 
-			const updatedGuestInfo = sheetsData.map((guest) => {
-				console.log(guest.address);
-
-				return {
-					...guest,
-					encrypted_address: `http://10.0.0.187:3000/?query=${generateJWTToken(
-						{ address: guest.address }
-					)}`,
-				};
-			});
+			const updatedGuestInfo = sheetsData.map((guest) => ({
+				...guest,
+				encrypted_address: `http://10.0.0.187:3000/?query=${generateJWTToken(
+					{ address: guest.address }
+				)}`,
+			}));
 
 			return res.status(200).json({ updatedGuestInfo });
 		} catch (e) {

@@ -70,7 +70,7 @@ body {
 
 .navbar__link--active {
 	border-bottom: 1px solid white;
-	transition: border-bottom 0.2s ease-in-out;
+	transition: border-bottom 1s ease-in-out;
 }
 
 .navbar__link:hover {
