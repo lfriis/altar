@@ -28,19 +28,19 @@ export default function Stepper() {
 	const setNextStep = useSetNextStep();
 	const setPreviousStep = useSetPreviousStep();
 
-	const disableNext =
-		activeStep === 0
-			? guests.some(
-					(guest) =>
-						guest.name !== 'plus 1' && guest.confirmed === null
-			  )
-			: activeStep === 1
-			? guests.some(
-					(guest) =>
-						guest.name !== 'plus 1' &&
-						guest.foodOption.main === null
-			  )
-			: false;
+	// const disableNext =
+	// 	activeStep === 0
+	// 		? guests.some(
+	// 				(guest) =>
+	// 					guest.name !== 'plus 1' && guest.confirmed === null
+	// 		  )
+	// 		: activeStep === 1
+	// 		? guests.some(
+	// 				(guest) =>
+	// 					guest.name !== 'plus 1' &&
+	// 					guest.foodOption.main === null
+	// 		  )
+	// 		: false;
 
 	const handleSubmitRSVP = async () => {
 		setLoading(true);
@@ -71,7 +71,10 @@ export default function Stepper() {
 							RSVP
 							<div
 								className="align-items"
-								style={{ marginLeft: '5px' }}
+								style={{
+									marginLeft: '5px',
+									marginRight: '5px',
+								}}
 							>
 								{loading ? (
 									<CircularProgress size={15} />
@@ -85,7 +88,7 @@ export default function Stepper() {
 							onClick={() => {
 								setNextStep(activeStep);
 							}}
-							disabled={disableNext || loading}
+							disabled={loading}
 						>
 							Next
 							<KeyboardArrowRight />

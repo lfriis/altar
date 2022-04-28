@@ -59,6 +59,7 @@ body {
 	margin-right: 1rem;
 	font-size: 1.5em !important;
 	letter-spacing: 0.1em !important;
+	margin: 0;
 }
 
 .navbar__link,
@@ -113,7 +114,7 @@ body {
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);
 	width: 60%;
-	max-width: 600px;
+	max-width: 500px;
 }
 
 @media (max-width: 550px) {

@@ -6,11 +6,13 @@ import CollapseMenu from './CollapseMenu';
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	const showCollapseMenu = useMediaQuery('(max-width:800px)');
+	const showCollapseMenu = useMediaQuery('(max-width:1000px)');
 
 	return (
 		<nav className="navbar">
-			<Typography className="navbar__brand">JILLIAN & LARSEN</Typography>
+			<Typography className="navbar__brand">
+				{showCollapseMenu ? 'J & L' : 'JILLIAN & LARSEN'}
+			</Typography>
 			{showCollapseMenu ? (
 				<CollapseMenu />
 			) : (
