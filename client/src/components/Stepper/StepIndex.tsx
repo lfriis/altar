@@ -8,7 +8,7 @@ import { Step } from '../../interfaces';
 
 const steps: Step[] = [
 	{
-		label: 'We hope to see you there',
+		label: "We've saved a seat for you at the table",
 		completed: false,
 		component: ConfirmationStep,
 	},
@@ -18,12 +18,12 @@ const steps: Step[] = [
 		component: FoodSelectionStep,
 	},
 	{
-		label: 'Give us a beat',
+		label: 'Give us a tune!',
 		completed: false,
 		component: SongRequestStep,
 	},
 	{
-		label: "Can't wait to see you",
+		label: "We can't wait to celebrate with you!",
 		completed: false,
 		component: SummaryStep,
 	},

@@ -28,19 +28,26 @@ export default function Stepper() {
 	const setNextStep = useSetNextStep();
 	const setPreviousStep = useSetPreviousStep();
 
-	// const disableNext =
-	// 	activeStep === 0
-	// 		? guests.some(
-	// 				(guest) =>
-	// 					guest.name !== 'plus 1' && guest.confirmed === null
-	// 		  )
-	// 		: activeStep === 1
-	// 		? guests.some(
-	// 				(guest) =>
-	// 					guest.name !== 'plus 1' &&
-	// 					guest.foodOption.main === null
-	// 		  )
-	// 		: false;
+	const skipRSVP = guests.every(
+		(guest) => guest.name !== 'plus 1' && guest.confirmed === false
+	);
+
+	const skipSongRequest =
+		activeStep === 2 && guestInfo?.songRequests.length === 0;
+
+	const disableStepZero =
+		activeStep === 0 &&
+		guests.some(
+			(guest) => guest.name !== 'plus 1' && guest.confirmed === null
+		);
+
+	const disableStepOne =
+		activeStep === 1 &&
+		guests.some(
+			(guest) => guest.name !== 'plus 1' && guest.foodOption.main === null
+		);
+
+	const disableNext = disableStepZero || disableStepOne;
 
 	const handleSubmitRSVP = async () => {
 		setLoading(true);
@@ -66,7 +73,7 @@ export default function Stepper() {
 				position="bottom"
 				activeStep={activeStep}
 				nextButton={
-					activeStep === 3 ? (
+					activeStep === 3 || skipRSVP ? (
 						<Button onClick={handleSubmitRSVP} disabled={loading}>
 							RSVP
 							<div
@@ -88,9 +95,9 @@ export default function Stepper() {
 							onClick={() => {
 								setNextStep(activeStep);
 							}}
-							disabled={loading}
+							disabled={loading || disableNext}
 						>
-							Next
+							{skipSongRequest ? 'Skip' : 'Next'}
 							<KeyboardArrowRight />
 						</Button>
 					)

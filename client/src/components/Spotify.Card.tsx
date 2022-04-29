@@ -33,7 +33,12 @@ export default function SpotifyCard({ track, handleSetSongRequest }: Props) {
 					style={{
 						padding: '0px 0px 0px 10px',
 					}}
-					sx={{ flex: '1 0 auto' }}
+					sx={{
+						flex: '1 0 auto',
+						'& .MuiTypography-root': {
+							fontFamily: '"Roboto" !important',
+						},
+					}}
 				>
 					<Typography component="div" variant="subtitle2">
 						{track.name}

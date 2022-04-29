@@ -6,10 +6,6 @@ import {
 	InputAdornment,
 	CircularProgress,
 	Button,
-	// Accordion,
-	// AccordionSummary,
-	// Typography,
-	// AccordionDetails,
 } from '@mui/material';
 import { Search, NavigateNext } from '@mui/icons-material';
 import SpotifyCard from '../../Spotify.Card';
@@ -111,7 +107,6 @@ export default function SongRequestStep() {
 				fullWidth
 				onChange={(e) => {
 					if (e.target.value === '') {
-						// setSpotifyResults([]);
 						setOffset(0, 'Next');
 					} else {
 						setSearchTerm(e.target.value);
@@ -152,7 +147,7 @@ export default function SongRequestStep() {
 				</DropdownAccordion>
 			)}
 
-			<div style={{ overflowY: 'auto', maxHeight: '400px' }}>
+			<div style={{ overflowY: 'scroll', maxHeight: '400px' }}>
 				{spotifyResults.map((track) => (
 					<SpotifyCard
 						track={track}

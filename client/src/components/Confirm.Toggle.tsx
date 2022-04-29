@@ -16,12 +16,13 @@ const useStyles = makeStyles(() => ({
 		textTransform: 'none',
 	},
 	options_button_header: {
+		fontWeight: '100',
 		fontSize: '16px',
-		fontWeight: '500',
 		margin: '0px',
 		padding: '5px',
 	},
 	options_button_body: {
+		fontWeight: '100',
 		fontSize: '13px',
 		margin: '0px',
 		padding: '5px',
@@ -71,9 +72,9 @@ export default function ConfirmToggle({ guest }: { guest: Guest }) {
 						{guest.confirmed === true && (
 							<Check style={{ paddingRight: '5px' }} />
 						)}
-						<h3 className={styles.options_button_header}>
+						<h6 className={styles.options_button_header}>
 							Joyfully Accept
-						</h3>
+						</h6>
 					</div>
 					<p className={styles.options_button_body}>
 						ready to eat, drink and celebrate!

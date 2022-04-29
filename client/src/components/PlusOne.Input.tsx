@@ -16,8 +16,12 @@ export default function PlusOne({ guest }: Props) {
 	return (
 		<div style={{ padding: '20px 0px 20px 0px' }}>
 			{!activated ? (
-				<Button variant="contained" onClick={() => setActivated(true)}>
-					Plus 1
+				<Button
+					variant="outlined"
+					onClick={() => setActivated(true)}
+					fullWidth
+				>
+					Invite Guest
 				</Button>
 			) : (
 				<>

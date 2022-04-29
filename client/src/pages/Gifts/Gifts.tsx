@@ -1,27 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { QRCodeSVG } from 'qrcode.react';
-import { GoogleSheetGuestInfo } from '../../interfaces';
+import React from 'react';
+// import axios from 'axios';
+// import { GoogleSheetGuestInfo } from '../../interfaces';
+// import { QRCodeCanvas } from 'qrcode.react';
 
 export default function Gifts() {
-	const [guests, setGuests] = useState<GoogleSheetGuestInfo[]>([]);
+	// const [guests, setGuests] = useState<GoogleSheetGuestInfo[]>([]);
 
-	const fetchUserData = () => {
-		axios
-			.get('/api/qr-code')
-			.then((res) => {
-				console.log(res);
-				setGuests(res.data.updatedGuestInfo);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	};
+	// const fetchUserData = () => {
+	// 	axios
+	// 		.get('/api/qr-code')
+	// 		.then((res) => {
+	// 			console.log(res);
+	// 			setGuests(res.data.updatedGuestInfo);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// };
 
-	useEffect(() => {
-		fetchUserData();
-		console.log(guests);
-	}, []);
+	// useEffect(() => {
+	// 	fetchUserData();
+	// 	console.log(guests);
+	// }, []);
 
 	return (
 		<div>
@@ -36,7 +36,7 @@ export default function Gifts() {
 				</div>
 			</div>
 
-			<div style={{ paddingTop: '1000px', paddingLeft: '100px' }}>
+			{/* <div style={{ paddingTop: '1000px', paddingLeft: '100px' }}>
 				{guests.length > 0 &&
 					guests.map((guest) => (
 						<div
@@ -48,15 +48,7 @@ export default function Gifts() {
 								padding: '50px',
 							}}
 						>
-							<h2
-								style={{
-									paddingBottom: '50px',
-								}}
-							>
-								{guest.envelope}
-							</h2>
-
-							<QRCodeSVG
+							<QRCodeCanvas
 								value={guest.encrypted_address!}
 								size={180}
 								bgColor="#ffffff"
@@ -70,9 +62,17 @@ export default function Gifts() {
 									excavate: true,
 								}}
 							/>
+
+							<h3
+								style={{
+									paddingBottom: '50px',
+								}}
+							>
+								{guest.envelope}
+							</h3>
 						</div>
 					))}
-			</div>
+			</div> */}
 		</div>
 	);
 }

@@ -86,7 +86,7 @@ export default function GuestConfirmFoodOption({ guest, options }: Props) {
 						/>
 						<TextField
 							value={guest.foodOption.other}
-							label="Other dietary restrictions"
+							label="Other dietary restrictions?"
 							variant="standard"
 							size="small"
 							onChange={(e) => {

@@ -22,9 +22,7 @@ export default function FoodSelectionStep() {
 								/>
 							</>
 						) : (
-							<div>
-								<br />
-								<br />
+							<div className="justify-content">
 								<br />
 								<br />
 								Don&apos;t forget your guest! Go back and input

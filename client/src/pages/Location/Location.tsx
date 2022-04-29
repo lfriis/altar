@@ -1,4 +1,5 @@
 import React from 'react';
+import { WeddingTimeline } from '../../components';
 
 export default function Location() {
 	return (
@@ -13,6 +14,7 @@ export default function Location() {
 					</p>
 				</div>
 			</div>
+			<WeddingTimeline />
 		</div>
 	);
 }

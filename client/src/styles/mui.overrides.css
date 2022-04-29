@@ -17,6 +17,14 @@
 	padding: 0px !important;
 }
 
+.MuiTypography-root {
+	font-family: 'Alegreya Sans', sans-serif !important;
+}
+
+/* .MuiButton-root {
+	font-weight: 300;
+} */
+
 .rsvp-button {
 	color: white !important;
 	border-color: white !important;

@@ -10,12 +10,14 @@ const useStyles = makeStyles(() => ({
 		padding: '30px',
 	},
 	stepLabel: {
+		display: 'flex',
+		textAlign: 'center',
 		padding: '0px',
 		margin: '0px',
 	},
 	stepComponent: {
 		maxHeight: 'calc(80vh - 250px)',
-		overflowY: 'auto',
+		overflowY: 'scroll',
 		padding: '3px',
 		margin: '3px',
 	},

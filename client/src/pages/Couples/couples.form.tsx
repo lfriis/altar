@@ -32,11 +32,11 @@ export default function CouplesForm() {
 				<PromptMessage status="Success">
 					<h3 className="align-items-center">
 						<Check style={{ paddingRight: '10px' }} />
-						Your RSVP has been saved!
+						Your RSVP has been submitted!
 					</h3>
 					<p style={{ textAlign: 'center' }}>
-						For more information about the wedding, feel free to
-						browser to the following pages:
+						For more information about the special day, feel free to
+						browse around.
 					</p>
 					<NavButtons />
 				</PromptMessage>
