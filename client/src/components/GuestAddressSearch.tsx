@@ -23,7 +23,7 @@ export default function SearchAddress() {
 	const styles = useStyles();
 	const loading = useLoading();
 	const fetchGuests = useFetchGuests();
-	const [address, setAddress] = useState('65 Hampton Crescent');
+	const [address, setAddress] = useState('');
 
 	return (
 		<Paper className={styles.form}>
