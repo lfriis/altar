@@ -7,6 +7,7 @@ export type Store = {
 	loading: boolean;
 	guestsFoodSelectionsExist: boolean | null;
 	rsvpStatus: 'Success' | 'Error' | null;
+	responseError: string | null;
 	offset: {
 		previous: number;
 		next: number;
@@ -28,4 +29,5 @@ export type Store = {
 		paginationOperation: 'Previous' | 'Next'
 	) => void;
 	setPreviousStep: (activeStep: number) => void;
+	setResponseError: (responseError: string | null) => void;
 };

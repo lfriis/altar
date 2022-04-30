@@ -17,9 +17,6 @@ export async function fetchGuests({
 	query?: string;
 	address?: string;
 }) {
-	// const query =
-	// 	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZGRyZXNzIjoiMTI5NCBIZXJpdGFnZSBSb2FkIiwiaWF0IjoxNjQ5ODkzNjA2fQ.I6w4e1bnVmzEjKI4aE36kOFUHlehnFCwjw_yFdRmdnA';
-
 	const res = await axios({
 		url: '/api/guests',
 		method: 'post',

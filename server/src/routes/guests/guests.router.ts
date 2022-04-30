@@ -55,6 +55,13 @@ guestsRouter.post(
 				searchAddressKey
 			);
 
+			if (!guestInfo) {
+				return res.status(404).send({
+					message:
+						'No guest found with that address. Please try again',
+				});
+			}
+
 			const guestFoodSelectionData = await GoogleSheetsService.getData({
 				auth: authClientObject,
 				googleSheetsInstance,

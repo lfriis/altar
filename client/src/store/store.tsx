@@ -14,6 +14,7 @@ const initialState = {
 		previous: -20,
 		next: 0,
 	},
+	responseError: null,
 };
 
 export const useStore = create<Store>(
@@ -26,7 +27,7 @@ export const useStore = create<Store>(
 			query?: string;
 			address?: string;
 		}) => {
-			set({ loading: true });
+			set({ loading: true, responseError: null });
 			await fetchGuests({ query, address })
 				.then(
 					({
@@ -47,9 +48,10 @@ export const useStore = create<Store>(
 						}));
 					}
 				)
-				.catch(() => {
+				.catch((e) => {
 					set({
 						...initialState,
+						responseError: e.response.data.message,
 					});
 				});
 		},
@@ -96,6 +98,11 @@ export const useStore = create<Store>(
 				...state,
 				activeStep: activeStep - 1,
 			})),
+		setResponseError: (responseError: string | null) =>
+			set((state) => ({
+				...state,
+				responseError,
+			})),
 	})
 );
 
@@ -108,6 +115,9 @@ export const useGuestsFoodSelectionsExist = () =>
 	useStore((state) => state.guestsFoodSelectionsExist);
 export const useActiveStep = () => useStore((state) => state.activeStep);
 export const useRSVPStatus = () => useStore((state) => state.rsvpStatus);
+export const useResponseError = () => useStore((state) => state.responseError);
+export const useSetResponseError = () =>
+	useStore((state) => state.setResponseError);
 export const useFetchGuests = () => useStore((state) => state.fetchGuests);
 export const useSetUpdatedGuest = () =>
 	useStore((state) => state.setUpdatedGuest);

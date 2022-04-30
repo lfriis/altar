@@ -8,7 +8,12 @@ import {
 } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import LoadingButton from './Loading.Button';
-import { useFetchGuests, useLoading } from '../store';
+import {
+	useFetchGuests,
+	useLoading,
+	useResponseError,
+	useSetResponseError,
+} from '../store';
 
 const useStyles = makeStyles(() => ({
 	form: {
@@ -23,13 +28,15 @@ export default function SearchAddress() {
 	const styles = useStyles();
 	const loading = useLoading();
 	const fetchGuests = useFetchGuests();
+	const responseError = useResponseError();
+	const setResponseError = useSetResponseError();
 	const [address, setAddress] = useState('');
 
 	return (
 		<Paper className={styles.form}>
-			<h4 style={{ textAlign: 'center' }}>
+			<h3 style={{ textAlign: 'center' }}>
 				Enter your address so we can find your seat!
-			</h4>
+			</h3>
 
 			<FormControl variant="standard" fullWidth>
 				<InputLabel color="secondary" htmlFor="input-field-address">
@@ -40,13 +47,21 @@ export default function SearchAddress() {
 					id="input-field-address"
 					disabled={loading}
 					value={address}
-					onChange={(e) => setAddress(e.target.value)}
+					error={responseError !== null}
+					onChange={(e) => {
+						setAddress(e.target.value);
+						setResponseError(null);
+					}}
 					onBlur={() => setAddress(address.trim())}
 					autoComplete="address"
 					type="text"
 				/>
-				<FormHelperText id="input-field-address">
-					Use the address found on your invitations envelope.
+				<FormHelperText
+					id="input-field-address"
+					style={responseError ? { color: 'red' } : {}}
+				>
+					{responseError ||
+						'Use the address found on your invitations envelope'}
 				</FormHelperText>
 			</FormControl>
 			<br />
