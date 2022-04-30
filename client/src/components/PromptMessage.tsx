@@ -12,14 +12,11 @@ const useStyles = makeStyles(() => ({
 }));
 
 interface Props {
-	status: string;
 	children: ReactNode;
 }
 
-export default function PromptMessage({ status, children }: Props) {
+export default function PromptMessage({ children }: Props) {
 	const styles = useStyles();
-
-	console.log(status);
 
 	return <Paper className={styles.form}>{children}</Paper>;
 }

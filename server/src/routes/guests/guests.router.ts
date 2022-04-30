@@ -58,7 +58,7 @@ guestsRouter.post(
 			if (!guestInfo) {
 				return res.status(404).send({
 					message:
-						'No guest found with that address. Please try again',
+						'There is no record with that address. Please try again',
 				});
 			}
 
@@ -154,7 +154,7 @@ guestsRouter.post(
 
 			return res
 				.status(200)
-				.json({ message: 'Retrieved Guest Information' });
+				.json({ message: 'RSVP successfully saved!' });
 		} catch (e: any) {
 			return next(e);
 		}
