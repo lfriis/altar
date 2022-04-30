@@ -72,7 +72,7 @@ export default function SearchAddress() {
 				onClick={() => fetchGuests({ address })}
 				fullWidth
 			>
-				{loading ? 'Searching Address...' : 'Search Address'}
+				{loading ? 'Searching Address...' : 'Search'}
 			</LoadingButton>
 		</Paper>
 	);
