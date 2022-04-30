@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
 	},
 	stepComponent: {
 		maxHeight: 'calc(80vh - 250px)',
-		overflowY: 'scroll',
+		overflowY: 'auto',
 		padding: '3px',
 		margin: '3px',
 	},

@@ -24,55 +24,51 @@ export default function Gifts() {
 	// }, []);
 
 	return (
-		<div>
-			<div className="home-page">
-				<div className="home-page-content">
-					<p style={{ fontSize: '50px', letterSpacing: '0.1em' }}>
-						Gifts
-					</p>
-					<p style={{ fontSize: '30px', letterSpacing: '0.1em' }}>
-						Contribute to our Honeymoon or relocation to Austalia
-					</p>
-				</div>
+		<section className="gifts">
+			<div className="landing-wrapper-content">
+				<p className="landing-wrapper-header">Gifts</p>
+				<p className="landing-wrapper-subheading">
+					Contribute to our Honeymoon or relocation to Austalia
+				</p>
 			</div>
-
-			{/* <div style={{ paddingTop: '1000px', paddingLeft: '100px' }}>
-				{guests.length > 0 &&
-					guests.map((guest) => (
-						<div
-							key={guest.postal_code}
-							style={{
-								display: 'flex',
-								flexDirection: 'column',
-								alignItems: 'center',
-								padding: '50px',
-							}}
-						>
-							<QRCodeCanvas
-								value={guest.encrypted_address!}
-								size={180}
-								bgColor="#ffffff"
-								fgColor="#000000"
-								level="L"
-								includeMargin={false}
-								imageSettings={{
-									src: 'https://i.ibb.co/k8sZgZP/marriage.png',
-									height: 24,
-									width: 24,
-									excavate: true,
-								}}
-							/>
-
-							<h3
-								style={{
-									paddingBottom: '50px',
-								}}
-							>
-								{guest.envelope}
-							</h3>
-						</div>
-					))}
-			</div> */}
-		</div>
+		</section>
 	);
 }
+
+// <div style={{ paddingTop: '1000px', paddingLeft: '100px' }}>
+// 				{guests.length > 0 &&
+// 					guests.map((guest) => (
+// 						<div
+// 							key={guest.postal_code}
+// 							style={{
+// 								display: 'flex',
+// 								flexDirection: 'column',
+// 								alignItems: 'center',
+// 								padding: '50px',
+// 							}}
+// 						>
+// 							<QRCodeCanvas
+// 								value={guest.encrypted_address!}
+// 								size={180}
+// 								bgColor="#ffffff"
+// 								fgColor="#000000"
+// 								level="L"
+// 								includeMargin={false}
+// 								imageSettings={{
+// 									src: 'https://i.ibb.co/k8sZgZP/marriage.png',
+// 									height: 24,
+// 									width: 24,
+// 									excavate: true,
+// 								}}
+// 							/>
+
+// 							<h3
+// 								style={{
+// 									paddingBottom: '50px',
+// 								}}
+// 							>
+// 								{guest.envelope}
+// 							</h3>
+// 						</div>
+// 					))}
+// 			</div>

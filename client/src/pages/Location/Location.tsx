@@ -3,18 +3,25 @@ import { WeddingTimeline } from '../../components';
 
 export default function Location() {
 	return (
-		<div>
-			<div className="home-page">
-				<div className="home-page-content">
-					<p style={{ fontSize: '50px', letterSpacing: '0.1em' }}>
-						Location
-					</p>
-					<p style={{ fontSize: '30px', letterSpacing: '0.1em' }}>
+		<>
+			<section className="location">
+				<div className="landing-wrapper-content">
+					<p className="landing-wrapper-header">Location</p>
+					<p className="landing-wrapper-subheading">
 						Sprucewood Shores Estate Winery, Amherstburg ON
 					</p>
 				</div>
-			</div>
-			<WeddingTimeline />
-		</div>
+			</section>
+			<section>
+				<p className="landing-wrapper-header" style={{ margin: '0' }}>
+					Directions
+				</p>
+				<p className="landing-wrapper-body">
+					Sprucewood Shores Estate Winery is a short trip away from
+					Kingsville. Follow the instructions below to get there.
+				</p>
+				<WeddingTimeline />
+			</section>
+		</>
 	);
 }

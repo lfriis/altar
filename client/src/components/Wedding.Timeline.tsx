@@ -13,15 +13,16 @@ import {
 
 const useStyles = makeStyles(() => ({
 	timeline: {
-		color: '#fff',
+		// color: '#fff',
+		width: '100%',
 	},
 	subHeading: {
 		fontSize: '13px',
 	},
 	timelineDot: {
-		'& .MuiTimelineDot-root': {
-			backgroundColor: '#fff',
-		},
+		// '& .MuiTimelineDot-root': {
+		// 	backgroundColor: '#fff',
+		// },
 	},
 }));
 
@@ -29,9 +30,8 @@ export default function WeddingTimeline() {
 	const styles = useStyles();
 
 	return (
-		<div>
-			{' '}
-			<Timeline className={styles.timeline} position="alternate">
+		<div className={styles.timeline}>
+			<Timeline position="alternate">
 				<TimelineItem>
 					<TimelineSeparator>
 						<TimelineDot className={styles.timelineDot}>
@@ -72,7 +72,6 @@ export default function WeddingTimeline() {
 						<TimelineDot className={styles.timelineDot}>
 							<Restaurant />
 						</TimelineDot>
-						<TimelineConnector sx={{ bgcolor: 'secondary.main' }} />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
 						<Typography variant="h6" component="span">

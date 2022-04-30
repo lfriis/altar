@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Summarize, Map, Redeem } from '@mui/icons-material';
+import { Favorite, LocationOn, Redeem } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
@@ -31,7 +31,7 @@ export default function NavButtons() {
 					<Button
 						className={styles.button}
 						variant="text"
-						startIcon={<Summarize />}
+						startIcon={<Favorite />}
 						onClick={() => navigate('/')}
 					>
 						Wedding
@@ -41,7 +41,7 @@ export default function NavButtons() {
 					<Button
 						className={styles.button}
 						variant="text"
-						startIcon={<Map />}
+						startIcon={<LocationOn />}
 						onClick={() => navigate('/location')}
 					>
 						Location

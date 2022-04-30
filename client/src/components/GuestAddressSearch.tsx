@@ -27,7 +27,9 @@ export default function SearchAddress() {
 
 	return (
 		<Paper className={styles.form}>
-			<h4>Enter your address so we can find your seat!</h4>
+			<h4 style={{ textAlign: 'center' }}>
+				Enter your address so we can find your seat!
+			</h4>
 
 			<FormControl variant="standard" fullWidth>
 				<InputLabel color="secondary" htmlFor="input-field-address">

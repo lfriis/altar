@@ -15,12 +15,10 @@ export default function Home() {
 	}, [guests]);
 
 	return (
-		<div className="home-page">
-			<div className="home-page-content">
-				<p style={{ fontSize: '50px', letterSpacing: '0.1em' }}>
-					JILLIAN & LARSEN
-				</p>
-				<p style={{ fontSize: '30px', letterSpacing: '0.1em' }}>
+		<section className="home">
+			<div className="landing-wrapper-content">
+				<p className="landing-wrapper-header">JILLIAN & LARSEN</p>
+				<p className="landing-wrapper-subheading">
 					July 2, 2022 - Sprucewood Shores Estate Winery
 				</p>
 				<Button
@@ -31,6 +29,6 @@ export default function Home() {
 					RSVP
 				</Button>
 			</div>
-		</div>
+		</section>
 	);
 }
