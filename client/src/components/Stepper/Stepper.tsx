@@ -44,7 +44,10 @@ export default function Stepper() {
 	const disableStepOne =
 		activeStep === 1 &&
 		guests.some(
-			(guest) => guest.name !== 'plus 1' && guest.foodOption.main === null
+			(guest) =>
+				guest.name !== 'plus 1' &&
+				guest.confirmed === true &&
+				guest.foodOption.main === null
 		);
 
 	const disableNext = disableStepZero || disableStepOne;
