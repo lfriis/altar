@@ -19,8 +19,6 @@ export async function authenticate() {
 		},
 	});
 
-	console.log(result);
-
 	const { access_token } = result.data;
 	return access_token;
 }
