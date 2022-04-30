@@ -6,4 +6,5 @@ export { default as PromptMessage } from './PromptMessage';
 export { default as NavButtons } from './NavButtons';
 export { default as DropdownAccordion } from './Dropdown.Accordion';
 export { default as WeddingTimeline } from './Wedding.Timeline';
+export { default as WeddingLocation } from './Wedding.Location';
 export * from './Stepper';

@@ -21,7 +21,7 @@ export default function CouplesForm() {
 		<section className="rsvp">
 			<div className="rsvp_form">
 				{guestInfo && guestsFoodSelectionsExist ? (
-					<PromptMessage status="Warning">
+					<PromptMessage>
 						<h3>You have already submitted your RSVP!</h3>
 						<p style={{ textAlign: 'center' }}>
 							If you want to make any changes, please reach out to
@@ -30,7 +30,7 @@ export default function CouplesForm() {
 						<NavButtons />
 					</PromptMessage>
 				) : rsvpStatus === 'Success' ? (
-					<PromptMessage status="Success">
+					<PromptMessage>
 						<h3 className="align-items-center">
 							<Check style={{ paddingRight: '10px' }} />
 							Your RSVP has been submitted!

@@ -40,8 +40,11 @@ export default function WeddingTimeline() {
 						<TimelineConnector />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
-						<Typography variant="h6" component="span">
-							Ceremony - 4:30 pm
+						<Typography className="timeline-title">
+							Ceremony
+						</Typography>
+						<Typography className="timeline-title">
+							4:30 pm
 						</Typography>
 						<Typography className={styles.subHeading}>
 							Sprucewood Shores Estate Winery - Beach
@@ -57,8 +60,11 @@ export default function WeddingTimeline() {
 						<TimelineConnector />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
-						<Typography variant="h6" component="span">
-							Cocktail Hour - 5:00 pm
+						<Typography className="timeline-title">
+							Cocktail Hour
+						</Typography>
+						<Typography className="timeline-title">
+							5:00 pm
 						</Typography>
 						<Typography className={styles.subHeading}>
 							{' '}
@@ -74,8 +80,11 @@ export default function WeddingTimeline() {
 						</TimelineDot>
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
-						<Typography variant="h6" component="span">
-							Dinner and Dancing - 7:00 pm
+						<Typography className="timeline-title">
+							Dinner & Dancing
+						</Typography>
+						<Typography className="timeline-title">
+							7:00 pm
 						</Typography>
 						<Typography className={styles.subHeading}>
 							Sprucewood Shores Estate Winery - Hall

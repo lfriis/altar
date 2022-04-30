@@ -147,7 +147,7 @@ export default function SongRequestStep() {
 				</DropdownAccordion>
 			)}
 
-			<div style={{ overflowY: 'scroll', maxHeight: '400px' }}>
+			<div style={{ maxHeight: '400px' }}>
 				{spotifyResults.map((track) => (
 					<SpotifyCard
 						track={track}
@@ -155,41 +155,41 @@ export default function SongRequestStep() {
 						key={track.id}
 					/>
 				))}
+				{spotifyResults.length > 0 && (
+					<div
+						style={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							paddingBottom: '50px',
+						}}
+					>
+						<Button
+							disabled={loading || offset.previous === -20}
+							onClick={() => {
+								searchSpotify(searchTerm, offset.previous);
+								paginationOperation.current = 'Previous';
+							}}
+							startIcon={
+								<NavigateNext
+									style={{ transform: 'rotate(180deg)' }}
+								/>
+							}
+						>
+							See Previous
+						</Button>
+						<Button
+							disabled={loading || offset.next === 0}
+							onClick={() => {
+								searchSpotify(searchTerm, offset.next);
+								paginationOperation.current = 'Next';
+							}}
+							endIcon={<NavigateNext />}
+						>
+							See Next
+						</Button>
+					</div>
+				)}
 			</div>
-			{spotifyResults.length > 0 && (
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						paddingBottom: '50px',
-					}}
-				>
-					<Button
-						disabled={loading || offset.previous === -20}
-						onClick={() => {
-							searchSpotify(searchTerm, offset.previous);
-							paginationOperation.current = 'Previous';
-						}}
-						startIcon={
-							<NavigateNext
-								style={{ transform: 'rotate(180deg)' }}
-							/>
-						}
-					>
-						See Previous
-					</Button>
-					<Button
-						disabled={loading || offset.next === 0}
-						onClick={() => {
-							searchSpotify(searchTerm, offset.next);
-							paginationOperation.current = 'Next';
-						}}
-						endIcon={<NavigateNext />}
-					>
-						See Next
-					</Button>
-				</div>
-			)}
 		</>
 	);
 }
