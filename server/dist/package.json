@@ -7,7 +7,7 @@
         "node": "14.18.0"
     },
     "scripts": {
-        "start": "node dist/server.js",
+        "start": "node dist/src/server.js",
         "client": "cd ../client && npm run client",
         "server": "ts-node-dev --respawn --pretty --transpile-only ./src/server.ts --delay 500ms src/server.ts",
         "build": "tsc -p .",
