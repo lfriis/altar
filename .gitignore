@@ -8,6 +8,7 @@
 /server/node_modules
 /server/.env
 /server/src/config/googleConfig.json
+/server/dist/src/config/googleConfig.json
 
 # testing
 /coverage
