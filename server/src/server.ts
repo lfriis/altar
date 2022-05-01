@@ -47,7 +47,7 @@ server
  */
 server.get('/*', (req: Request, res: Response) => {
 	res.sendFile(
-		path.join(__dirname, '../client/build/index.html'),
+		path.join(__dirname, '../../../client/build/index.html'),
 		async (e) => {
 			if (e) {
 				res.status(500).send(e);
