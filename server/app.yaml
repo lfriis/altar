@@ -1,6 +1,12 @@
 runtime: nodejs
 env: flex
 
+handlers:
+    # Catch all handler to index.html
+    - url: /.*
+      static_files: client/build/index.html
+      upload: client/build/index.html
+
 manual_scaling:
     instances: 1
 resources:
