@@ -50,7 +50,16 @@ export default function WeddingTimeline() {
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
 						<Typography className="timeline-title">
-							E-transfer to larsenfriis@icloud.com
+							E-transfer to
+						</Typography>
+						<Typography className={styles.subHeading}>
+							<Link
+								href="/gifts"
+								underline="hover"
+								target="_blank"
+							>
+								larsenfriis@icloud.com{' '}
+							</Link>
 						</Typography>
 					</TimelineContent>
 				</TimelineItem>

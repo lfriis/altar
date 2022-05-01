@@ -18,7 +18,13 @@ server.use(express.json());
 server.use(cookieParser());
 server.use(express.urlencoded({ extended: true }));
 server.use(cors({ credentials: true, origin: serverConfig.front_end_url }));
-server.use(helmet());
+server.use(
+	helmet({
+		contentSecurityPolicy: false,
+		crossOriginEmbedderPolicy: false,
+		frameguard: false,
+	})
+);
 server.use(morgan('dev'));
 server.use(express.static(path.resolve('../client/build')));
 server.use('/api', routes);

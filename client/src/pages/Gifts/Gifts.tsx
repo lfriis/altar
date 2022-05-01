@@ -27,7 +27,7 @@ export default function Gifts() {
 					}}
 				>
 					If you would like to contribute to our Honeymoon in Hawaii
-					or our upcoming adventure to Austalia, here&apos;s how you
+					or our upcoming adventure to Australia, here&apos;s how you
 					can contribute!
 				</p>
 				<WeddingGifts />

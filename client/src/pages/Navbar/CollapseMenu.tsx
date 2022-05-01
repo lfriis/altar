@@ -20,16 +20,10 @@ const useStyles = makeStyles(() => ({
 		border: '1px solid #e5e5e5',
 	},
 	menuHeading: {
+		backgroundColor: 'white !important',
 		textTransform: 'uppercase',
 		fontSize: '12px',
 		lineHeight: '1.45455',
-	},
-	menuHeading_active: {
-		textTransform: 'uppercase',
-		fontSize: '12px',
-		lineHeight: '1.45455',
-		backgroundColor: '#fff !important',
-		opacity: '100%',
 	},
 	menuItem: {
 		cursor: 'pointer',
@@ -51,7 +45,6 @@ export default function CollapseMenu() {
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = useState(null);
-	const [active, setActive] = useState<string | null>(null);
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: BaseSyntheticEvent) => {
@@ -65,10 +58,7 @@ export default function CollapseMenu() {
 	const handleNavigation = (path: string) => {
 		setAnchorEl(null);
 		navigate(path);
-		setActive(path);
 	};
-
-	console.log(active);
 
 	return (
 		<div style={{ marginLeft: 'auto' }}>
@@ -88,11 +78,7 @@ export default function CollapseMenu() {
 				TransitionComponent={Fade}
 			>
 				<MenuItem
-					className={
-						active === '/'
-							? styles.menuHeading_active
-							: styles.menuHeading
-					}
+					className={styles.menuHeading}
 					onClick={() => {
 						handleNavigation('/');
 					}}
@@ -101,11 +87,7 @@ export default function CollapseMenu() {
 					Wedding
 				</MenuItem>
 				<MenuItem
-					className={
-						active === '/location'
-							? styles.menuHeading_active
-							: styles.menuHeading
-					}
+					className={styles.menuHeading}
 					onClick={() => {
 						handleNavigation('/location');
 					}}
@@ -114,11 +96,7 @@ export default function CollapseMenu() {
 					Location
 				</MenuItem>
 				<MenuItem
-					className={
-						active === '/gifts'
-							? styles.menuHeading_active
-							: styles.menuHeading
-					}
+					className={styles.menuHeading}
 					onClick={() => {
 						handleNavigation('/gifts');
 					}}
@@ -127,11 +105,7 @@ export default function CollapseMenu() {
 					Gifts
 				</MenuItem>
 				<MenuItem
-					className={
-						active === '/rsvp'
-							? styles.menuHeading_active
-							: styles.menuHeading
-					}
+					className={styles.menuHeading}
 					onClick={() => {
 						handleNavigation('/rsvp');
 					}}

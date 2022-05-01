@@ -16,7 +16,6 @@ hr {
 	color: #d1d1d1;
 	background-color: #dbdbdb;
 	width: 100%;
-	margin: 30px 0px;
 }
 
 section {
@@ -51,7 +50,7 @@ section.rsvp {
 
 section.location {
 	justify-content: center;
-	background-image: url('../assets/location.jpg');
+	background-image: url('../assets/sprucewood.jpeg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -79,6 +78,7 @@ section.gifts {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	margin-top: auto;
 }
 
 .location-footer {

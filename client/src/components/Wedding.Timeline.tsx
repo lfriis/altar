@@ -13,8 +13,8 @@ import {
 
 const useStyles = makeStyles(() => ({
 	timeline: {
-		// color: '#fff',
 		width: '100%',
+		paddingBottom: '25px !important',
 	},
 	subHeading: {
 		fontSize: '13px',

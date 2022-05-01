@@ -7,8 +7,17 @@ export default function Location() {
 			<section className="location">
 				<div className="landing-wrapper-content">
 					<p className="landing-wrapper-header">Location</p>
-					<p className="landing-wrapper-subheading">
-						Sprucewood Shores Estate Winery - Amherstburg, ON
+					<p
+						className="landing-wrapper-subheading"
+						style={{ marginBottom: '0', paddingBottom: '0' }}
+					>
+						Sprucewood Shores Estate Winery -
+					</p>
+					<p
+						className="landing-wrapper-subheading"
+						style={{ margin: '0' }}
+					>
+						Amherstburg, ON
 					</p>
 				</div>
 			</section>

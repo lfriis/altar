@@ -21,10 +21,6 @@
 	font-family: 'Alegreya Sans', sans-serif !important;
 }
 
-/* .MuiButton-root {
-	font-weight: 300;
-} */
-
 .rsvp-button {
 	color: white !important;
 	border-color: white !important;
@@ -34,6 +30,11 @@
 }
 
 .rsvp-button:hover {
+	color: black !important;
+	background-color: white !important;
+}
+
+.rsvp-button-active {
 	color: black !important;
 	background-color: white !important;
 }
