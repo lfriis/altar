@@ -8,6 +8,7 @@ const useStyles = makeStyles(() => ({
 		flexDirection: 'column',
 		alignItems: 'center',
 		padding: '30px',
+		opacity: '87%',
 	},
 }));
 

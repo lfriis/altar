@@ -35,12 +35,13 @@ export default function Location() {
 				</p>
 				<p
 					className="landing-wrapper-body"
-					style={{ textAlign: 'center' }}
+					style={{ padding: '0px 17px', textAlign: 'center' }}
 				>
 					Sprucewood Shores Estate Winery is a short trip away from
-					Kingsville. Follow the instructions below to get there.
+					Kingsville, located in the heart of wine country.
 				</p>
 				<WeddingLocation />
+				{/* <div className="location-footer" /> */}
 			</section>
 		</>
 	);

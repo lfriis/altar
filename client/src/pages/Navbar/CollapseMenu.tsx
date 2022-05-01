@@ -6,6 +6,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 
 const useStyles = makeStyles(() => ({
 	menu: {
+		opacity: '87%',
 		'& .MuiPaper-root': {
 			minWidth: '160px',
 			boxShadow: 'none',
@@ -27,7 +28,8 @@ const useStyles = makeStyles(() => ({
 		textTransform: 'uppercase',
 		fontSize: '12px',
 		lineHeight: '1.45455',
-		backgroundColor: '#80808020 !important',
+		backgroundColor: '#fff !important',
+		opacity: '100%',
 	},
 	menuItem: {
 		cursor: 'pointer',
@@ -49,7 +51,7 @@ export default function CollapseMenu() {
 	const navigate = useNavigate();
 
 	const [anchorEl, setAnchorEl] = useState(null);
-	const [active, setActive] = useState('');
+	const [active, setActive] = useState<string | null>(null);
 	const open = Boolean(anchorEl);
 
 	const handleClick = (event: BaseSyntheticEvent) => {
@@ -65,6 +67,8 @@ export default function CollapseMenu() {
 		navigate(path);
 		setActive(path);
 	};
+
+	console.log(active);
 
 	return (
 		<div style={{ marginLeft: 'auto' }}>

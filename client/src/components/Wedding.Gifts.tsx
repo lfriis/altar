@@ -1,6 +1,6 @@
 import React from 'react';
-import { Typography } from '@mui/material';
-import { Favorite, Tapas, Restaurant } from '@mui/icons-material';
+import { Typography, Link } from '@mui/material';
+import { Email, Redeem, Savings } from '@mui/icons-material';
 import { makeStyles } from '@mui/styles';
 import {
 	Timeline,
@@ -13,8 +13,8 @@ import {
 
 const useStyles = makeStyles(() => ({
 	timeline: {
-		// color: '#fff',
 		width: '100%',
+		paddingBottom: '15px',
 	},
 	subHeading: {
 		fontSize: '13px',
@@ -30,19 +30,13 @@ export default function WeddingTimeline() {
 				<TimelineItem>
 					<TimelineSeparator>
 						<TimelineDot>
-							<Favorite />
+							<Email />
 						</TimelineDot>
 						<TimelineConnector />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
 						<Typography className="timeline-title">
-							Ceremony
-						</Typography>
-						<Typography className="timeline-title">
-							4:30 pm
-						</Typography>
-						<Typography className={styles.subHeading}>
-							Sprucewood Shores Estate Winery - Beach
+							Hand-deliver a cheque to us at the wedding
 						</Typography>
 					</TimelineContent>
 				</TimelineItem>
@@ -50,20 +44,13 @@ export default function WeddingTimeline() {
 					<TimelineSeparator>
 						<TimelineConnector />
 						<TimelineDot>
-							<Tapas />
+							<Redeem />
 						</TimelineDot>
 						<TimelineConnector />
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
 						<Typography className="timeline-title">
-							Cocktail Hour
-						</Typography>
-						<Typography className="timeline-title">
-							5:00 pm
-						</Typography>
-						<Typography className={styles.subHeading}>
-							{' '}
-							Sprucewood Shores Estate Winery - Patio
+							E-transfer to larsenfriis@icloud.com
 						</Typography>
 					</TimelineContent>
 				</TimelineItem>
@@ -71,18 +58,19 @@ export default function WeddingTimeline() {
 					<TimelineSeparator>
 						<TimelineConnector />
 						<TimelineDot>
-							<Restaurant />
+							<Savings />
 						</TimelineDot>
 					</TimelineSeparator>
 					<TimelineContent sx={{ py: '12px', px: 2 }}>
 						<Typography className="timeline-title">
-							Dinner & Dancing
-						</Typography>
-						<Typography className="timeline-title">
-							7:00 pm
-						</Typography>
-						<Typography className={styles.subHeading}>
-							Sprucewood Shores Estate Winery - Hall
+							Contribute to our PayPal fund{' '}
+							<Link
+								href="/gifts"
+								underline="hover"
+								target="_blank"
+							>
+								here
+							</Link>
 						</Typography>
 					</TimelineContent>
 				</TimelineItem>

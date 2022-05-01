@@ -20,7 +20,7 @@ const useStyles = makeStyles(() => ({
 		display: 'flex',
 		flexDirection: 'column',
 		padding: '30px',
-		opacity: 0.95,
+		opacity: '87%',
 	},
 }));
 

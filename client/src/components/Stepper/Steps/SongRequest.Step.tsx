@@ -54,9 +54,6 @@ export default function SongRequestStep() {
 					paginationOperation.current
 				);
 			})
-			.catch((e) => {
-				console.log(e);
-			})
 			.finally(() => {
 				setLoading(false);
 			});

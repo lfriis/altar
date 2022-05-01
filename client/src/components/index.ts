@@ -7,4 +7,5 @@ export { default as NavButtons } from './NavButtons';
 export { default as DropdownAccordion } from './Dropdown.Accordion';
 export { default as WeddingTimeline } from './Wedding.Timeline';
 export { default as WeddingLocation } from './Wedding.Location';
+export { default as WeddingGifts } from './Wedding.Gifts';
 export * from './Stepper';

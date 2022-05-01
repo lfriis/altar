@@ -144,7 +144,9 @@ export async function addSongData({
 }
 
 export function filterData(data: any, header: string, value: string) {
-	const foundGuest = data.find((obj: any) => obj[header] === value);
+	const foundGuest = data.find(
+		(obj: any) => obj[header].toLowerCase() === value.toLowerCase()
+	);
 	if (!foundGuest) return null;
 
 	const names = Object.entries(foundGuest).reduce((acc: any, [p, v]) => {

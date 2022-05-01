@@ -30,7 +30,7 @@ export default function StepperBody({ step }: { step: Step }) {
 	return (
 		<div>
 			<div className={styles.stepTitle}>
-				<h1>RSVP</h1>
+				<h1 style={{ fontWeight: '900' }}>RSVP</h1>
 				<h3 className={styles.stepLabel}>{label}</h3>
 			</div>
 			<div className={styles.stepComponent}>

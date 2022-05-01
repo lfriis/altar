@@ -19,7 +19,7 @@ export default function Home() {
 			<div className="landing-wrapper-content">
 				<p className="landing-wrapper-header">JILLIAN & LARSEN</p>
 				<p className="landing-wrapper-subheading">
-					July 2, 2022 - Sprucewood Shores Estate Winery
+					Join us for our wedding - July 2, 2022
 				</p>
 				<Button
 					className="rsvp-button"

@@ -2,7 +2,7 @@ html,
 #root,
 body {
 	font-family: 'Alegreya Sans', sans-serif;
-	color: #253551;
+	color: #000;
 	margin: 0;
 	padding: 0;
 	width: 100vw;
@@ -28,6 +28,11 @@ section {
 	flex-direction: column;
 }
 
+section.secondary {
+	min-height: unset;
+	height: auto;
+}
+
 section.home {
 	justify-content: center;
 	background-image: url('../assets/home.jpg');
@@ -38,7 +43,7 @@ section.home {
 
 section.rsvp {
 	justify-content: center;
-	background-image: url('../assets/home.jpg');
+	background-image: url('../assets/rsvp.jpg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -55,6 +60,38 @@ section.location {
 section.gifts {
 	justify-content: center;
 	background-image: url('../assets/gifts.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.gifts-footer {
+	color: white;
+	font-size: 25px;
+	height: 25vh;
+	width: 100vw;
+	min-height: 25vh;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	background-image: url('../assets/gifts-footer.jpg');
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.location-footer {
+	color: white;
+	font-size: 25px;
+	height: 15vh;
+	width: 100vw;
+	min-height: 15vh;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	background-image: url('../assets/sprucewood.jpeg');
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -181,7 +218,9 @@ section.gifts {
 
 .landing-wrapper-header {
 	font-size: 50px;
+	margin-bottom: 10px;
 	letter-spacing: 0.1em;
+	font-weight: 900;
 }
 
 @media (max-width: 550px) {
@@ -194,17 +233,19 @@ section.gifts {
 .landing-wrapper-subheading {
 	font-size: 30px;
 	letter-spacing: 0.1em;
+	font-weight: 900;
 }
 
 @media (max-width: 550px) {
 	.landing-wrapper-subheading {
-		font-size: 20px !important;
+		font-size: 15px !important;
 		padding: 5px;
 	}
 }
 
 .landing-wrapper-body {
 	font-size: 20px;
+	font-weight: 900;
 }
 
 @media (max-width: 550px) {
