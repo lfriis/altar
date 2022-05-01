@@ -32,6 +32,7 @@ server.use(express_1.default.urlencoded({ extended: true }));
 server.use((0, cors_1.default)({ credentials: true, origin: config_1.serverConfig.front_end_url }));
 server.use((0, helmet_1.default)());
 server.use((0, morgan_1.default)('dev'));
+server.use(express_1.default.static(path_1.default.resolve('./client/build')));
 server.use('/api', routes_1.default);
 server.use(middleware_1.errorHandler);
 server.use(middleware_1.loggingMiddlware);
