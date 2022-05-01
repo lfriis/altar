@@ -7,8 +7,8 @@
 # server dependencies
 /server/node_modules
 /server/.env
+/server/.prod.env
 /server/src/config/googleConfig.json
-/server/dist/.env
 /server/dist/src/config/googleConfig.json
 
 # testing
