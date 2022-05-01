@@ -1,8 +1,9 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import path from 'path';
 import routes from './routes';
 import { serverConfig } from './config';
 import { loggingMiddlware, errorHandler } from './middleware';
@@ -40,6 +41,20 @@ server
 			object: err,
 		});
 	});
+
+/**
+ * ? Serving static files
+ */
+server.get('/*', (req: Request, res: Response) => {
+	res.sendFile(
+		path.join(__dirname, '../client/build/index.html'),
+		async (e) => {
+			if (e) {
+				res.status(500).send(e);
+			}
+		}
+	);
+});
 
 /**
  * ? Error handling to help with unhandled rejection
