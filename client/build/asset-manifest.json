@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.1cb42393.css",
+    "main.js": "/static/js/main.1a78a140.js",
+    "static/media/J&L-114.jpg": "/static/media/J&L-114.85dd369f9af9709803d6.jpg",
+    "static/media/home.jpg": "/static/media/home.542f2e7695b92574dfe2.jpg",
+    "static/media/J&L-50.jpg": "/static/media/J&L-50.72f316aed9acbefc33f0.jpg",
+    "static/media/rsvp.jpg": "/static/media/rsvp.c7b05a61ce834f5083b4.jpg",
+    "static/media/J&L-19.jpg": "/static/media/J&L-19.ab18eb8ffafa43a49815.jpg",
+    "static/media/gifts-footer.jpg": "/static/media/gifts-footer.ab18eb8ffafa43a49815.jpg",
+    "static/media/engagement.jpg": "/static/media/engagement.561c1878d925608642e7.jpg",
+    "static/media/J&L-128.jpg": "/static/media/J&L-128.c24705ef613993da0915.jpg",
+    "static/media/J&L-83.jpg": "/static/media/J&L-83.c0f81818ce98f24a5ae6.jpg",
+    "static/media/J&L-182.jpg": "/static/media/J&L-182.bb16a8c1b601852df7ca.jpg",
+    "static/media/J&L-185.jpg": "/static/media/J&L-185.24e36acb232e99bf8610.jpg",
+    "static/media/J&L-91.jpg": "/static/media/J&L-91.8a619cf49cedda8fc2a0.jpg",
+    "static/media/gifts.jpg": "/static/media/gifts.0fc33ca8699f1ccc376c.jpg",
+    "static/media/J&L-88.jpg": "/static/media/J&L-88.066f8968a99ede96be66.jpg",
+    "static/media/sprucewood.jpeg": "/static/media/sprucewood.1b35b780ee3c59c8de7a.jpeg",
+    "index.html": "/index.html",
+    "main.1cb42393.css.map": "/static/css/main.1cb42393.css.map",
+    "main.1a78a140.js.map": "/static/js/main.1a78a140.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.1cb42393.css",
+    "static/js/main.1a78a140.js"
+  ]
+}
