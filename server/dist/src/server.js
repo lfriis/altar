@@ -61,7 +61,7 @@ server
  * ? Serving static files
  */
 server.get('/*', (req, res) => {
-    res.sendFile(path_1.default.join(__dirname, '../client/build/index.html'), (e) => __awaiter(void 0, void 0, void 0, function* () {
+    res.sendFile(path_1.default.join(__dirname, '../build/index.html'), (e) => __awaiter(void 0, void 0, void 0, function* () {
         if (e) {
             res.status(500).send(e);
         }
