@@ -1,7 +1,11 @@
 import React from 'react';
-import { WeddingGifts } from '../../components';
+import { Button, useMediaQuery } from '@mui/material';
+import { Email, Redeem } from '@mui/icons-material';
 
 export default function Gifts() {
+	const mobile = useMediaQuery('(max-width:575px)');
+	const smallMobile = useMediaQuery('(max-width:400px)');
+
 	return (
 		<>
 			<section className="gifts">
@@ -12,7 +16,7 @@ export default function Gifts() {
 					</p>
 				</div>
 			</section>
-			<section>
+			<section style={{ height: 'auto', minHeight: 'unset' }}>
 				<p
 					className="landing-wrapper-header"
 					style={{ marginBottom: '0' }}
@@ -21,18 +25,34 @@ export default function Gifts() {
 				</p>
 				<p
 					className="landing-wrapper-subheading"
-					style={{
-						padding: '0px 17px',
-						textAlign: 'center',
-					}}
+					style={
+						mobile
+							? {
+									padding: '0px 17px',
+									textAlign: 'center',
+							  }
+							: {
+									fontSize: '20px',
+									padding: '0px 20%',
+									textAlign: 'center',
+							  }
+					}
 				>
 					If you would like to contribute to our Honeymoon in Hawaii
 					or our upcoming adventure to Australia, here&apos;s how you
 					can contribute!
 				</p>
-				<WeddingGifts />
-
-				{/* <div className="gifts-footer"> Thank you</div> */}
+				<div style={{ padding: '15px 10px 30px 10px' }}>
+					<Button className="align-items" disabled>
+						<Email style={{ paddingRight: '5px' }} />
+						Hand-deliver a cheque
+					</Button>
+					<Button className="align-items" disabled>
+						<Redeem style={{ paddingRight: '5px' }} />
+						{smallMobile ? 'E-transfer ' : 'E-transfer to '}
+						larsenfriis@icloud.com
+					</Button>
+				</div>
 			</section>
 		</>
 	);

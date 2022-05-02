@@ -112,6 +112,15 @@ export default function CollapseMenu() {
 				>
 					RSVP
 				</MenuItem>
+				<MenuItem
+					className={styles.menuHeading}
+					onClick={() => {
+						handleNavigation('/gallery');
+					}}
+					divider
+				>
+					Gallery
+				</MenuItem>
 			</Menu>
 		</div>
 	);

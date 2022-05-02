@@ -1,7 +1,7 @@
 import React from 'react';
 import { useGuests } from '../../../store';
 import { FoodOptionSelect } from '../..';
-import config from '../../../pages/Couples/Friises';
+import rsvpConfig from '../../../pages/RSVP/Friises';
 
 export default function FoodSelectionStep() {
 	const guests = useGuests();
@@ -18,7 +18,7 @@ export default function FoodSelectionStep() {
 								</h3>
 								<FoodOptionSelect
 									guest={guest}
-									options={config.foodOptions}
+									options={rsvpConfig.foodOptions}
 								/>
 							</>
 						) : (

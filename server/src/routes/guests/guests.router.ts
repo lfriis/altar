@@ -58,7 +58,7 @@ guestsRouter.post(
 			if (!guestInfo) {
 				return res.status(404).send({
 					message:
-						'There is no record with that address. Please try again',
+						'There is no record with that address, please try again. If this issue persists, reach out to Jillian or Larsen.',
 				});
 			}
 

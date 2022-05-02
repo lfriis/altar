@@ -26,7 +26,7 @@ server.use(
 	})
 );
 server.use(morgan('dev'));
-server.use(express.static(path.resolve('../client/build')));
+server.use(express.static(path.resolve('./build')));
 server.use('/api', routes);
 server.use(errorHandler);
 server.use(loggingMiddlware);
@@ -54,7 +54,7 @@ server
  */
 server.get('/*', (req: Request, res: Response) => {
 	res.sendFile(
-		path.join(__dirname, '../../client/build/index.html'),
+		path.join(__dirname, '../client/build/index.html'),
 		async (e) => {
 			if (e) {
 				res.status(500).send(e);

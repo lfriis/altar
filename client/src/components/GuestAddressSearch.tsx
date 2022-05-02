@@ -34,13 +34,15 @@ export default function SearchAddress() {
 
 	return (
 		<Paper className={styles.form}>
-			<h3 style={{ textAlign: 'center' }}>
-				Enter your address so we can find your seat!
-			</h3>
+			<h1 style={{ fontWeight: '900', textAlign: 'center' }}>
+				RSVP by June 1, 2022
+			</h1>
+
+			<h3 style={{ paddingBottom: '0px' }}>Save your seat...</h3>
 
 			<FormControl variant="standard" fullWidth>
 				<InputLabel color="secondary" htmlFor="input-field-address">
-					Address
+					Enter Street Address
 				</InputLabel>
 				<Input
 					color="secondary"
@@ -61,7 +63,7 @@ export default function SearchAddress() {
 					style={responseError ? { color: 'red' } : {}}
 				>
 					{responseError ||
-						'Use the address found on your invitations envelope'}
+						'Reference the street address found on your invitation'}
 				</FormHelperText>
 			</FormControl>
 			<br />

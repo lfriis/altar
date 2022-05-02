@@ -46,8 +46,8 @@ export default function Location() {
 					className="landing-wrapper-body"
 					style={{ padding: '0px 17px', textAlign: 'center' }}
 				>
-					Sprucewood Shores Estate Winery is a short trip away from
-					Kingsville, located in the heart of wine country.
+					Sprucewood Shores is a short trip away from Kingsville,
+					located in the heart of wine country in Essex County.
 				</p>
 				<WeddingLocation />
 				{/* <div className="location-footer" /> */}

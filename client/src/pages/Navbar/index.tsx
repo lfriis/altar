@@ -30,6 +30,12 @@ export default function Navbar() {
 					<NavbarLink to="/gifts" onClick={() => setActive('/gifts')}>
 						Gifts
 					</NavbarLink>
+					<NavbarLink
+						to="/gallery"
+						onClick={() => setActive('/gallery')}
+					>
+						Gallery
+					</NavbarLink>
 					<Button
 						className={`rsvp-button ${
 							active === '/rsvp' ? 'rsvp-button-active' : ''

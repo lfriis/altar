@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { Favorite, LocationOn, Redeem } from '@mui/icons-material';
+import { Favorite, LocationOn, Redeem, CameraAlt } from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles(() => ({
@@ -52,9 +52,19 @@ export default function NavButtons() {
 						className={styles.button}
 						variant="text"
 						startIcon={<Redeem />}
-						onClick={() => navigate('/Gifts')}
+						onClick={() => navigate('/gifts')}
 					>
 						Gifts
+					</Button>
+				</Grid>
+				<Grid item>
+					<Button
+						className={styles.button}
+						variant="text"
+						startIcon={<CameraAlt />}
+						onClick={() => navigate('/gallery')}
+					>
+						Gallery
 					</Button>
 				</Grid>
 			</Grid>

@@ -8,7 +8,7 @@ import { Step } from '../../interfaces';
 
 const steps: Step[] = [
 	{
-		label: "We've saved a seat for you at the table",
+		label: "We've saved a seat for you",
 		completed: false,
 		component: ConfirmationStep,
 	},

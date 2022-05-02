@@ -7,6 +7,8 @@ import Navbar from './pages/Navbar';
  * CSS
  */
 import './styles/app.css';
+import './styles/navbar.css';
+import './styles/sections.css';
 import './styles/mui.overrides.css';
 
 function App() {
