@@ -160,3 +160,89 @@ guestsRouter.post(
 		}
 	}
 );
+
+guestsRouter.get(
+	'/rsvp-results',
+	async (req: Request, res: Response, next: NextFunction) => {
+		try {
+			const authClientObject = await GoogleSheetsService.authenticate();
+			const googleSheetsInstance =
+				await GoogleSheetsService.generateInstance(authClientObject);
+
+			const guestList = await GoogleSheetsService.getData({
+				auth: authClientObject,
+				googleSheetsInstance,
+				spreadsheetId: googleConfig.sheetId,
+				sheetName: 'Guest List',
+				range: 'A:N',
+			});
+
+			const guestFoodSelectionData = await GoogleSheetsService.getData({
+				auth: authClientObject,
+				googleSheetsInstance,
+				spreadsheetId: googleConfig.sheetId,
+				sheetName: 'Guest Food Selections',
+				range: 'A:F',
+			});
+
+			const tofu = guestFoodSelectionData.filter(
+				(g: any) => g.main === 'Tofu Scallopini'
+			);
+
+			const pork = guestFoodSelectionData.filter(
+				(g: any) => g.main === 'Pork Tenderloin'
+			);
+
+			const confirmed = guestFoodSelectionData.filter(
+				(g: any) => g.confirmed === 'TRUE'
+			);
+
+			const declined = guestFoodSelectionData.filter(
+				(g: any) => g.confirmed === 'FALSE'
+			);
+
+			const flattenedGuestList = guestList.reduce(
+				(acc: any, row: any) => {
+					Object.entries(row).forEach(([key, value]) => {
+						if (
+							key.includes('name') &&
+							value !== '' &&
+							value !== 'plus 1'
+						) {
+							acc.push({
+								name: value,
+							});
+						}
+					});
+					return acc;
+				},
+				[]
+			);
+
+			const noResponse = flattenedGuestList.reduce(
+				(acc: any, guest: any) => {
+					const foundGuest = guestFoodSelectionData.filter(
+						(g: any) => g.name === guest.name
+					);
+
+					if (foundGuest.length === 0) {
+						acc.push(guest.name);
+					}
+
+					return acc;
+				},
+				[]
+			);
+
+			return res.status(200).json({
+				tofu: tofu.length,
+				pork: pork.length,
+				confirmed: confirmed.length,
+				declined: declined.length,
+				noResponse,
+			});
+		} catch (e: any) {
+			return next(e);
+		}
+	}
+);
