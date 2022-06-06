@@ -9,7 +9,7 @@ export default function errorHandler(
 ) {
 	let status = 500;
 	let message =
-		'Internal Server Error. If this persists, please contact Uberflip Support.';
+		'Internal Server Error. If this persists, please contact Altar Support.';
 
 	if (axios.isAxiosError(error)) {
 		status = error.response!.status;
